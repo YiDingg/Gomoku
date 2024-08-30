@@ -20,10 +20,12 @@ struct COORDINATE {
 } CuurentCoordinate;
 
 /* 函数声明 */
-void Gomoku_Run();
-void Gomoku_Init();
+void Gomoku_Run(void);
+void ChessHandler(void);
+void GetChess(void);
+void GetChess_AI_random();
 void DrawPoint(char i, char j, int type);
-void DrawBoard(int chessboard[][ROW]);
+void DrawBoard();
 int VictoryJudgment(int chessboard[][ROW]);
 void ShowStatu(void);
 void ChooseMode(struct GAMEMODE* p_gamemode);

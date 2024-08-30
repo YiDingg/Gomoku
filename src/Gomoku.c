@@ -29,7 +29,7 @@ void Gomoku_Run() {
     GetLocalTime(&time);
     fprintf(
         f_GomokuData,
-        "Run time: %04d.%02d.%02d %02d:%02d:%02d\n",
+        "\nRun time: %04d.%02d.%02d %02d:%02d:%02d\n",
         time.wYear,
         time.wMonth,
         time.wDay,
@@ -39,55 +39,96 @@ void Gomoku_Run() {
 
     /* 模式选择 */
     ChooseMode(&GameMode);
+    fprintf(
+        f_GomokuData,
+        "Game mode: BlackPlayer-%s WhitePlayer-%s\n",
+        GameMode.BlackPlayer == Human ? "Human" : "Computer",
+        GameMode.WhitePlayer == Human ? "Human" : "Computer");
 
     /* 开始游戏 */
     while (VictoryJudgment(ChessBoard) == Blank) {
-        printf("输入 %d%c 以退出游戏，", 15 + 1, 15 + 65);
-        DrawBoard(ChessBoard);
+        printf("\n输入 %d%c 以记录数据并退出游戏\n", 15 + 1, 15 + 65);
+        DrawBoard();
         ShowStatu();
-
-        /* 获取输入 */
-        scanf("%d%c", &CuurentCoordinate.raw, &CuurentCoordinate.column);
-        CuurentCoordinate.raw -= 1;                                                     // 坐标转换为 0 起始
-        CuurentCoordinate.column = CuurentCoordinate.column - 65;                       // 坐标转换为 0 起始
-        if (CuurentCoordinate.raw == 15 && CuurentCoordinate.column == 15) { exit(0); } // 退出程序
-
-        if (debug) {
-            printf(
-                "CuurentCoordinate.raw: %d, CuurentCoordinate.column: %d\n",
-                CuurentCoordinate.raw,
-                CuurentCoordinate.column);
-        }
-
-        /* 检查非法输入 */
-        while (0 > CuurentCoordinate.raw || CuurentCoordinate.raw > 14 || 0 > CuurentCoordinate.column
-               || CuurentCoordinate.column > 14) {
-            printf("非法输入! 请重新输入: \n");
-            scanf("%d %c", &CuurentCoordinate.raw, &CuurentCoordinate.column);
-            CuurentCoordinate.raw -= 1;                                                     // 坐标转换为 0 起始
-            CuurentCoordinate.column -= 65;                                                 // 坐标转换为 0 起始
-            if (CuurentCoordinate.raw == 15 && CuurentCoordinate.column == 15) { exit(0); } // 退出程序
-        }
-        /* 检查此处是否被占 */
-        while (ChessBoard[CuurentCoordinate.raw][CuurentCoordinate.column] != Blank) {
-            printf(
-                "此处已有%s棋! 请重新输入: \n",
-                (ChessBoard[CuurentCoordinate.raw][CuurentCoordinate.column] == Black ? "黑" : "白"));
-            scanf("%d %c", &CuurentCoordinate.raw, &CuurentCoordinate.column);
-            CuurentCoordinate.raw -= 1;                                                     // 坐标转换为 0 起始
-            CuurentCoordinate.column -= 65;                                                 // 坐标转换为 0 起始
-            if (CuurentCoordinate.raw == 15 && CuurentCoordinate.column == 15) { exit(0); } // 退出程序
-        }
-
+        GetChess();
+        ChessHandler();
+        /* 落子检查通过 */
         ChessBoard[CuurentCoordinate.raw][CuurentCoordinate.column] = CurrentPlayer;
         fprintf(f_GomokuData, "%d%c ", CuurentCoordinate.raw + 1, CuurentCoordinate.column + 65);
-
         CurrentPlayer = -CurrentPlayer;
         LastCoordinate = CuurentCoordinate;
     }
 
     /* 游戏结果 */
     ShowStatu();
+}
+
+void ChessHandler() {
+    /* 获取输入 */
+    CuurentCoordinate.raw -= 1;     // 坐标转换为 0 起始
+    CuurentCoordinate.column -= 65; // 坐标转换为 0 起始
+
+    if (CuurentCoordinate.raw == 15 && CuurentCoordinate.column == 15) { exit(0); } // 退出程序
+
+    if (debug) {
+        printf(
+            "CuurentCoordinate.raw: %d, CuurentCoordinate.column: %d\n",
+            CuurentCoordinate.raw,
+            CuurentCoordinate.column);
+    }
+
+    /* 检查非法输入 */
+    while (0 > CuurentCoordinate.raw || CuurentCoordinate.raw > 14 || 0 > CuurentCoordinate.column
+           || CuurentCoordinate.column > 14) {
+        printf("非法输入 (%d%c) 请重新输入: \n", CuurentCoordinate.raw, CuurentCoordinate.column);
+        GetChess();
+        CuurentCoordinate.raw -= 1;                                                     // 坐标转换为 0 起始
+        CuurentCoordinate.column -= 65;                                                 // 坐标转换为 0 起始
+        if (CuurentCoordinate.raw == 15 && CuurentCoordinate.column == 15) { exit(0); } // 退出程序
+    }
+
+    /* 检查此处是否被占 */
+    while (ChessBoard[CuurentCoordinate.raw][CuurentCoordinate.column] != Blank) {
+        printf(
+            "此处 (%d%c) 已有%s棋! 请重新输入: \n",
+            CuurentCoordinate.raw,
+            CuurentCoordinate.column,
+            (ChessBoard[CuurentCoordinate.raw][CuurentCoordinate.column] == Black ? "黑" : "白"));
+        GetChess();
+        CuurentCoordinate.raw -= 1;                                                     // 坐标转换为 0 起始
+        CuurentCoordinate.column -= 65;                                                 // 坐标转换为 0 起始
+        if (CuurentCoordinate.raw == 15 && CuurentCoordinate.column == 15) { exit(0); } // 退出程序
+    }
+}
+
+void GetChess() {
+    switch (CurrentPlayer) {
+    case Black:
+        if (GameMode.BlackPlayer == Human) { // Human 下黑旗
+            scanf("%d%c", &CuurentCoordinate.raw, &CuurentCoordinate.column);
+        } else { // Computer 下黑旗
+            GetChess_AI_random();
+        }
+        break;
+    case White:
+        if (GameMode.WhitePlayer == Human) { // Human 下白旗
+            scanf("%d%c", &CuurentCoordinate.raw, &CuurentCoordinate.column);
+        } else { // Computer 下白旗
+            GetChess_AI_random();
+        }
+        break;
+    default: break;
+    }
+}
+
+/**
+ * @brief 随机落子
+ * @param none
+ * @retval none
+ */
+void GetChess_AI_random() {
+    CuurentCoordinate.raw = rand() % ROW + 1;
+    CuurentCoordinate.column = rand() % COLUMN + 65;
 }
 
 void ShowStatu(void) {
@@ -105,6 +146,7 @@ void ShowStatu(void) {
         printf("上一步位置：%d%c\n", LastCoordinate.raw + 1, LastCoordinate.column + 65);
         printf("等待 %s 落子：\n", (CurrentPlayer == Black) ? "黑方" : "白方");
     } else {
+        DrawBoard();
         switch (VictoryJudgment(ChessBoard)) {
         case White:
             puts("---------------");
@@ -148,15 +190,10 @@ void ChooseMode(struct GAMEMODE* p_gamemode) {
         puts("------------------------------");
         ChooseMode(p_gamemode);
     }
-}
-
-/**
- * @brief 随机落子
- * @param none
- * @retval none
- */
-void AIChess_random(int chessboard[][ROW]) {
-    rand();
+    if (p_gamemode->BlackPlayer == Computer) {
+        CuurentCoordinate.raw = 6;
+        CuurentCoordinate.column = 6;
+    }
 }
 
 void DrawPoint(char i, char j, int type) {
@@ -191,18 +228,18 @@ void DrawPoint(char i, char j, int type) {
         if (j == 0) {
             printf("%s ", marker);
         } else if (j == COLUMN - 1) {
-            printf(" %s", marker);
+            printf(" %s\n", marker);
         } else {
             printf(" %s ", marker);
         }
     }
 }
 
-void DrawBoard(int chessboard[][ROW]) {
-    printf("\n\n");
+void DrawBoard() {
+    // printf("\n\n");
     for (char i = 0; i < ROW; i++) {
         printf("%-2d ", i + 1);
-        for (char j = 0; j < COLUMN; j++) { DrawPoint(i, j, chessboard[i][j]); }
+        for (char j = 0; j < COLUMN; j++) { DrawPoint(i, j, ChessBoard[i][j]); }
     }
     printf("   ");
     for (char i = 0; i < COLUMN; i++) { printf("%-3c", i + 65); }

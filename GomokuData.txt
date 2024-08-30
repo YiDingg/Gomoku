@@ -1,0 +1,19 @@
+Run time: 2024.08.30 14:59:42
+5E 5G 6F 7G 6G 6E 7H 6H 8G 5I 8F 4J 3K 7I 9F 7F 6I 10E 5J 4A Run time: 2024.08.30 15:09:16
+1A 2B 3C 
+Run time: 2024.08.30 15:10:02
+1A 2B 3H 4C 
+Run time: 2024.08.30 15:12:48
+7H 3D 7G 3C 7F 3B 7E 3A 7D 
+Run time: 2024.08.30 15:15:16
+10I 
+Run time: 2024.08.30 15:15:34
+4H 8L 5H 1D 4G 12O 4F 12N 4E 12M 3E 11M 2E 10M 1E 9M 4D 
+Run time: 2024.08.30 15:25:56
+7H 12C 5A 5K 14K 15E 14J 4D 
+Run time: 2024.08.30 15:29:13
+Game mode: BlackPlayer-Human WhitePlayer-Computer
+7H 12C 
+Run time: 2024.08.30 15:29:42
+Game mode: BlackPlayer-Computer WhitePlayer-Human
+12C 12J 5K 

@@ -3,6 +3,7 @@
         "*.md": "markdown",
         "windows.h": "c",
         "gomoku.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "stdlib.h": "c"
     }
 }
