@@ -1,0 +1,20 @@
+# CMakelists.txt
+
+cmake_minimum_required(VERSION 2.8...3.13)  # 设定Cmake的最低版本要求
+project(test)   # 项目名称，可以和文件夹名称不同
+set(CMAKE_CXX_COMPILER "g++")   #设定编译器
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -O2 ") #设定编译选项
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)    #添加头文件
+
+# 命令指定 SRC变量（自己定义就行）来表示多个源文件
+# set (SRC main.cpp src/hello.cpp)
+
+# 命令指定 SRC变量（自己定义就行）来表示多个源文件
+# file(GLOB SRC main.cpp "src/*.c")   # 引入src下的所有.c文件
+file(GLOB SRC "src/*.c")   # 引入src下的所有.c文件
+file(GLOB SRC_cpp main.cpp "src/*.cpp")   # 引入src下的所有.cpp文件
+file(GLOB SRC_cpp "src/*.cpp")   # 引入.cpp文件
+# 将生成的可执行文件保存至bin文件夹中
+set(EXECUTABLE_OUTPUT_PATH  ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+# 生成可执行文件main.exe(可执行文件名 自己定义就行)，用${var_name}获取变量的值。
+add_executable(main ${SRC} ${SRC_cpp})

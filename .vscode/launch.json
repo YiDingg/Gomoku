@@ -1,0 +1,38 @@
+/* launch.json */
+
+{
+    // 使用 IntelliSense 了解相关属性。
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) 启动debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/main.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            /* 下面是 gcc (mingw) 编译器的路径 */
+            "miDebuggerPath": "D:/aa_my_apps_main/mingw64/bin/gdb.exe",
+            /* 上面是 gcc (mingw) 编译器的路径 */
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "将反汇编风格设置为 Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ] /* 下面要和tasks.json中的任务名称一致，但是报错，退出代码127，尚未解决 */
+            /* "preLaunchTask": "build active file" */
+        }
+    ]
+}
