@@ -68,6 +68,7 @@ void Gomoku_Run() {
     /* 游戏结果 */
     ShowStatu();
     fprintf(f_GomokuData, "\nWinner: %s\n", (VictoryJudgment(ChessBoard) == Black) ? "Black" : "White");
+    system("pause");
 }
 
 /**
