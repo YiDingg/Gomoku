@@ -5,8 +5,8 @@
 #define ROW 15
 #define COLUMN 15
 
-enum COLOR { White = -1, Black = 1, Blank = 0 };
-enum HUMANorCOMPUTER { None = 0, Human = 1, Computer = 2 };
+enum COLOR { White = -1, Black = 1, Blank = 0 } CurrentPlayer;
+enum HUMANorCOMPUTER { None = 0, Human = 1, Computer = -1 };
 
 /* 变量、数据声明 */
 int ChessBoard[COLUMN][ROW];
@@ -14,8 +14,14 @@ struct GAMEMODE {
     char BlackPlayer;
     char WhitePlayer;
 } GameMode;
+struct COORDINATE {
+    char raw;
+    char column;
+} CuurentCoordinate;
 
 /* 函数声明 */
+void Gomoku_Run();
+void Gomoku_Init();
 void DrawPoint(char i, char j, int type);
 void DrawBoard(int chessboard[][ROW]);
 int VictoryJudgment(int chessboard[][ROW]);
