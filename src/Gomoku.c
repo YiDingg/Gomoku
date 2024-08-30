@@ -4,10 +4,10 @@
 #include <windows.h> // 获取并输出时间
 #include "Gomoku.h"
 
-#define debug 1
+#define debug 0
 
 /* 全局变量（在 .data 段，初值默认 0） */
-struct COORDINATE WinCoordinate[5] = {0}; // 获胜坐标
+struct COORDINATE WinCoordinates[5] = {0}; // 获胜坐标
 struct GAMEMODE GameMode = {.BlackPlayer = Blank, .WhitePlayer = Blank};
 enum COLOR CurrentPlayer = Black; // 当前执棋方
 int ChessBoard[COLUMN][ROW];
@@ -53,7 +53,7 @@ void Gomoku_Run() {
 
     /* 开始游戏 */
     CurrentTurn = 1;
-    while (VictoryJudgment(ChessBoard) == Blank) {
+    while (VictoryJudgment(ChessBoard, WinCoordinates) == Blank) {
         printf("\n输入 %d%c 以记录数据并退出游戏\n", 15 + 1, 15 + 65);
         DrawBoard();
         ShowStatu();
@@ -67,9 +67,23 @@ void Gomoku_Run() {
         LastCoordinate = CuurentCoordinate;
     }
 
-    /* 游戏结果 */
+    /* 输出游戏结果并记录数据 */
     ShowStatu();
-    fprintf(f_GomokuData, "\nWinner: %s\n", (VictoryJudgment(ChessBoard) == Black) ? "Black" : "White");
+    fprintf(f_GomokuData, "\nWinner: %s\n", (VictoryJudgment(ChessBoard, WinCoordinates) == Black) ? "Black" : "White");
+    for (char i = 0; i < 5; i++) {
+        if (i == 0) {
+            fprintf(f_GomokuData, "Win Corrdinates: ");
+            printf("Win Corrdinates: ");
+        }
+        fprintf(f_GomokuData, "%d%c ", WinCoordinates[i].raw + 1, WinCoordinates[i].column + 65);
+        printf("%d%c ", WinCoordinates[i].raw + 1, WinCoordinates[i].column + 65);
+        if (i == 4) {
+            fprintf(f_GomokuData, "\n");
+            printf("\n");
+        }
+    }
+
+    /* 暂停以显示 */
     system("pause");
 }
 
@@ -204,12 +218,12 @@ void ShowStatu(void) {
     printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
 
     /* 执棋方或胜负状态 */
-    if (VictoryJudgment(ChessBoard) == Blank) {
+    if (VictoryJudgment(ChessBoard, WinCoordinates) == Blank) {
         printf("上一步位置：%d%c\n", LastCoordinate.raw + 1, LastCoordinate.column + 65);
         printf("当前回合: %d, 等待 %s 落子：\n", CurrentTurn, (CurrentPlayer == Black) ? "黑方" : "白方");
     } else {
         DrawBoard();
-        switch (VictoryJudgment(ChessBoard)) {
+        switch (VictoryJudgment(ChessBoard, WinCoordinates)) {
         case White:
             puts("---------------");
             puts("！白棋胜利！");
@@ -298,7 +312,7 @@ void ChessHandler() {
  * @param none
  * @retval none
  */
-int VictoryJudgment(int chessboard[][ROW]) {
+int VictoryJudgment(int chessboard[][ROW], struct COORDINATE win_coordinate[5]) {
     char i, j;
     for (i = 0; i < ROW; i++) {
         for (j = 0; j < COLUMN; j++) {
@@ -306,26 +320,38 @@ int VictoryJudgment(int chessboard[][ROW]) {
             /* - 横着连成五子 */
             if (j <= COLUMN - 5)
                 if (chessboard[i][j] == chessboard[i][j + 1] && chessboard[i][j] == chessboard[i][j + 2]
-                    && chessboard[i][j] == chessboard[i][j + 3] && chessboard[i][j] == chessboard[i][j + 4])
+                    && chessboard[i][j] == chessboard[i][j + 3] && chessboard[i][j] == chessboard[i][j + 4]) {
+                    for (char k = 0; k < 5; k++) { win_coordinate[k] = (struct COORDINATE){.raw = i, .column = j + k}; }
                     return chessboard[i][j];
+                }
 
             /* | 竖着连成五子 */
             if (i <= ROW - 5)
                 if (chessboard[i][j] == chessboard[i + 1][j] && chessboard[i][j] == chessboard[i + 2][j]
-                    && chessboard[i][j] == chessboard[i + 3][j] && chessboard[i][j] == chessboard[i + 4][j])
+                    && chessboard[i][j] == chessboard[i + 3][j] && chessboard[i][j] == chessboard[i + 4][j]) {
+                    for (char k = 0; k < 5; k++) { win_coordinate[k] = (struct COORDINATE){.raw = i + k, .column = j}; }
                     return chessboard[i][j];
+                }
 
             /*  \ 向右下方连成五子 */
             if (i <= ROW - 5 && j <= COLUMN - 5)
                 if (chessboard[i][j] == chessboard[i + 1][j + 1] && chessboard[i][j] == chessboard[i + 2][j + 2]
-                    && chessboard[i][j] == chessboard[i + 3][j + 3] && chessboard[i][j] == chessboard[i + 4][j + 4])
+                    && chessboard[i][j] == chessboard[i + 3][j + 3] && chessboard[i][j] == chessboard[i + 4][j + 4]) {
+                    for (char k = 0; k < 5; k++) {
+                        win_coordinate[k] = (struct COORDINATE){.raw = i + k, .column = j + k};
+                    }
                     return chessboard[i][j];
+                }
 
             /* / 向左下方连成五子 */
             if (i <= ROW - 5 && j >= 5)
                 if (chessboard[i][j] == chessboard[i + 1][j - 1] && chessboard[i][j] == chessboard[i + 2][j - 2]
-                    && chessboard[i][j] == chessboard[i + 3][j - 3] && chessboard[i][j] == chessboard[i + 4][j - 4])
+                    && chessboard[i][j] == chessboard[i + 3][j - 3] && chessboard[i][j] == chessboard[i + 4][j - 4]) {
+                    for (char k = 0; k < 5; k++) {
+                        win_coordinate[k] = (struct COORDINATE){.raw = i + k, .column = j - k};
+                    }
                     return chessboard[i][j];
+                }
         }
     }
     return Blank;

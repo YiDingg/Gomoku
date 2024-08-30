@@ -28,6 +28,6 @@ void DrawPoint(char i, char j, int type);
 void ShowStatu();
 void GetChess();
 void ChessHandler();
-int VictoryJudgment(int chessboard[][ROW]);
+int VictoryJudgment(int chessboard[][ROW], struct COORDINATE wincoordinate[5]);
 void GetChess_AI_random();
 #endif // __Gomoku_H
