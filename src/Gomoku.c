@@ -21,6 +21,8 @@ char CurrentTurn = 0; // 当前轮数
  * @retval none
  */
 void Gomoku_Run() {
+    ShowInfor();
+
     /* 数据文件初始化 */
     FILE* f_GomokuData = fopen("GomokuData.txt", "a+");
     if (f_GomokuData == NULL) {
@@ -66,6 +68,25 @@ void Gomoku_Run() {
     /* 游戏结果 */
     ShowStatu();
     fprintf(f_GomokuData, "\nWinner: %s\n", (VictoryJudgment(ChessBoard) == Black) ? "Black" : "White");
+}
+
+/**
+ * @brief 显示游戏相关信息
+ * @param none
+ * @retval none
+ */
+void ShowInfor() {
+    printf("----------\n");
+    puts("五子棋");
+    puts("------------------------------------------------");
+    puts(">> ----------- Welcome to Gomoku ! ---------- <<");
+    puts("   Author: Yi Ding");
+    puts("   Version: 1.0");
+    puts("   Date: 2024.8.30");
+    puts("   Email: dingyi233@mails.ucas.ac.cn");
+    puts("   GitHub: https://github.com/YiDingg/Gomoku");
+    puts(">> ------------------------------------------- <<");
+    puts("-------------------------------------------------\n");
 }
 
 /**

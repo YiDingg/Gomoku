@@ -21,6 +21,7 @@ struct COORDINATE {
 
 /* 函数声明 */
 void Gomoku_Run();
+void ShowInfor();
 void ChooseMode(struct GAMEMODE* p_gamemode);
 void DrawBoard();
 void DrawPoint(char i, char j, int type);
