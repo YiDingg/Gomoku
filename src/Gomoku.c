@@ -1,9 +1,10 @@
-#include "Gomoku.h"
 #include <stdio.h>
 #include <stdlib.h>  // rand()
+#include <time.h>    // srand(), time()
 #include <windows.h> // 获取并输出时间
+#include "Gomoku.h"
 
-#define debug 0
+#define debug 1
 
 /* 全局变量（在 .data 段，初值默认 0） */
 struct COORDINATE WinCoordinate[5] = {0}; // 获胜坐标
@@ -31,6 +32,7 @@ void Gomoku_Run() {
     }
     SYSTEMTIME time;
     GetLocalTime(&time);
+    if (debug) { printf("%04d", time.wSecond); }
     fprintf(
         f_GomokuData,
         "\nRun time: %04d.%02d.%02d %02d:%02d:%02d\n",
@@ -297,31 +299,30 @@ void ChessHandler() {
  * @retval none
  */
 int VictoryJudgment(int chessboard[][ROW]) {
-    int i, j;
+    char i, j;
     for (i = 0; i < ROW; i++) {
         for (j = 0; j < COLUMN; j++) {
             if (chessboard[i][j] == Blank) continue;
-
             /* - 横着连成五子 */
-            if (j < COLUMN - 4)
+            if (j <= COLUMN - 5)
                 if (chessboard[i][j] == chessboard[i][j + 1] && chessboard[i][j] == chessboard[i][j + 2]
                     && chessboard[i][j] == chessboard[i][j + 3] && chessboard[i][j] == chessboard[i][j + 4])
                     return chessboard[i][j];
 
             /* | 竖着连成五子 */
-            if (i < ROW - 4)
+            if (i <= ROW - 5)
                 if (chessboard[i][j] == chessboard[i + 1][j] && chessboard[i][j] == chessboard[i + 2][j]
                     && chessboard[i][j] == chessboard[i + 3][j] && chessboard[i][j] == chessboard[i + 4][j])
                     return chessboard[i][j];
 
             /*  \ 向右下方连成五子 */
-            if (i < ROW - 4 && j < COLUMN - 4)
+            if (i <= ROW - 5 && j <= COLUMN - 5)
                 if (chessboard[i][j] == chessboard[i + 1][j + 1] && chessboard[i][j] == chessboard[i + 2][j + 2]
                     && chessboard[i][j] == chessboard[i + 3][j + 3] && chessboard[i][j] == chessboard[i + 4][j + 4])
                     return chessboard[i][j];
 
             /* / 向左下方连成五子 */
-            if (i < ROW - 4 && j > 4)
+            if (i <= ROW - 5 && j >= 5)
                 if (chessboard[i][j] == chessboard[i + 1][j - 1] && chessboard[i][j] == chessboard[i + 2][j - 2]
                     && chessboard[i][j] == chessboard[i + 3][j - 3] && chessboard[i][j] == chessboard[i + 4][j - 4])
                     return chessboard[i][j];
@@ -336,6 +337,8 @@ int VictoryJudgment(int chessboard[][ROW]) {
  * @retval none
  */
 void GetChess_AI_random() {
-    CuurentCoordinate.raw = rand() % ROW + 1;
-    CuurentCoordinate.column = rand() % COLUMN + 65;
+    srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
+    CuurentCoordinate.raw = ((rand() % ROW + 1) * 14 + rand()) % ROW + 1;
+    srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
+    CuurentCoordinate.column = ((rand() % COLUMN + 2) * 8 + 2 * rand()) % COLUMN + 65;
 }

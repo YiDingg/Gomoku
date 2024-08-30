@@ -1,4 +1,8 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/main.dir/src/AI_Easy.c.obj"
+  "CMakeFiles/main.dir/src/AI_Easy.c.obj.d"
+  "CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj"
+  "CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj.d"
   "CMakeFiles/main.dir/src/Gomoku.c.obj"
   "CMakeFiles/main.dir/src/Gomoku.c.obj.d"
   "CMakeFiles/main.dir/src/main.c.obj"

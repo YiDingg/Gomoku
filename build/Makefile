@@ -128,6 +128,54 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+src/AI_Easy.obj: src/AI_Easy.c.obj
+.PHONY : src/AI_Easy.obj
+
+# target to build an object file
+src/AI_Easy.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Easy.c.obj
+.PHONY : src/AI_Easy.c.obj
+
+src/AI_Easy.i: src/AI_Easy.c.i
+.PHONY : src/AI_Easy.i
+
+# target to preprocess a source file
+src/AI_Easy.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Easy.c.i
+.PHONY : src/AI_Easy.c.i
+
+src/AI_Easy.s: src/AI_Easy.c.s
+.PHONY : src/AI_Easy.s
+
+# target to generate assembly for a file
+src/AI_Easy.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Easy.c.s
+.PHONY : src/AI_Easy.c.s
+
+src/AI_MinimaxTree_AlphaBetaPruning.obj: src/AI_MinimaxTree_AlphaBetaPruning.c.obj
+.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.obj
+
+# target to build an object file
+src/AI_MinimaxTree_AlphaBetaPruning.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj
+.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.c.obj
+
+src/AI_MinimaxTree_AlphaBetaPruning.i: src/AI_MinimaxTree_AlphaBetaPruning.c.i
+.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.i
+
+# target to preprocess a source file
+src/AI_MinimaxTree_AlphaBetaPruning.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.i
+.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.c.i
+
+src/AI_MinimaxTree_AlphaBetaPruning.s: src/AI_MinimaxTree_AlphaBetaPruning.c.s
+.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.s
+
+# target to generate assembly for a file
+src/AI_MinimaxTree_AlphaBetaPruning.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.s
+.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.c.s
+
 src/Gomoku.obj: src/Gomoku.c.obj
 .PHONY : src/Gomoku.obj
 
@@ -185,6 +233,12 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... main
+	@echo ... src/AI_Easy.obj
+	@echo ... src/AI_Easy.i
+	@echo ... src/AI_Easy.s
+	@echo ... src/AI_MinimaxTree_AlphaBetaPruning.obj
+	@echo ... src/AI_MinimaxTree_AlphaBetaPruning.i
+	@echo ... src/AI_MinimaxTree_AlphaBetaPruning.s
 	@echo ... src/Gomoku.obj
 	@echo ... src/Gomoku.i
 	@echo ... src/Gomoku.s
