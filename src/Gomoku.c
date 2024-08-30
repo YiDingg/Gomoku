@@ -76,8 +76,6 @@ void Gomoku_Run() {
  * @retval none
  */
 void ShowInfor() {
-    printf("----------\n");
-    puts("五子棋");
     puts("------------------------------------------------");
     puts(">> ----------- Welcome to Gomoku ! ---------- <<");
     puts("   Author: Yi Ding");
