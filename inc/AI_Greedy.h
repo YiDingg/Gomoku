@@ -1,11 +1,11 @@
-#if !defined(__GOMOKU_H)
-#define __GOMOKU_H
+#include "Gomoku.h"
+
+#if !defined(__AI_GREADY_H)
+#define __AI_GREADY_H
+
 /* ------------------------------------------------ */
 /* >> ----------------- 宏定义 ----------------- << */
 /*                                                  */
-#define ROW 15
-#define COLUMN 15
-
 /*                                                  */
 /* >> ----------------- 宏定义 ----------------- << */
 /* ------------------------------------------------ */
@@ -13,17 +13,23 @@
 /* ----------------------------------------------- */
 /* >> ---------------- 数据类型 ---------------- << */
 /*                                                 */
-typedef enum { White = -1, Black = 1, Blank = 0 } Enum_Color;
-typedef enum { None = 0, Human = 1, Computer = -1 } Enum_HumanOrComputer;
-typedef enum { Legal = 1, Illegal = 2 } Enum_LegalOrIllegal;
-typedef struct {
-    char BlackPlayer;
-    char WhitePlayer;
-} Struct_GameMode;
-typedef struct {
-    char row;
-    char column;
-} Struct_Location;
+typedef enum {
+    score_BothBM = 0,
+    score_B1 = +3,
+    score_0BB00_00BB0_0B0B0 = +30,
+    score_B2 = +20,
+    score_0BBB0 = +2000,
+    score_B3 = +1000,
+    score_B4 = +100000,
+    score_B5 = +1000000,
+    score_W1 = -score_B1,
+    score_0WW00_00WW0_0W0W0 = -score_0BB00_00BB0_0B0B0,
+    score_W2 = -score_B2,
+    score_0WWW0 = -score_0BBB0,
+    score_W3 = -score_B3,
+    score_W4 = -score_B4,
+    score_W5 = -score_B5,
+} Enum_ScoreRule;
 /*                                                 */
 /* >> ---------------- 数据类型 ---------------- << */
 /* ----------------------------------------------- */
@@ -31,6 +37,7 @@ typedef struct {
 /* ------------------------------------------------- */
 /* >> --------------- 全局变量声明 --------------- << */
 /*                                                   */
+const char DefultValuesOfChessboard[ROW][COLUMN];
 /*                                                   */
 /* >> --------------- 全局变量声明 --------------- << */
 /* ------------------------------------------------- */
@@ -38,27 +45,15 @@ typedef struct {
 /* ------------------------------------------------- */
 /* >> ----------------- 函数声明 ----------------- << */
 /*                                                   */
-void Gomoku_Run();
-void ShowInfor(void);
-void ChooseMode(Struct_GameMode* p_game_mode);
-void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]);
-void DrawPoint(const char row, const char column, const int type);
-void ShowStatu(
-    const Struct_GameMode gamemode,
-    const Enum_Color chessboard[COLUMN][ROW],
-    const char currentturn,
-    const Enum_Color currentplayer,
-    Struct_Location win_coordinates[5],
-    Struct_Location lastlocation);
-void GetChess(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me);
-void ChessHandler(void);
-int VictoryJudgment(Enum_Color chessboard[][ROW], Struct_Location win_coordinates[5]);
-void GetChess_AI_random(void);
-Enum_LegalOrIllegal CheckThisLocation(
+
+int EvaluateChessboard(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me);
+int GetScoreOfThisLocation(
     const Enum_Color chessboard[ROW][COLUMN],
     const Struct_Location location,
     const Enum_Color me);
+int GetScoreOfFiveChess(const Enum_Color FiveChess[5], const Enum_Color me);
+void ExchangeTwoInt(int a, int b);
 /*                                                   */
 /* >> ----------------- 函数声明 ----------------- << */
 /* ------------------------------------------------- */
-#endif // __GOMOKU_H
+#endif // __AI_GREADY_H

@@ -1,12 +1,6 @@
 [
 {
   "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
-  "command": "D:\\aa_my_apps_main\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\src\\AI_Easy.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\AI_Easy.c",
-  "file": "D:/a_RemoteRepo/GH.Gomoku/src/AI_Easy.c",
-  "output": "CMakeFiles/main.dir/src/AI_Easy.c.obj"
-},
-{
-  "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
   "command": "D:\\aa_my_apps_main\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\src\\AI_Greedy.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\AI_Greedy.c",
   "file": "D:/a_RemoteRepo/GH.Gomoku/src/AI_Greedy.c",
   "output": "CMakeFiles/main.dir/src/AI_Greedy.c.obj"

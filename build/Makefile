@@ -128,30 +128,6 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-src/AI_Easy.obj: src/AI_Easy.c.obj
-.PHONY : src/AI_Easy.obj
-
-# target to build an object file
-src/AI_Easy.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Easy.c.obj
-.PHONY : src/AI_Easy.c.obj
-
-src/AI_Easy.i: src/AI_Easy.c.i
-.PHONY : src/AI_Easy.i
-
-# target to preprocess a source file
-src/AI_Easy.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Easy.c.i
-.PHONY : src/AI_Easy.c.i
-
-src/AI_Easy.s: src/AI_Easy.c.s
-.PHONY : src/AI_Easy.s
-
-# target to generate assembly for a file
-src/AI_Easy.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Easy.c.s
-.PHONY : src/AI_Easy.c.s
-
 src/AI_Greedy.obj: src/AI_Greedy.c.obj
 .PHONY : src/AI_Greedy.obj
 
@@ -233,9 +209,6 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... main
-	@echo ... src/AI_Easy.obj
-	@echo ... src/AI_Easy.i
-	@echo ... src/AI_Easy.s
 	@echo ... src/AI_Greedy.obj
 	@echo ... src/AI_Greedy.i
 	@echo ... src/AI_Greedy.s

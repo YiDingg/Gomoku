@@ -9,12 +9,13 @@
 /* ------------------------------------------------ */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
 /*                                                  */
+
+char CurrentTurn = 0; // 当前轮数
 Enum_Color Chessboard[COLUMN][ROW];
-char CurrentTurn = 0;                    // 当前轮数
 Struct_Location WinCoordinates[5] = {0}; // 获胜坐标
 Enum_Color CurrentPlayer = Black;        // 当前执棋方
 Struct_GameMode GameMode = {.BlackPlayer = Blank, .WhitePlayer = Blank};
-Struct_Location CuurentCoordinate, LastCoordinate = {.row = -1, .column = -65};
+Struct_Location CuurentCoordinate, LastCoordinate = {.row = -1, .column = -65}; // 当前落子坐标
 
 /*                                                  */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
@@ -62,15 +63,15 @@ void Gomoku_Run() {
     CurrentTurn = 1;
     while (VictoryJudgment(Chessboard, WinCoordinates) == Blank) {
         printf("\n输入 %d%c 以记录数据并退出游戏\n", 15 + 1, 15 + 65);
-        DrawBoard();
-        ShowStatu();
-        GetChess();
+        DrawBoard(Chessboard);
+        ShowStatu(GameMode, Chessboard, CurrentTurn, CurrentPlayer, WinCoordinates, LastCoordinate);
+        GetChess(Chessboard, CurrentPlayer);
         while (Illegal == CheckThisLocation(Chessboard, CuurentCoordinate, CurrentPlayer)) {
             printf(
-                "你刚刚输入了 %d%c，输入范围错误，或者此处已有棋子，请重新输入: \n",
+                "你刚刚输入了 '%d' 和 '%c'，输入范围错误，或者此处已有棋子，请重新输入: \n",
                 CuurentCoordinate.row + 1,
                 CuurentCoordinate.column + 65);
-            GetChess();
+            GetChess(Chessboard, CurrentPlayer);
         }
         // ChessHandler();
         /* 落子检查通过 */
@@ -82,7 +83,7 @@ void Gomoku_Run() {
     }
 
     /* 输出游戏结果并记录数据 */
-    ShowStatu();
+    ShowStatu(GameMode, Chessboard, CurrentTurn, CurrentPlayer, WinCoordinates, LastCoordinate);
     fprintf(
         f_GomokuData,
         "\nWinner: %s\n",
@@ -112,7 +113,7 @@ void Gomoku_Run() {
  * @param none
  * @retval none
  */
-void ShowInfor() {
+void ShowInfor(void) {
     puts("------------------------------------------------");
     /* \033[31m 设置文本颜色为红色, \033[0m 重置文本颜色 */
     puts(">> ----------- Welcome to Gomoku ! ---------- <<");
@@ -166,7 +167,7 @@ void ChooseMode(Struct_GameMode* p_gamemode) {
  * @param none
  * @retval none
  */
-void DrawBoard() {
+void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]) {
     // printf("\n\n");
     printf("   ");
     for (char i = 0; i < COLUMN; i++) {
@@ -175,7 +176,7 @@ void DrawBoard() {
     printf("\n");
     for (char i = 0; i < ROW; i++) {
         printf("\033[34m%-2d \033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
-        for (char j = 0; j < COLUMN; j++) { DrawPoint(i, j, Chessboard[i][j]); }
+        for (char j = 0; j < COLUMN; j++) { DrawPoint(i, j, chessboard[i][j]); }
         printf("\033[34m%-2d\n\033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
     }
     printf("   ");
@@ -192,26 +193,26 @@ void DrawBoard() {
  * @param type 绘制的符号类型
  * @retval none
  */
-void DrawPoint(char i, char j, int type) {
+void DrawPoint(const char row, const char column, const int type) {
     if (type == Blank) {
         char* line;
-        switch (i) {
+        switch (row) {
         case 0:
-            switch (j) {
+            switch (column) {
             case 0: line = "\033[43;30m┌ \033[0m"; break;
             case COLUMN - 1: line = "\033[43;30m ┐\033[0m "; break;
             default: line = "\033[43;30m ┬ \033[0m"; break;
             }
             break;
         case ROW - 1:
-            switch (j) {
+            switch (column) {
             case 0: line = "\033[43;30m└ \033[0m"; break;
             case COLUMN - 1: line = "\033[43;30m ┘\033[0m "; break;
             default: line = "\033[43;30m ┴ \033[0m"; break;
             }
             break;
         default:
-            switch (j) {
+            switch (column) {
             case 0: line = "\033[43;30m├ \033[0m"; break;
             case COLUMN - 1: line = "\033[43;30m ┤\033[0m "; break;
             default: line = "\033[43;30m ┼ \033[0m"; break;
@@ -222,9 +223,9 @@ void DrawPoint(char i, char j, int type) {
     } else {
         char* marker = (type == White) ? "●" : "○";
         // char* marker = (type == White) ? "■" : "□";
-        if (j == 0) {
+        if (column == 0) {
             printf("\033[43;30m%s \033[0m", marker);
-        } else if (j == COLUMN - 1) {
+        } else if (column == COLUMN - 1) {
             printf("\033[43;30m %s\033[0m ", marker);
         } else {
             printf("\033[43;30m %s \033[0m", marker);
@@ -237,10 +238,16 @@ void DrawPoint(char i, char j, int type) {
  * @param none
  * @retval none
  */
-void ShowStatu(void) {
+void ShowStatu(
+    const Struct_GameMode gamemode,
+    const Enum_Color chessboard[COLUMN][ROW],
+    const char currentturn,
+    const Enum_Color currentplayer,
+    Struct_Location win_coordinates[5],
+    Struct_Location lastlocation) {
     /* 游戏模式 */
-    char* str_Black = (GameMode.BlackPlayer == Human) ? "Human" : "Computer";
-    char* str_White = (GameMode.WhitePlayer == Human) ? "Human" : "Computer";
+    char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
+    char* str_White = (gamemode.WhitePlayer == Human) ? "Human" : "Computer";
     if (DEBUG) {
         puts(str_Black);
         puts(str_White);
@@ -248,15 +255,15 @@ void ShowStatu(void) {
     printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
 
     /* 执棋方或胜负状态 */
-    if (VictoryJudgment(Chessboard, WinCoordinates) == Blank) {
-        printf("上一步位置：%d%c\n", LastCoordinate.row + 1, LastCoordinate.column + 65);
+    if (VictoryJudgment(chessboard, win_coordinates) == Blank) {
+        printf("上一步位置：%d%c\n", lastlocation.row + 1, lastlocation.column + 65);
         printf(
             "当前回合: %d, 等待 %s 落子：\n",
-            CurrentTurn,
-            (CurrentPlayer == Black) ? "黑方" : "白方");
+            currentturn,
+            (currentplayer == Black) ? "黑方" : "白方");
     } else {
-        DrawBoard();
-        switch (VictoryJudgment(Chessboard, WinCoordinates)) {
+        DrawBoard(chessboard);
+        switch (VictoryJudgment(chessboard, win_coordinates)) {
         case White:
             puts("------------------");
             puts("    ！白棋胜利！");
@@ -277,11 +284,14 @@ void ShowStatu(void) {
  * @param none
  * @retval none
  */
-void GetChess() {
+void GetChess(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me) {
     switch (CurrentPlayer) {
     case Black:
         if (GameMode.BlackPlayer == Human) { // Human 下黑旗
             scanf("%d%c", &CuurentCoordinate.row, &CuurentCoordinate.column);
+            /* 将输入字符转换为 location 结构体坐标 */
+            CuurentCoordinate.row -= 1;
+            CuurentCoordinate.column -= 65;
         } else { // Computer 下黑旗
             GetChess_AI_random();
         }
@@ -289,15 +299,15 @@ void GetChess() {
     case White:
         if (GameMode.WhitePlayer == Human) { // Human 下白旗
             scanf("%d%c", &CuurentCoordinate.row, &CuurentCoordinate.column);
+            /* 将输入字符转换为 location 结构体坐标 */
+            CuurentCoordinate.row -= 1;
+            CuurentCoordinate.column -= 65;
         } else { // Computer 下白旗
             GetChess_AI_random();
         }
         break;
     default: break;
     }
-    /* 将输入的字符转换为 location 结构体坐标 */
-    CuurentCoordinate.row -= 1;
-    CuurentCoordinate.column -= 65;
 }
 
 /**
@@ -315,7 +325,7 @@ Enum_LegalOrIllegal CheckThisLocation(
     if (location.row == 15 && location.column == 15) { exit(0); }
     if (DEBUG) { printf("location.row: %d, location.column: %d\n", location.row, location.column); }
     /* 检查非法输入 */
-    if (0 > location.row || location.row > 14 || 0 > location.column || location.column > 14) {
+    if (location.row < 0 || location.row > 14 || location.column < 0 || location.column > 14) {
         return Illegal;
     }
     /* 检查此处是否被占 */
@@ -323,6 +333,7 @@ Enum_LegalOrIllegal CheckThisLocation(
     return Legal;
 }
 
+#if 0
 /**
  * @brief 检查（通过 Human 或 AI）获得的棋子坐标是否合法
  * @param none
@@ -345,7 +356,7 @@ void ChessHandler() {
 
     /* 检查非法输入 */
     while (0 > CuurentCoordinate.row || CuurentCoordinate.row > 14 || 0 > CuurentCoordinate.column
-           || CuurentCoordinate.column > 14) {
+            || CuurentCoordinate.column > 14) {
         printf("非法输入 (%d%c) 请重新输入: \n", CuurentCoordinate.row, CuurentCoordinate.column);
         GetChess();
         CuurentCoordinate.row -= 1;     // 坐标转换为 0 起始
@@ -366,6 +377,7 @@ void ChessHandler() {
         if (CuurentCoordinate.row == 15 && CuurentCoordinate.column == 15) { exit(0); } // 退出程序
     }
 }
+#endif
 
 /**
  * @brief 判断胜负
@@ -436,9 +448,10 @@ int VictoryJudgment(Enum_Color chessboard[][ROW], Struct_Location win_coordinate
  */
 void GetChess_AI_random() {
     srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
-    CuurentCoordinate.row = ((rand() % ROW + 1) * 14 + rand()) % ROW + 1;
+    CuurentCoordinate.row = ((rand() % ROW + 1) * 14 + rand()) % ROW;
+
     srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
-    CuurentCoordinate.column = ((rand() % COLUMN + 2) * 8 + 2 * rand()) % COLUMN + 65;
+    CuurentCoordinate.column = ((rand() % COLUMN + 2) * 8 + 2 * rand()) % COLUMN;
 }
 /*                                                  */
 /* >> ------------------ 函数 ------------------ << */

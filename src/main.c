@@ -49,6 +49,7 @@ int main() {
     printf("Value of this chessboard is: %d\n", EvaluateChessboard(Chessboard, Black));
     */
 
-    // Gomoku_Run();
+    /* 运行五子棋 */
+    Gomoku_Run();
     return 0;
 }
