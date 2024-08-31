@@ -4,6 +4,9 @@
         "windows.h": "c",
         "gomoku.h": "c",
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "stdbool.h": "c",
+        "ai_minimaxtree_alphabetapruning.h": "c",
+        "ai_minmaxtree.h": "c"
     }
 }

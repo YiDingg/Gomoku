@@ -3,6 +3,7 @@
 
 CMakeFiles/main.dir/src/AI_Easy.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_Easy.c \
   D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h \
+  D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/stdbool.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_mac.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_off_t.h \
@@ -18,21 +19,7 @@ CMakeFiles/main.dir/src/AI_Easy.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_Easy.c \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/vadefs.h
 
 CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_MinimaxTree_AlphaBetaPruning.c \
-  D:/a_RemoteRepo/GH.Gomoku/inc/AI_MinimaxTree_AlphaBetaPruning.h \
-  D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_mac.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_off_t.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_pop.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_push.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/crtdefs.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_directx.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdio.h \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl \
-  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/vadefs.h
+  D:/a_RemoteRepo/GH.Gomoku/src/AI_MiniMaxTree_AlphaBetaPruning.c
 
 CMakeFiles/main.dir/src/Gomoku.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c \
   D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h \
@@ -498,21 +485,13 @@ CMakeFiles/main.dir/src/main.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/main.c \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/wtypesbase.h
 
 
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/clzerointrin.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vbmi2vlintrin.h:
-
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/minwindef.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/adxintrin.h:
-
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h:
-
 D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/xopintrin.h:
 
 D:/a_RemoteRepo/GH.Gomoku/src/AI_Easy.c:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/stdbool.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_pop.h:
 
@@ -536,6 +515,16 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vldqin
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_push.h:
 
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/clzerointrin.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vbmi2vlintrin.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/minwindef.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/adxintrin.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h:
+
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vbmiintrin.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h:
@@ -552,8 +541,6 @@ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/winperf.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512fintrin.h:
 
-D:/a_RemoteRepo/GH.Gomoku/inc/AI_MinimaxTree_AlphaBetaPruning.h:
-
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdio.h:
 
 D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c:
@@ -563,6 +550,10 @@ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl:
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/bmi2intrin.h:
 
 D:/a_RemoteRepo/GH.Gomoku/src/AI_MinimaxTree_AlphaBetaPruning.c:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/f16cintrin.h:
+
+D:/a_RemoteRepo/GH.Gomoku/src/AI_MiniMaxTree_AlphaBetaPruning.c:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h:
 
@@ -623,8 +614,6 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/cetintrin.h:
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/clflushoptintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/clwbintrin.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/f16cintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/fma4intrin.h:
 

@@ -8,8 +8,7 @@
 enum COLOR { White = -1, Black = 1, Blank = 0 } CurrentPlayer;
 enum HUMANorCOMPUTER { None = 0, Human = 1, Computer = -1 };
 
-/* 变量、数据声明 */
-int ChessBoard[COLUMN][ROW];
+/* 数据声明 */
 struct GAMEMODE {
     char BlackPlayer;
     char WhitePlayer;
@@ -18,6 +17,9 @@ struct COORDINATE {
     char raw;
     char column;
 } CuurentCoordinate;
+
+/* 变量声明 */
+int ChessBoard[COLUMN][ROW];
 
 /* 函数声明 */
 void Gomoku_Run();

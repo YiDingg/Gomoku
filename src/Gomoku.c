@@ -4,18 +4,29 @@
 #include <windows.h> // 获取并输出时间
 #include "Gomoku.h"
 
+/*  */
+/* ------------------------------------------------ */
+/* >> ------------------ 宏定义 ------------------ << */
 #define debug 0
+/* >> ------------------------------------------- << */
+/* ------------------------------------------------- */
 
-/* 全局变量（在 .data 段，初值默认 0） */
+/*  */
+/* ------------------------------------------------ */
+/* >> ---- 全局变量（在 .data 段，初值默认 0） ---- << */
+
 struct COORDINATE WinCoordinates[5] = {0}; // 获胜坐标
 struct GAMEMODE GameMode = {.BlackPlayer = Blank, .WhitePlayer = Blank};
 enum COLOR CurrentPlayer = Black; // 当前执棋方
 int ChessBoard[COLUMN][ROW];
 struct COORDINATE CuurentCoordinate, LastCoordinate = {.raw = -1, .column = -65};
 char CurrentTurn = 0; // 当前轮数
+/* >> ------------------------------------------- << */
+/* ------------------------------------------------- */
 
-/* 函数 */
-
+/*  */
+/* ------------------------------------------------ */
+/* >> ------------------ 函数 ------------------ << */
 /**
  * @brief 五子棋主函数
  * @param none
@@ -76,7 +87,10 @@ void Gomoku_Run() {
             printf("Win Corrdinates: ");
         }
         fprintf(f_GomokuData, "%d%c ", WinCoordinates[i].raw + 1, WinCoordinates[i].column + 65);
-        printf("%d%c ", WinCoordinates[i].raw + 1, WinCoordinates[i].column + 65);
+        printf(
+            "\033[31m%d%c\033[0m ",
+            WinCoordinates[i].raw + 1,
+            WinCoordinates[i].column + 65); // \033[31m 设置字体为红色
         if (i == 4) {
             fprintf(f_GomokuData, "\n");
             printf("\n");
@@ -94,6 +108,7 @@ void Gomoku_Run() {
  */
 void ShowInfor() {
     puts("------------------------------------------------");
+    /* \033[31m 设置文本颜色为红色, \033[0m 重置文本颜色 */
     puts(">> ----------- Welcome to Gomoku ! ---------- <<");
     puts("   Author: Yi Ding");
     puts("   Version: 1.0");
@@ -147,12 +162,16 @@ void ChooseMode(struct GAMEMODE* p_gamemode) {
  */
 void DrawBoard() {
     // printf("\n\n");
+    printf("   ");
+    for (char i = 0; i < COLUMN; i++) { printf("\033[34m%-3c\033[0m", i + 65); } // 列号, \033[34m 修改字体为蓝色
+    printf("\n");
     for (char i = 0; i < ROW; i++) {
-        printf("%-2d ", i + 1);
+        printf("\033[34m%-2d \033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
         for (char j = 0; j < COLUMN; j++) { DrawPoint(i, j, ChessBoard[i][j]); }
+        printf("\033[34m%-2d\n\033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
     }
     printf("   ");
-    for (char i = 0; i < COLUMN; i++) { printf("%-3c", i + 65); }
+    for (char i = 0; i < COLUMN; i++) { printf("\033[34m%-3c\033[0m", i + 65); } // 列号, \033[34m 修改字体为蓝色
     printf("\n\n");
 }
 
@@ -169,35 +188,36 @@ void DrawPoint(char i, char j, int type) {
         switch (i) {
         case 0:
             switch (j) {
-            case 0: line = "┌ "; break;
-            case COLUMN - 1: line = " ┐\n"; break;
-            default: line = " ┬ "; break;
+            case 0: line = "\033[43;30m┌ \033[0m"; break;
+            case COLUMN - 1: line = "\033[43;30m ┐\033[0m "; break;
+            default: line = "\033[43;30m ┬ \033[0m"; break;
             }
             break;
         case ROW - 1:
             switch (j) {
-            case 0: line = "└ "; break;
-            case COLUMN - 1: line = " ┘\n"; break;
-            default: line = " ┴ "; break;
+            case 0: line = "\033[43;30m└ \033[0m"; break;
+            case COLUMN - 1: line = "\033[43;30m ┘\033[0m "; break;
+            default: line = "\033[43;30m ┴ \033[0m"; break;
             }
             break;
         default:
             switch (j) {
-            case 0: line = "├ "; break;
-            case COLUMN - 1: line = " ┤\n"; break;
-            default: line = " ┼ "; break;
+            case 0: line = "\033[43;30m├ \033[0m"; break;
+            case COLUMN - 1: line = "\033[43;30m ┤\033[0m "; break;
+            default: line = "\033[43;30m ┼ \033[0m"; break;
             }
             break;
         }
         printf("%s", line);
     } else {
         char* marker = (type == White) ? "●" : "○";
+        // char* marker = (type == White) ? "■" : "□";
         if (j == 0) {
-            printf("%s ", marker);
+            printf("\033[43;30m%s \033[0m", marker);
         } else if (j == COLUMN - 1) {
-            printf(" %s\n", marker);
+            printf("\033[43;30m %s\033[0m ", marker);
         } else {
-            printf(" %s ", marker);
+            printf("\033[43;30m %s \033[0m", marker);
         }
     }
 }
@@ -368,3 +388,6 @@ void GetChess_AI_random() {
     srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
     CuurentCoordinate.column = ((rand() % COLUMN + 2) * 8 + 2 * rand()) % COLUMN + 65;
 }
+
+/* >> ------------------------------------------- << */
+/* ------------------------------------------------- */
