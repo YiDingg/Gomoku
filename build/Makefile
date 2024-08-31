@@ -152,29 +152,29 @@ src/AI_Easy.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Easy.c.s
 .PHONY : src/AI_Easy.c.s
 
-src/AI_MinimaxTree_AlphaBetaPruning.obj: src/AI_MinimaxTree_AlphaBetaPruning.c.obj
-.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.obj
+src/AI_Greedy.obj: src/AI_Greedy.c.obj
+.PHONY : src/AI_Greedy.obj
 
 # target to build an object file
-src/AI_MinimaxTree_AlphaBetaPruning.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj
-.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.c.obj
+src/AI_Greedy.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Greedy.c.obj
+.PHONY : src/AI_Greedy.c.obj
 
-src/AI_MinimaxTree_AlphaBetaPruning.i: src/AI_MinimaxTree_AlphaBetaPruning.c.i
-.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.i
+src/AI_Greedy.i: src/AI_Greedy.c.i
+.PHONY : src/AI_Greedy.i
 
 # target to preprocess a source file
-src/AI_MinimaxTree_AlphaBetaPruning.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.i
-.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.c.i
+src/AI_Greedy.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Greedy.c.i
+.PHONY : src/AI_Greedy.c.i
 
-src/AI_MinimaxTree_AlphaBetaPruning.s: src/AI_MinimaxTree_AlphaBetaPruning.c.s
-.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.s
+src/AI_Greedy.s: src/AI_Greedy.c.s
+.PHONY : src/AI_Greedy.s
 
 # target to generate assembly for a file
-src/AI_MinimaxTree_AlphaBetaPruning.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.s
-.PHONY : src/AI_MinimaxTree_AlphaBetaPruning.c.s
+src/AI_Greedy.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Greedy.c.s
+.PHONY : src/AI_Greedy.c.s
 
 src/Gomoku.obj: src/Gomoku.c.obj
 .PHONY : src/Gomoku.obj
@@ -236,9 +236,9 @@ help:
 	@echo ... src/AI_Easy.obj
 	@echo ... src/AI_Easy.i
 	@echo ... src/AI_Easy.s
-	@echo ... src/AI_MinimaxTree_AlphaBetaPruning.obj
-	@echo ... src/AI_MinimaxTree_AlphaBetaPruning.i
-	@echo ... src/AI_MinimaxTree_AlphaBetaPruning.s
+	@echo ... src/AI_Greedy.obj
+	@echo ... src/AI_Greedy.i
+	@echo ... src/AI_Greedy.s
 	@echo ... src/Gomoku.obj
 	@echo ... src/Gomoku.i
 	@echo ... src/Gomoku.s

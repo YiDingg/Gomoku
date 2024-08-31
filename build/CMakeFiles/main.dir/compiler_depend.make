@@ -18,8 +18,28 @@ CMakeFiles/main.dir/src/AI_Easy.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_Easy.c \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/vadefs.h
 
-CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_MinimaxTree_AlphaBetaPruning.c \
-  D:/a_RemoteRepo/GH.Gomoku/src/AI_MiniMaxTree_AlphaBetaPruning.c
+CMakeFiles/main.dir/src/AI_Greedy.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_Greedy.c \
+  D:/a_RemoteRepo/GH.Gomoku/inc/AI_Greedy.h \
+  D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h \
+  D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h \
+  D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_mac.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_off_t.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_pop.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_push.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/crtdefs.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/limits.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/malloc.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_directx.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdio.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdlib.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/vadefs.h
 
 CMakeFiles/main.dir/src/Gomoku.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c \
   D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h \
@@ -255,6 +275,7 @@ CMakeFiles/main.dir/src/Gomoku.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/wtypesbase.h
 
 CMakeFiles/main.dir/src/main.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/main.c \
+  D:/a_RemoteRepo/GH.Gomoku/inc/AI_Greedy.h \
   D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h \
@@ -499,6 +520,8 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/emmintrin.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_mac.h:
 
+D:/a_RemoteRepo/GH.Gomoku/src/AI_Greedy.c:
+
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/crtdefs.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw.h:
@@ -547,19 +570,31 @@ D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl:
 
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/bmi2intrin.h:
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vpopcntdqintrin.h:
 
-D:/a_RemoteRepo/GH.Gomoku/src/AI_MinimaxTree_AlphaBetaPruning.c:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/f16cintrin.h:
-
-D:/a_RemoteRepo/GH.Gomoku/src/AI_MiniMaxTree_AlphaBetaPruning.c:
+D:/a_RemoteRepo/GH.Gomoku/inc/AI_Greedy.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512ifmaintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/limits.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/fmaintrin.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/malloc.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vbmivlintrin.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/combaseapi.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/cetintrin.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdlib.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/ammintrin.h:
 
@@ -593,31 +628,21 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512pfintr
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vbmi2intrin.h:
 
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vbmivlintrin.h:
-
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vpopcntdqvlintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vlbwintrin.h:
 
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vpopcntdqintrin.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/tbmintrin.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/mm3dnow.h:
-
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avxintrin.h:
 
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/combaseapi.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/cetintrin.h:
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/bmi2intrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/clflushoptintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/clwbintrin.h:
 
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/fma4intrin.h:
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/f16cintrin.h:
 
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/fmaintrin.h:
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/fma4intrin.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/namespaceapi.h:
 
@@ -631,13 +656,17 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/rtmintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/ia32intrin.h:
 
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/lzcntintrin.h:
-
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/time.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/immintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/lwpintrin.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/lzcntintrin.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/tbmintrin.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/mm3dnow.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/mm_malloc.h:
 
@@ -787,11 +816,7 @@ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/processenv.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/libloaderapi.h:
 
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/limits.h:
-
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/lzexpand.h:
-
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/malloc.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/memoryapi.h:
 
@@ -873,8 +898,6 @@ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sal.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdkddkver.h:
 
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h:
-
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stralign_s.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/sys/timeb_s.h:
@@ -890,8 +913,6 @@ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/shellapi.h:
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/specstrings.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdarg.h:
-
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdlib.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stralign.h:
 

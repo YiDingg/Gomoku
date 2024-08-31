@@ -83,20 +83,20 @@ CMakeFiles/main.dir/src/AI_Easy.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/AI_Easy.c.s"
 	D:\aa_my_apps_main\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\a_RemoteRepo\GH.Gomoku\src\AI_Easy.c -o CMakeFiles\main.dir\src\AI_Easy.c.s
 
-CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj: CMakeFiles/main.dir/includes_C.rsp
-CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_MinimaxTree_AlphaBetaPruning.c
-CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj"
-	D:\aa_my_apps_main\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj -MF CMakeFiles\main.dir\src\AI_MinimaxTree_AlphaBetaPruning.c.obj.d -o CMakeFiles\main.dir\src\AI_MinimaxTree_AlphaBetaPruning.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\AI_MinimaxTree_AlphaBetaPruning.c
+CMakeFiles/main.dir/src/AI_Greedy.c.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/AI_Greedy.c.obj: CMakeFiles/main.dir/includes_C.rsp
+CMakeFiles/main.dir/src/AI_Greedy.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_Greedy.c
+CMakeFiles/main.dir/src/AI_Greedy.c.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/main.dir/src/AI_Greedy.c.obj"
+	D:\aa_my_apps_main\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/AI_Greedy.c.obj -MF CMakeFiles\main.dir\src\AI_Greedy.c.obj.d -o CMakeFiles\main.dir\src\AI_Greedy.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\AI_Greedy.c
 
-CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.i"
-	D:\aa_my_apps_main\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\a_RemoteRepo\GH.Gomoku\src\AI_MinimaxTree_AlphaBetaPruning.c > CMakeFiles\main.dir\src\AI_MinimaxTree_AlphaBetaPruning.c.i
+CMakeFiles/main.dir/src/AI_Greedy.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/AI_Greedy.c.i"
+	D:\aa_my_apps_main\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\a_RemoteRepo\GH.Gomoku\src\AI_Greedy.c > CMakeFiles\main.dir\src\AI_Greedy.c.i
 
-CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.s"
-	D:\aa_my_apps_main\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\a_RemoteRepo\GH.Gomoku\src\AI_MinimaxTree_AlphaBetaPruning.c -o CMakeFiles\main.dir\src\AI_MinimaxTree_AlphaBetaPruning.c.s
+CMakeFiles/main.dir/src/AI_Greedy.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/AI_Greedy.c.s"
+	D:\aa_my_apps_main\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\a_RemoteRepo\GH.Gomoku\src\AI_Greedy.c -o CMakeFiles\main.dir\src\AI_Greedy.c.s
 
 CMakeFiles/main.dir/src/Gomoku.c.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/Gomoku.c.obj: CMakeFiles/main.dir/includes_C.rsp
@@ -131,7 +131,7 @@ CMakeFiles/main.dir/src/main.c.s: cmake_force
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/src/AI_Easy.c.obj" \
-"CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj" \
+"CMakeFiles/main.dir/src/AI_Greedy.c.obj" \
 "CMakeFiles/main.dir/src/Gomoku.c.obj" \
 "CMakeFiles/main.dir/src/main.c.obj"
 
@@ -139,7 +139,7 @@ main_OBJECTS = \
 main_EXTERNAL_OBJECTS =
 
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/AI_Easy.c.obj
-D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj
+D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/AI_Greedy.c.obj
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/Gomoku.c.obj
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/main.c.obj
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/build.make

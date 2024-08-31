@@ -1,6 +1,7 @@
 #include <windows.h> // 解决输出乱码
 #include <stdio.h>
 #include "Gomoku.h"
+#include "AI_Greedy.h"
 
 #define DEBUG 0
 
@@ -32,16 +33,22 @@ int main() {
     #define WINDOW_LIGHTYELLOW 	    14		//浅黄
     #define WINDOW_BRIGHTWHITE 	    15		//亮白
     也可以用枚举：
-    Enum_Color
+    typedef enum {
     {
-        black, blue, green, lakeBlue, red, purple, yellow, white, gray,
-        lightBlue, lightGreen, lightSimpleGreen, lightRed, lightPurple, lightYellow, brightWhite
-    };
+    Black, Blue, Green, Lakeblue, Red, Purple, Yellow, White,
+    Gray,Lightblue,Lightgreen,Lightsimplegreen, Lightred, Lightpurple, Lightyellow, Brightwhite
+    }Enum_Color;
      */
     system("color 07"); // 背景: 0-黑色，字体: 7-白色
 
-    Gomoku_Run();
-    // FILE* f_GomokuData = fopen("GomokuData.txt", "a+");
-    // fprintf(f_GomokuData, "%d%c ", 3 + 1, 0 + 65);
+    /* AI_Greedy.c 测试 */
+    /*
+    Enum_Color Chessboard[COLUMN][ROW] = {0};
+    // Chessboard[0][0] = Black;
+    Chessboard[5][5] = Black;
+    printf("Value of this chessboard is: %d\n", EvaluateChessboard(Chessboard, Black));
+    */
+
+    // Gomoku_Run();
     return 0;
 }

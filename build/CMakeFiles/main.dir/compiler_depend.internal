@@ -19,9 +19,29 @@ CMakeFiles/main.dir/src/AI_Easy.c.obj
  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl
  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/vadefs.h
 
-CMakeFiles/main.dir/src/AI_MinimaxTree_AlphaBetaPruning.c.obj
- D:/a_RemoteRepo/GH.Gomoku/src/AI_MinimaxTree_AlphaBetaPruning.c
- D:/a_RemoteRepo/GH.Gomoku/src/AI_MiniMaxTree_AlphaBetaPruning.c
+CMakeFiles/main.dir/src/AI_Greedy.c.obj
+ D:/a_RemoteRepo/GH.Gomoku/src/AI_Greedy.c
+ D:/a_RemoteRepo/GH.Gomoku/inc/AI_Greedy.h
+ D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h
+ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h
+ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_mac.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_off_t.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_pop.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_push.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/crtdefs.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/limits.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/malloc.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_directx.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdio_s.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdio.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdlib.h
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl
+ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/vadefs.h
 
 CMakeFiles/main.dir/src/Gomoku.c.obj
  D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c
@@ -259,6 +279,7 @@ CMakeFiles/main.dir/src/Gomoku.c.obj
 
 CMakeFiles/main.dir/src/main.c.obj
  D:/a_RemoteRepo/GH.Gomoku/src/main.c
+ D:/a_RemoteRepo/GH.Gomoku/inc/AI_Greedy.h
  D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h
  D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h
  D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h

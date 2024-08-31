@@ -21,7 +21,7 @@ typedef struct {
     char WhitePlayer;
 } Struct_GameMode;
 typedef struct {
-    char raw;
+    char row;
     char column;
 } Struct_Location;
 /*                                                 */
@@ -46,10 +46,12 @@ void DrawPoint(char i, char j, int type);
 void ShowStatu();
 void GetChess();
 void ChessHandler();
-int VictoryJudgment(int chessboard[][ROW], Struct_Location win_coordinates[5]);
+int VictoryJudgment(Enum_Color chessboard[][ROW], Struct_Location win_coordinates[5]);
 void GetChess_AI_random();
-Enum_LegalOrIllegal
-CheckThisLocation(const int chessboard[ROW][COLUMN], const Struct_Location location, const Enum_Color me);
+Enum_LegalOrIllegal CheckThisLocation(
+    const Enum_Color chessboard[ROW][COLUMN],
+    const Struct_Location location,
+    const Enum_Color me);
 /*                                                   */
 /* >> ----------------- 函数声明 ----------------- << */
 /* ------------------------------------------------- */
