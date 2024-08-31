@@ -1,35 +1,56 @@
-#if !defined(__Gomoku_H)
-#define __Gomoku_H
-
-/* 宏定义 */
+#if !defined(__GOMOKU_H)
+#define __GOMOKU_H
+/* ------------------------------------------------ */
+/* >> ----------------- 宏定义 ----------------- << */
+/*                                                  */
 #define ROW 15
 #define COLUMN 15
 
-enum COLOR { White = -1, Black = 1, Blank = 0 } CurrentPlayer;
-enum HUMANorCOMPUTER { None = 0, Human = 1, Computer = -1 };
+/*                                                  */
+/* >> ----------------- 宏定义 ----------------- << */
+/* ------------------------------------------------ */
 
-/* 数据声明 */
-struct GAMEMODE {
+/* ----------------------------------------------- */
+/* >> ---------------- 数据类型 ---------------- << */
+/*                                                 */
+typedef enum { White = -1, Black = 1, Blank = 0 } Enum_Color;
+typedef enum { None = 0, Human = 1, Computer = -1 } Enum_HumanOrComputer;
+typedef enum { Legal = 1, Illegal = 2 } Enum_LegalOrIllegal;
+typedef struct {
     char BlackPlayer;
     char WhitePlayer;
-} GameMode;
-struct COORDINATE {
+} Struct_GameMode;
+typedef struct {
     char raw;
     char column;
-} CuurentCoordinate;
+} Struct_Location;
+/*                                                 */
+/* >> ---------------- 数据类型 ---------------- << */
+/* ----------------------------------------------- */
 
-/* 变量声明 */
-int ChessBoard[COLUMN][ROW];
+/* ------------------------------------------------- */
+/* >> --------------- 全局变量声明 --------------- << */
+/*                                                   */
+/*                                                   */
+/* >> --------------- 全局变量声明 --------------- << */
+/* ------------------------------------------------- */
 
-/* 函数声明 */
+/* ------------------------------------------------- */
+/* >> ----------------- 函数声明 ----------------- << */
+/*                                                   */
 void Gomoku_Run();
 void ShowInfor();
-void ChooseMode(struct GAMEMODE* p_gamemode);
+void ChooseMode(Struct_GameMode* p_game_mode);
 void DrawBoard();
 void DrawPoint(char i, char j, int type);
 void ShowStatu();
 void GetChess();
 void ChessHandler();
-int VictoryJudgment(int chessboard[][ROW], struct COORDINATE wincoordinate[5]);
+int VictoryJudgment(int chessboard[][ROW], Struct_Location win_coordinates[5]);
 void GetChess_AI_random();
-#endif // __Gomoku_H
+Enum_LegalOrIllegal
+CheckThisLocation(const int chessboard[ROW][COLUMN], const Struct_Location location, const Enum_Color me);
+/*                                                   */
+/* >> ----------------- 函数声明 ----------------- << */
+/* ------------------------------------------------- */
+#endif // __GOMOKU_H

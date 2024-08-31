@@ -4,29 +4,25 @@
 #include <windows.h> // 获取并输出时间
 #include "Gomoku.h"
 
-/*  */
-/* ------------------------------------------------ */
-/* >> ------------------ 宏定义 ------------------ << */
-#define debug 0
-/* >> ------------------------------------------- << */
-/* ------------------------------------------------- */
+#define DEBUG 0
 
-/*  */
 /* ------------------------------------------------ */
-/* >> ---- 全局变量（在 .data 段，初值默认 0） ---- << */
-
-struct COORDINATE WinCoordinates[5] = {0}; // 获胜坐标
-struct GAMEMODE GameMode = {.BlackPlayer = Blank, .WhitePlayer = Blank};
-enum COLOR CurrentPlayer = Black; // 当前执棋方
+/* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
+/*                                                  */
 int ChessBoard[COLUMN][ROW];
-struct COORDINATE CuurentCoordinate, LastCoordinate = {.raw = -1, .column = -65};
-char CurrentTurn = 0; // 当前轮数
-/* >> ------------------------------------------- << */
-/* ------------------------------------------------- */
+char CurrentTurn = 0;                    // 当前轮数
+Struct_Location WinCoordinates[5] = {0}; // 获胜坐标
+Enum_Color CurrentPlayer = Black;        // 当前执棋方
+Struct_GameMode GameMode = {.BlackPlayer = Blank, .WhitePlayer = Blank};
+Struct_Location CuurentCoordinate, LastCoordinate = {.raw = -1, .column = -65};
 
-/*  */
+/*                                                  */
+/* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
+/* ------------------------------------------------ */
+
 /* ------------------------------------------------ */
 /* >> ------------------ 函数 ------------------ << */
+/*                                                  */
 /**
  * @brief 五子棋主函数
  * @param none
@@ -43,7 +39,7 @@ void Gomoku_Run() {
     }
     SYSTEMTIME time;
     GetLocalTime(&time);
-    if (debug) { printf("%04d", time.wSecond); }
+    if (DEBUG) { printf("%04d", time.wSecond); }
     fprintf(
         f_GomokuData,
         "\nRun time: %04d.%02d.%02d %02d:%02d:%02d\n",
@@ -69,7 +65,14 @@ void Gomoku_Run() {
         DrawBoard();
         ShowStatu();
         GetChess();
-        ChessHandler();
+        while (Illegal == CheckThisLocation(ChessBoard, CuurentCoordinate, CurrentPlayer)) {
+            printf(
+                "你刚刚输入了 %d%c，输入范围错误，或者此处已有棋子，请重新输入: \n",
+                CuurentCoordinate.raw + 1,
+                CuurentCoordinate.column + 65);
+            GetChess();
+        }
+        // ChessHandler();
         /* 落子检查通过 */
         ChessBoard[CuurentCoordinate.raw][CuurentCoordinate.column] = CurrentPlayer;
         fprintf(f_GomokuData, "%d%c ", CuurentCoordinate.raw + 1, CuurentCoordinate.column + 65);
@@ -124,7 +127,7 @@ void ShowInfor() {
  * @param p_gamemode 游戏模式结构体指针
  * @retval none
  */
-void ChooseMode(struct GAMEMODE* p_gamemode) {
+void ChooseMode(Struct_GameMode* p_gamemode) {
     puts("------------------------------");
     puts("选择黑棋由谁操控：");
     printf("%d: Human\n", Human);
@@ -138,7 +141,7 @@ void ChooseMode(struct GAMEMODE* p_gamemode) {
     puts("------------------------------");
     scanf("%d", &p_gamemode->WhitePlayer);
     puts("------------------------------");
-    if (debug) {
+    if (DEBUG) {
         printf("p_gamemode->BlackPlayer: %d\n", p_gamemode->BlackPlayer);
         printf("p_gamemode->WhitePlayer: %d\n", p_gamemode->WhitePlayer);
     }
@@ -231,7 +234,7 @@ void ShowStatu(void) {
     /* 游戏模式 */
     char* str_Black = (GameMode.BlackPlayer == Human) ? "Human" : "Computer";
     char* str_White = (GameMode.WhitePlayer == Human) ? "Human" : "Computer";
-    if (debug) {
+    if (DEBUG) {
         puts(str_Black);
         puts(str_White);
     }
@@ -282,13 +285,28 @@ void GetChess() {
         break;
     default: break;
     }
+    /* 将输入的字符转换为 location 结构体坐标 */
+    CuurentCoordinate.raw -= 1;
+    CuurentCoordinate.column -= 65;
 }
 
 /**
- * @brief 处理（通过 Human 或 AI）获得的棋子坐标
+ * @brief 检查（通过 Human 或 AI）获得的棋子坐标是否合法
  * @param none
  * @retval none
  */
+Enum_LegalOrIllegal
+CheckThisLocation(const int chessboard[ROW][COLUMN], const Struct_Location location, const Enum_Color me) {
+    /* 退出程序 */
+    if (location.raw == 15 && location.column == 15) { exit(0); }
+    if (DEBUG) { printf("location.raw: %d, location.column: %d\n", location.raw, location.column); }
+    /* 检查非法输入 */
+    if (0 > location.raw || location.raw > 14 || 0 > location.column || location.column > 14) { return Illegal; }
+    /* 检查此处是否被占 */
+    if (ChessBoard[CuurentCoordinate.raw][CuurentCoordinate.column] != Blank) { return Illegal; }
+    return Legal;
+}
+
 void ChessHandler() {
     /* 获取输入 */
     CuurentCoordinate.raw -= 1;     // 坐标转换为 0 起始
@@ -296,7 +314,7 @@ void ChessHandler() {
 
     if (CuurentCoordinate.raw == 15 && CuurentCoordinate.column == 15) { exit(0); } // 退出程序
 
-    if (debug) {
+    if (DEBUG) {
         printf(
             "CuurentCoordinate.raw: %d, CuurentCoordinate.column: %d\n",
             CuurentCoordinate.raw,
@@ -332,7 +350,7 @@ void ChessHandler() {
  * @param none
  * @retval none
  */
-int VictoryJudgment(int chessboard[][ROW], struct COORDINATE win_coordinate[5]) {
+int VictoryJudgment(int chessboard[][ROW], Struct_Location win_coordinate[5]) {
     char i, j;
     for (i = 0; i < ROW; i++) {
         for (j = 0; j < COLUMN; j++) {
@@ -341,7 +359,7 @@ int VictoryJudgment(int chessboard[][ROW], struct COORDINATE win_coordinate[5]) 
             if (j <= COLUMN - 5)
                 if (chessboard[i][j] == chessboard[i][j + 1] && chessboard[i][j] == chessboard[i][j + 2]
                     && chessboard[i][j] == chessboard[i][j + 3] && chessboard[i][j] == chessboard[i][j + 4]) {
-                    for (char k = 0; k < 5; k++) { win_coordinate[k] = (struct COORDINATE){.raw = i, .column = j + k}; }
+                    for (char k = 0; k < 5; k++) { win_coordinate[k] = (Struct_Location){.raw = i, .column = j + k}; }
                     return chessboard[i][j];
                 }
 
@@ -349,7 +367,7 @@ int VictoryJudgment(int chessboard[][ROW], struct COORDINATE win_coordinate[5]) 
             if (i <= ROW - 5)
                 if (chessboard[i][j] == chessboard[i + 1][j] && chessboard[i][j] == chessboard[i + 2][j]
                     && chessboard[i][j] == chessboard[i + 3][j] && chessboard[i][j] == chessboard[i + 4][j]) {
-                    for (char k = 0; k < 5; k++) { win_coordinate[k] = (struct COORDINATE){.raw = i + k, .column = j}; }
+                    for (char k = 0; k < 5; k++) { win_coordinate[k] = (Struct_Location){.raw = i + k, .column = j}; }
                     return chessboard[i][j];
                 }
 
@@ -358,7 +376,7 @@ int VictoryJudgment(int chessboard[][ROW], struct COORDINATE win_coordinate[5]) 
                 if (chessboard[i][j] == chessboard[i + 1][j + 1] && chessboard[i][j] == chessboard[i + 2][j + 2]
                     && chessboard[i][j] == chessboard[i + 3][j + 3] && chessboard[i][j] == chessboard[i + 4][j + 4]) {
                     for (char k = 0; k < 5; k++) {
-                        win_coordinate[k] = (struct COORDINATE){.raw = i + k, .column = j + k};
+                        win_coordinate[k] = (Struct_Location){.raw = i + k, .column = j + k};
                     }
                     return chessboard[i][j];
                 }
@@ -368,7 +386,7 @@ int VictoryJudgment(int chessboard[][ROW], struct COORDINATE win_coordinate[5]) 
                 if (chessboard[i][j] == chessboard[i + 1][j - 1] && chessboard[i][j] == chessboard[i + 2][j - 2]
                     && chessboard[i][j] == chessboard[i + 3][j - 3] && chessboard[i][j] == chessboard[i + 4][j - 4]) {
                     for (char k = 0; k < 5; k++) {
-                        win_coordinate[k] = (struct COORDINATE){.raw = i + k, .column = j - k};
+                        win_coordinate[k] = (Struct_Location){.raw = i + k, .column = j - k};
                     }
                     return chessboard[i][j];
                 }
@@ -388,6 +406,6 @@ void GetChess_AI_random() {
     srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
     CuurentCoordinate.column = ((rand() % COLUMN + 2) * 8 + 2 * rand()) % COLUMN + 65;
 }
-
-/* >> ------------------------------------------- << */
-/* ------------------------------------------------- */
+/*                                                  */
+/* >> ------------------ 函数 ------------------ << */
+/* ------------------------------------------------ */

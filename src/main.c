@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "Gomoku.h"
 
-#define debug 0
+#define DEBUG 0
 
 int main() {
     /* 控制台相关设置 */
@@ -32,7 +32,7 @@ int main() {
     #define WINDOW_LIGHTYELLOW 	    14		//浅黄
     #define WINDOW_BRIGHTWHITE 	    15		//亮白
     也可以用枚举：
-    enum Color
+    Enum_Color
     {
         black, blue, green, lakeBlue, red, purple, yellow, white, gray,
         lightBlue, lightGreen, lightSimpleGreen, lightRed, lightPurple, lightYellow, brightWhite
