@@ -292,7 +292,9 @@ void GetChess() {
 
 /**
  * @brief 检查（通过 Human 或 AI）获得的棋子坐标是否合法
- * @param none
+ * @param chessboard 棋盘数据
+ * @param location 棋子坐标
+ * @param me 当前执棋方
  * @retval none
  */
 Enum_LegalOrIllegal
@@ -307,6 +309,12 @@ CheckThisLocation(const int chessboard[ROW][COLUMN], const Struct_Location locat
     return Legal;
 }
 
+/**
+ * @brief 检查（通过 Human 或 AI）获得的棋子坐标是否合法
+ * @param none
+ * @note 此函数已弃用
+ * @retval none
+ */
 void ChessHandler() {
     /* 获取输入 */
     CuurentCoordinate.raw -= 1;     // 坐标转换为 0 起始
