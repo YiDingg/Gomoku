@@ -57,12 +57,18 @@ void GetChess(
     Struct_Location* p_location,
     const Enum_Color chessboard[ROW][COLUMN],
     const Enum_Color me);
-Struct_Location GetChess_Human(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me);
-Struct_Location GetChess_AI_random(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me);
+void GetChess_Human(
+    Struct_Location* p_location,
+    const Enum_Color chessboard[ROW][COLUMN],
+    const Enum_Color me);
+void GetChess_AI_random(
+    Struct_Location* p_location,
+    const Enum_Color chessboard[ROW][COLUMN],
+    const Enum_Color me);
 void CheckThisLocation(
     Enum_LegalOrIllegal* p_islegal,
     const Enum_Color chessboard[ROW][COLUMN],
-    const Struct_Location location,
+    const Struct_Location* p_location,
     const Enum_Color me);
 /*                                                   */
 /* >> ----------------- 函数声明 ----------------- << */
