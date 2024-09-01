@@ -61,34 +61,36 @@ void Gomoku_Run() {
 
     /* 开始游戏 */
     CurrentTurn = 1;
+
+    Enum_LegalOrIllegal islegal;
+
     while (VictoryJudgment(Chessboard, WinCoordinates) == Blank) {
         printf("\n输入 %d%c 以记录数据并退出游戏\n", 15 + 1, 15 + 65);
         DrawBoard(Chessboard);
         ShowStatu(GameMode, Chessboard, CurrentTurn, CurrentPlayer, WinCoordinates, LastCoordinate);
 
-        GetChess(Chessboard, CurrentPlayer);
+        GetChess(&CuurentCoordinate, Chessboard, CurrentPlayer);
 
         /*
         GetChess_Human() 递归获取落子坐标时出现的 bug 还未修复, 暂时将
         GetChess_Human()的合法性检查放在这里
         */
-        while (Illegal == CheckThisLocation(Chessboard, CuurentCoordinate, CurrentPlayer)) {
-            printf(
-                "GetChess_Human() 获取到 '%d' 和 '%c'，为非法数据, 请重新输入: ",
-                CuurentCoordinate.row + 1,
-                CuurentCoordinate.column + 'A');
-            GetChess(Chessboard, CurrentPlayer);
+        Enum_LegalOrIllegal islegal;
+        CheckThisLocation(&islegal, Chessboard, CuurentCoordinate, CurrentPlayer);
+        while (islegal == Illegal) {
+            if (DEBUG) {
+                printf(
+                    "'%d' '%c' = GetChess_AI_random(), which is illegal, retrying...\n",
+                    CuurentCoordinate.row + 1,
+                    CuurentCoordinate.column + 'A');
+            }
+            GetChess(
+                &CuurentCoordinate,
+                Chessboard,
+                CurrentPlayer); /* 这里其实是从 GetChess_Human 获取坐标 */
+            CheckThisLocation(&islegal, Chessboard, CuurentCoordinate, CurrentPlayer);
         }
-#if 0
-        while (Illegal == CheckThisLocation(Chessboard, CuurentCoordinate, CurrentPlayer)) {
-            printf(
-                "你刚刚输入了 '%d' 和 '%c'，输入范围错误，或者此处已有棋子，请重新输入: \n",
-                CuurentCoordinate.row + 1,
-                CuurentCoordinate.column + 65);
-            GetChess(Chessboard, CurrentPlayer);
-        }
-#endif
-        // ChessHandler();
+
         /* 落子检查通过 */
         Chessboard[CuurentCoordinate.row][CuurentCoordinate.column] = CurrentPlayer;
         fprintf(f_GomokuData, "%d%c ", CuurentCoordinate.row + 1, CuurentCoordinate.column + 65);
@@ -263,10 +265,6 @@ void ShowStatu(
     /* 游戏模式 */
     char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
     char* str_White = (gamemode.WhitePlayer == Human) ? "Human" : "Computer";
-    if (DEBUG) {
-        puts(str_Black);
-        puts(str_White);
-    }
     printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
 
     /* 执棋方或胜负状态 */
@@ -301,42 +299,51 @@ void ShowStatu(
  * @param me 当前执棋方
  * @retval none
  */
-Enum_LegalOrIllegal CheckThisLocation(
+void CheckThisLocation(
+    Enum_LegalOrIllegal* p_islegal,
     const Enum_Color chessboard[ROW][COLUMN],
     const Struct_Location location,
     const Enum_Color me) {
-#if defined(DEBUG)
-    puts("Enter: CheckThisLocation()");
-#endif
+    if (DEBUG) { puts("--> CheckThisLocation()"); }
+
     /* 退出程序 */
     if (location.row == 15 && location.column == 15) {
         puts("手动退出程序！");
         exit(0);
     }
     if (DEBUG) { printf("location.row: %d, location.column: %d\n", location.row, location.column); }
+
     /* 检查非法输入 */
     if (location.row < 0 || location.row > 14 || location.column < 0 || location.column > 14) {
-        printf("非法输入 '%d' 和 '%c', 请重新输入: \n", location.row + 1, location.column + 65);
-#if defined(DEBUG)
-        puts("Exit:  CheckThisLocation()");
-#endif
-        return Illegal;
-    }
-    /* 检查此处是否被占 */
-    if (chessboard[location.row][location.column] != Blank) {
-        printf(
-            "此处已有 %s棋, 请重新输入: \n",
-            (chessboard[location.row][location.column] == Black ? "黑" : "白"));
-#if defined(DEBUG)
-        puts("Exit:  CheckThisLocation()");
-#endif
-        return Illegal;
+        if (DEBUG) {
+            printf(
+                "Error: 非法输入 '%d' 和 '%c', 请重新输入: \n",
+                location.row + 1,
+                location.column + 65);
+            puts("<-- CheckThisLocation()");
+        }
+        *p_islegal = Illegal;
+        return;
     }
 
-#if defined(DEBUG)
-    puts("Exit:  CheckThisLocation()");
-#endif
-    return Legal;
+    /* 检查此处是否被占 */
+    if (chessboard[location.row][location.column] != Blank) {
+        if (DEBUG) {
+            printf(
+                "Error: 此处已有 %s棋, 请重新输入: \n",
+                (chessboard[location.row][location.column] == Black ? "黑" : "白"));
+            puts("<-- CheckThisLocation()");
+        }
+        *p_islegal = Illegal;
+        return;
+    }
+
+    if (DEBUG) {
+        puts("Success!");
+        puts("<-- CheckThisLocation()");
+    }
+    *p_islegal = Legal;
+    return;
 }
 
 #if 0
@@ -453,20 +460,23 @@ VictoryJudgment(const Enum_Color chessboard[ROW][COLUMN], Struct_Location win_co
  * @param none
  * @retval none
  */
-void GetChess(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me) {
+void GetChess(
+    Struct_Location* p_location,
+    const Enum_Color chessboard[ROW][COLUMN],
+    const Enum_Color me) {
     switch (me) {
     case Black:
         if (GameMode.BlackPlayer == Human) { // Human 下黑旗
-            CuurentCoordinate = GetChess_Human(chessboard, me);
+            *p_location = GetChess_Human(chessboard, me);
         } else { // Computer 下黑旗
-            GetChess_AI_random();
+            *p_location = GetChess_AI_random(chessboard, me);
         }
         break;
     case White:
         if (GameMode.WhitePlayer == Human) { // Human 下白旗
-            CuurentCoordinate = GetChess_Human(chessboard, me);
+            *p_location = GetChess_Human(chessboard, me);
         } else { // Computer 下白旗
-            GetChess_AI_random();
+            *p_location = GetChess_AI_random(chessboard, me);
         }
         break;
     default: break;
@@ -474,18 +484,33 @@ void GetChess(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me) {
 }
 
 Struct_Location GetChess_Human(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me) {
-    if (DEBUG) { puts("Enter: GetChess_Human()"); }
+    if (DEBUG) { puts("--> GetChess_Human()"); }
 
-    Struct_Location loc;
+    Struct_Location location;
 
-    /* 获取输入并转换为 location 结构体坐标 */
-    scanf("%d%c", &loc.row, &loc.column);
-    /* 将输入字符转换为 location 结构体坐标 */
-    loc.row -= 1;
-    loc.column -= 'A';
+    /* 获取落子坐标 */
+    scanf("%d%c", &location.row, &location.column);
+    location.row -= 1;
+    location.column -= 'A';
 
+#if 0
+    /* 检查落子坐标合法性 */
+    Enum_LegalOrIllegal islegal;
+    CheckThisLocation(&islegal, chessboard, location, me);
+    if (islegal == Illegal) {
+        if (DEBUG) {
+            printf(
+                "'%d' '%c' = GetChess_AI_random(), which is illegal, retrying...\n",
+                location.row + 1,
+                location.column + 'A');
+        }
+        location = GetChess_Human(Chessboard, CurrentPlayer);
+    }
+#endif
+
+#if 0
     /* 检查输入是否合法 */
-    /*     while (1) {
+        while (1) {
             if (Legal == CheckThisLocation(chessboard, loc, me)) {
                 puts("退出 while GetChess_Human");
                 if (DEBUG) { puts("Exit : GetChess_Human()"); }
@@ -493,11 +518,20 @@ Struct_Location GetChess_Human(const Enum_Color chessboard[ROW][COLUMN], const E
             }
             puts("进入 while GetChess_Human");
             loc = GetChess_Human(chessboard, me);
-        } */
+        }
+
+    while (Illegal == CheckThisLocation(islegal, Chessboard, CuurentCoordinate, CurrentPlayer)) {
+                printf(
+                    "GetChess_Human() 获取到 '%d' 和 '%c'，为非法数据, 请重新输入: ",
+                    CuurentCoordinate.row + 1,
+                    CuurentCoordinate.column + 'A');
+                GetChess(Chessboard, CurrentPlayer);
+            }
+#endif
 
     /* 返回落子位置 */
-    if (DEBUG) { puts("Exit : GetChess_Human()"); }
-    return loc;
+    if (DEBUG) { puts("<-- GetChess_Human()"); }
+    return location;
 }
 
 /**
@@ -505,12 +539,32 @@ Struct_Location GetChess_Human(const Enum_Color chessboard[ROW][COLUMN], const E
  * @param none
  * @retval none
  */
-void GetChess_AI_random() {
-    srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
-    CuurentCoordinate.row = ((rand() % ROW + 1) * 14 + rand()) % ROW;
+Struct_Location GetChess_AI_random(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me) {
+    if (DEBUG) { puts("--> GetChess_AI_random()"); }
 
+    Struct_Location location;
+    /* 生成随机落子 */
     srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
-    CuurentCoordinate.column = ((rand() % COLUMN + 2) * 8 + 2 * rand()) % COLUMN;
+    location.row = ((rand() % ROW + 1) * 14 + rand()) % ROW;
+    srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
+    location.column = ((rand() % COLUMN + 2) * 8 + 2 * rand()) % COLUMN;
+
+    /* 检查落子坐标合法性 */
+    Enum_LegalOrIllegal islegal;
+    CheckThisLocation(&islegal, chessboard, location, me);
+    if (islegal == Illegal) {
+        if (DEBUG) {
+            printf(
+                "'%d' '%c' = GetChess_AI_random(), which is illegal, retrying...\n",
+                location.row + 1,
+                location.column + 'A');
+        }
+        location = GetChess_AI_random(Chessboard, CurrentPlayer);
+    }
+
+    /* 返回落子位置 */
+    if (DEBUG) { puts("<-- GetChess_AI_random()"); }
+    return location;
 }
 /*                                                  */
 /* >> ------------------ 函数 ------------------ << */
