@@ -221,7 +221,7 @@ void DrawPoint(const char row, const char column, const int type) {
         }
         printf("%s", line);
     } else {
-        char* marker = (type == White) ? "●" : "○";
+        char* marker = (type == Black) ? "●" : "○"; /* 背景色为黄色，因此 "●" 会显示为黑棋 */
         // char* marker = (type == White) ? "■" : "□";
         if (column == 0) {
             printf("\033[43;30m%s \033[0m", marker);
@@ -384,7 +384,8 @@ void ChessHandler() {
  * @param none
  * @retval none
  */
-int VictoryJudgment(Enum_Color chessboard[][ROW], Struct_Location win_coordinate[5]) {
+Enum_Color
+VictoryJudgment(const Enum_Color chessboard[ROW][COLUMN], Struct_Location win_coordinate[5]) {
     char i, j;
     for (i = 0; i < ROW; i++) {
         for (j = 0; j < COLUMN; j++) {

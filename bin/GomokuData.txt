@@ -305,3 +305,9 @@ Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
 1M 3E 11D 7D 10I 11E 14L 10K 6H 3L 3C 13D 11B 14K 14G 14M 8H 6J 1B 2F 2M 9H 11C 3M 1O 5G 10J 7M 14F 8I 5C 8K 15N 3O 9M 4B 12E 1G 8B 4D 9E 5H 2J 1E 14O 12J 11K 3N 10G 9O 10O 6M 14C 4F 4I 15K 13E 9J 8F 3G 4A 11H 12G 5L 12N 2E 15O 3K 
 Winner: White
 Win Corrdinates: 3K 3L 3M 3N 3O 
+
+Run time: 2024.09.01 12:57:32
+Game mode: BlackPlayer-Computer, WhitePlayer-Human.
+5G 2A 3K 3A 6D 4A 5L 5A 10O 6A 
+Winner: White
+Win Corrdinates: 2A 3A 4A 5A 6A 
