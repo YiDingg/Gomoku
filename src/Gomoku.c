@@ -136,7 +136,7 @@ void ShowInfor(void) {
     /* \033[31m 设置文本颜色为红色, \033[0m 重置文本颜色 */
     puts(">> ----------- \033[31mWelcome to Gomoku !\033[0m ---------- <<");
     puts("   Author: Yi Ding");
-    puts("   Version: 1.1");
+    puts("   Version: 2.0");
     puts("   Date: 2024.9.1");
     puts("   Email: dingyi233@mails.ucas.ac.cn");
     puts("   GitHub: https://github.com/YiDingg/Gomoku");

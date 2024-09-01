@@ -5,7 +5,7 @@
 #include <stdbool.h> // bool 类型
 #include <time.h>    // time()
 
-#define DEBUG 0
+#define DEBUG 1
 
 /* ------------------------------------------------ */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
@@ -56,10 +56,10 @@ void GetChess_AI_Greedy(
     Struct_Location location = {0, 0};
     Struct_Location p_five_locations[5]; /* 用于强制围堵检测 */
 
-    /* 检查对方是否成四, 进行强制围堵 */
+    /* 检查对方是否成三成四, 进行强制围堵 */
     for (char i = 0; i < ROW; i++) {
         for (char j = 0; j < COLUMN; j++) {
-            if (chessboard[i][j] == Blank) continue;
+            // if (chessboard[i][j] == Blank) continue; /* 要进行成三检验, 因此不能跳过空位 */
 
             /* - 向右方 */
             if (j <= COLUMN - 5) {
@@ -67,7 +67,7 @@ void GetChess_AI_Greedy(
                     p_five_locations[k].row = i;
                     p_five_locations[k].column = j + k;
                 }
-                if (IsFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                if (IsThreeOrFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
                     return;
                 }
             }
@@ -78,7 +78,7 @@ void GetChess_AI_Greedy(
                     p_five_locations[k].row = i + k;
                     p_five_locations[k].column = j;
                 }
-                if (IsFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                if (IsThreeOrFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
                     return;
                 }
             }
@@ -89,7 +89,7 @@ void GetChess_AI_Greedy(
                     p_five_locations[k].row = i + k;
                     p_five_locations[k].column = j + k;
                 }
-                if (IsFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                if (IsThreeOrFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
                     return;
                 }
             }
@@ -100,7 +100,7 @@ void GetChess_AI_Greedy(
                     p_five_locations[k].row = i + k;
                     p_five_locations[k].column = j - k;
                 }
-                if (IsFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                if (IsThreeOrFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
                     return;
                 }
             }
@@ -124,12 +124,12 @@ void GetChess_AI_Greedy(
     }
 
     /* 申请内存 */
-    if (DEBUG == 2) {
+    if (DEBUG) {
         printf(
             "准备申请内存, num_legal = %d, sizeof(Struct_LocationWithValue) = %d",
             num_legal,
             sizeof(Struct_LocationWithValue));
-        system("pause");
+        if (DEBUG == 2) { system("pause"); }
     }
     Struct_LocationWithValue* p_legal_locs_with_value = malloc(
         num_legal * sizeof(Struct_LocationWithValue)); /* malloc() 不会对所分配的内存进行初始化 */
@@ -158,7 +158,7 @@ void GetChess_AI_Greedy(
         }
         if (DEBUG) {
             printf("可行域信息遍历完成, num_legal = %d, 开始计算 value\n", num_legal);
-            system("pause");
+            if (DEBUG == 2) { system("pause"); }
         }
 
         /* 计算所有可行域的 value */
@@ -205,7 +205,7 @@ void GetChess_AI_Greedy(
     /* 释放内存 */
     if (DEBUG) {
         printf("全部计算完成, 释放内存\n");
-        system("pause");
+        if (DEBUG == 2) { system("pause"); }
     }
     free(p_legal_locs_with_value);
 
@@ -353,7 +353,7 @@ int GetScoreOfFiveChess(const Enum_Color FiveChess[5], const Enum_Color me) {
     }
 }
 
-bool IsFourEnemyInFive(
+bool IsThreeOrFourEnemyInFive(
     Struct_Location five_locations[5],
     Enum_Color chessboard[ROW][COLUMN],
     const Enum_Color me,
@@ -365,11 +365,85 @@ bool IsFourEnemyInFive(
     for (char k = 0; k < 5; k++) {
         chessboard[five_locations[k].row][five_locations[k].column] == enemy ? num_enemy++ : 0;
     }
-    if (num_enemy == 4) { /* 剩下一个是否为 Blank */
+    if (num_enemy == 3) {
+        if (DEBUG) {
+            puts("num_enemy = 3");
+            printf(
+                "five_locations[0]= (%d, %c) \n",
+                five_locations[0].row + 1,
+                five_locations[0].column + 'A');
+            printf(
+                "chessboard[five_locations[0].row][five_locations[0].column] = %d\n",
+                chessboard[five_locations[0].row][five_locations[0].column]);
+            printf(
+                "chessboard[five_locations[4].row][five_locations[4].column] = %d\n",
+                chessboard[five_locations[4].row][five_locations[4].column]);
+        }
+
+        if (chessboard[five_locations[0].row][five_locations[0].column] == Blank
+            && chessboard[five_locations[4].row][five_locations[4].column] == Blank) {
+            if (DEBUG) { printf("成三而需要围堵 \n"); }
+            Enum_LegalOrIllegal islegal_1, islegal_2;
+            CheckThisLocation(&islegal_1, chessboard, &five_locations[0], me);
+            CheckThisLocation(&islegal_2, chessboard, &five_locations[0], me);
+            if (islegal_1 == Illegal && islegal_2 == Illegal) {
+                printf("成三而无法围堵, %s 胜利! \n", (me == Black) ? "白棋" : "黑棋");
+                exit(0);
+            } else {
+                if (DEBUG) { printf("islegal_1 = %d, islegal_2 = %d\n", islegal_1, islegal_2); }
+                if (islegal_1 == Legal && islegal_2 == Legal) {
+                    if (DEBUG) { puts("进入两种围堵的选择"); }
+                    int value_1, value_2;
+                    /* 计算两种围堵方式的优劣 */
+                    chessboard[five_locations[0].row][five_locations[0].column] = me;
+                    value_1 = EvaluateChessboard(chessboard, me);
+                    chessboard[five_locations[0].row][five_locations[0].column] = Blank;
+                    chessboard[five_locations[4].row][five_locations[4].column] = me;
+                    value_2 = EvaluateChessboard(chessboard, me);
+                    chessboard[five_locations[0].row][five_locations[0].column] = Blank;
+                    /* 选择最佳方式 */
+                    if (value_1 > value_2) {
+                        if (DEBUG) {
+                            printf(
+                                "five_locations[0].row = %d, five_locations[0].column = %d \n",
+                                five_locations[0].row,
+                                five_locations[0].column);
+                        }
+                        p_location->row = five_locations[0].row;
+                        p_location->column = five_locations[0].column;
+                    } else {
+                        if (DEBUG) {
+                            printf(
+                                "five_locations[4].row = %d, five_locations[4].column = %d \n",
+                                five_locations[4].row,
+                                five_locations[4].column);
+                        }
+                        p_location->row = five_locations[4].row;
+                        p_location->column = five_locations[4].column;
+                    }
+                } else if (islegal_1 == Legal) {
+                    p_location->row = five_locations[0].row;
+                    p_location->column = five_locations[0].column;
+                } else if (islegal_2 == Legal) {
+                    p_location->row = five_locations[4].row;
+                    p_location->column = five_locations[4].column;
+                }
+            }
+            return true;
+        }
+
+        return false;
+    } else if (num_enemy == 4) { /* 剩下一个是否为 Blank */
         for (char k = 0; k < 5; k++) {
             if (chessboard[five_locations[k].row][five_locations[k].column] == Blank) {
                 p_location->row = five_locations[k].row;
                 p_location->column = five_locations[k].column;
+                if (DEBUG) {
+                    printf(
+                        "five_locations[k].row = %d, five_locations[k].column = %d \n",
+                        five_locations[k].row,
+                        five_locations[k].column);
+                }
                 return true;
             }
         }
@@ -387,7 +461,7 @@ bool IsFourEnemyInFive(
 void ShellSort_LocationWithValue(Struct_LocationWithValue* locs_with_values, int size) {
     if (DEBUG) {
         printf("开始希尔排序, size = %d\n", size);
-        system("pause");
+        if (DEBUG == 2) { system("pause"); }
     }
     int step = size / 2;
     while (step > 0) {
