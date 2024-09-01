@@ -42,7 +42,7 @@ void Gomoku_Run();
 void ShowInfor(void);
 void ChooseMode(Struct_GameMode* p_game_mode);
 void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]);
-void DrawPoint(const char row, const char column, const int type);
+void DrawPoint(const char row, const char column, const Enum_Color color);
 void ShowStatu(
     const Struct_GameMode gamemode,
     const Enum_Color chessboard[COLUMN][ROW],

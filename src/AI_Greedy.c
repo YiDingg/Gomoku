@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "Gomoku.h"
 #include "AI_Greedy.h"
-#include <stdlib.h> // exit()
+#include <stdlib.h>  // exit()
+#include <stdbool.h> // bool 类型
 
 #define DEBUG 0
 
@@ -37,7 +38,31 @@ const char DefultValuesOfChessboard[ROW][COLUMN] = {
 /* >> ------------------ 函数 ------------------ << */
 /*                                                  */
 
-/*  */
+/**
+ * @brief 根据给定棋局，计算我方最佳落子位置
+ * @param p_best_location 用于记录最佳位置
+ * @param chessboard 给定的棋局
+ * @param me 我方的颜色
+ * @retval none
+ */
+void GetBestLocation(
+    Struct_Location* p_best_location,
+    const Enum_Color chessboard[ROW][COLUMN],
+    const Enum_Color me) {
+    bool islegal_chessboard[ROW][COLUMN]; /* 用于记录棋盘上哪些位置可以落子 */
+    Enum_LegalOrIllegal islegal;
+    Struct_Location location = {0, 0};
+    /* 遍历棋盘上哪些位置可以落子 */
+    for (char i = 0; i < ROW; i++) {
+        for (char j = 0; j < COLUMN; j++) {
+            location.row = i;
+            location.column = j;
+            CheckThisLocation(&islegal, chessboard, &location, me);
+            islegal_chessboard[i][j] = (islegal == Legal) ? true : false;
+        }
+    }
+}
+
 /**
  * @brief 评估给定棋局的价值 value
  * @param chessboard 给定的棋局
