@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>  // rand(), exit()
 #include <time.h>    // srand(), time()
-#include <windows.h> // 获取并输出时间
+#include <windows.h> // 获取并输出时间 (用于数据记录)
 #include "Gomoku.h"
 
 #define DEBUG 0
@@ -132,10 +132,10 @@ void Gomoku_Run() {
 void ShowInfor(void) {
     puts("------------------------------------------------");
     /* \033[31m 设置文本颜色为红色, \033[0m 重置文本颜色 */
-    puts(">> ----------- Welcome to Gomoku ! ---------- <<");
+    puts(">> ----------- \033[31mWelcome to Gomoku !\033[0m ---------- <<");
     puts("   Author: Yi Ding");
-    puts("   Version: 1.0");
-    puts("   Date: 2024.8.30");
+    puts("   Version: 1.1");
+    puts("   Date: 2024.9.1");
     puts("   Email: dingyi233@mails.ucas.ac.cn");
     puts("   GitHub: https://github.com/YiDingg/Gomoku");
     puts(">> ------------------------------------------- <<");
@@ -176,7 +176,7 @@ void ChooseMode(Struct_GameMode* p_gamemode) {
 
 /**
  * @brief 绘制棋盘
- * @param none
+ * @param chessboard 棋盘数据
  * @retval none
  */
 void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]) {
@@ -200,13 +200,13 @@ void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]) {
 
 /**
  * @brief 根据棋盘数据绘制当前棋盘
- * @param i 横坐标
- * @param j 纵坐标
- * @param type 绘制的符号类型
+ * @param row 横坐标
+ * @param column 纵坐标
+ * @param color 绘制的符号类型
  * @retval none
  */
-void DrawPoint(const char row, const char column, const int type) {
-    if (type == Blank) {
+void DrawPoint(const char row, const char column, const Enum_Color color) {
+    if (color == Blank) {
         char* line;
         switch (row) {
         case 0:
@@ -233,7 +233,7 @@ void DrawPoint(const char row, const char column, const int type) {
         }
         printf("%s", line);
     } else {
-        char* marker = (type == Black) ? "●" : "○"; /* 背景色为黄色，因此 "●" 会显示为黑棋 */
+        char* marker = (color == Black) ? "●" : "○"; /* 背景色为黄色，因此 "●" 会显示为黑棋 */
         // char* marker = (type == White) ? "■" : "□";
         if (column == 0) {
             printf("\033[43;30m%s \033[0m", marker);
@@ -247,7 +247,12 @@ void DrawPoint(const char row, const char column, const int type) {
 
 /**
  * @brief 显示游戏当前状态
- * @param none
+ * @param gamemode 游戏模式
+ * @param chessboard 棋盘数据
+ * @param currentturn 当前回合数
+ * @param currentplayer 当前执棋方
+ * @param win_coordinates 获胜坐标
+ * @param lastlocation 上一步落子坐标
  * @retval none
  */
 void ShowStatu(
@@ -289,8 +294,9 @@ void ShowStatu(
 
 /**
  * @brief 检查（通过 Human 或 AI）获得的棋子坐标是否合法
+ * @param p_islegal 用于合法性检查
  * @param chessboard 棋盘数据
- * @param location 棋子坐标
+ * @param p_location 用于记录落子坐标
  * @param me 当前执棋方
  * @retval none
  */
@@ -392,7 +398,8 @@ void ChessHandler() {
 
 /**
  * @brief 判断胜负
- * @param none
+ * @param chessboard 棋盘数据
+ * @param win_coordinate 获胜坐标
  * @retval none
  */
 Enum_Color
@@ -455,7 +462,9 @@ VictoryJudgment(const Enum_Color chessboard[ROW][COLUMN], Struct_Location win_co
 
 /**
  * @brief 获取棋子坐标
- * @param none
+ * @param p_location 用于记录落子坐标
+ * @param chessboard 棋盘数据
+ * @param me 当前执棋方
  * @retval none
  */
 void GetChess(
@@ -481,6 +490,13 @@ void GetChess(
     }
 }
 
+/**
+ * @brief 获取 Human 落子坐标
+ * @param p_location 用于记录落子坐标
+ * @param chessboard 棋盘数据
+ * @param me 当前执棋方
+ * @retval none
+ */
 void GetChess_Human(
     Struct_Location* p_location,
     const Enum_Color chessboard[ROW][COLUMN],
@@ -543,8 +559,10 @@ void GetChess_Human(
 }
 
 /**
- * @brief GetChess: AI 随机落子
- * @param none
+ * @brief 获取 AI_random 落子坐标
+ * @param p_location 用于记录落子坐标
+ * @param chessboard 棋盘数据
+ * @param me 当前执棋方
  * @retval none
  */
 void GetChess_AI_random(
