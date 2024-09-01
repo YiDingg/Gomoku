@@ -12,7 +12,7 @@ int main() {
     SetConsoleOutputCP(65001);
 
     /* 运行五子棋 */
-    // Gomoku_Run();
+    Gomoku_Run();
 
 #if 0 
     /* 黑窗口颜色设置 */

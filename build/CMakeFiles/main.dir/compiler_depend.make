@@ -93,6 +93,7 @@ CMakeFiles/main.dir/src/Gomoku.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/shaintrin.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/smmintrin.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/stdarg.h \
+  D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/stdbool.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/tbmintrin.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/tmmintrin.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/vaesintrin.h \
@@ -327,6 +328,7 @@ CMakeFiles/main.dir/src/main.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/main.c \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/shaintrin.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/smmintrin.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/stdarg.h \
+  D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/stdbool.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/tbmintrin.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/tmmintrin.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/vaesintrin.h \

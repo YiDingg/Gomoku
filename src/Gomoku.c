@@ -473,19 +473,26 @@ void GetChess(
     Struct_Location* p_location,
     const Enum_Color chessboard[ROW][COLUMN],
     const Enum_Color me) {
+    Enum_Color chessboard_backup[ROW][COLUMN];
+    if (DEBUG) {
+        puts("--> memcpy()");
+        printf("sizeof(chessboard_backup): %d, ", sizeof(chessboard_backup));
+    }
+    memcpy(chessboard_backup, chessboard, sizeof(chessboard_backup));
+    if (DEBUG) { puts("<-- memcpy()"); }
     switch (me) {
     case Black:
         if (GameMode.BlackPlayer == Human) { // Human 下黑旗
-            GetChess_Human(p_location, chessboard, me);
+            GetChess_Human(p_location, chessboard_backup, me);
         } else { // Computer 下黑旗
-            GetChess_AI_Greedy(p_location, chessboard, me);
+            GetChess_AI_Greedy(p_location, chessboard_backup, me);
         }
         break;
     case White:
         if (GameMode.WhitePlayer == Human) { // Human 下白旗
-            GetChess_Human(p_location, chessboard, me);
+            GetChess_Human(p_location, chessboard_backup, me);
         } else { // Computer 下白旗
-            GetChess_AI_Greedy(p_location, chessboard, me);
+            GetChess_AI_Greedy(p_location, chessboard_backup, me);
         }
         break;
     default: break;

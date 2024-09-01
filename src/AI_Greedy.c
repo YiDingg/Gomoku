@@ -10,6 +10,8 @@
 /* ------------------------------------------------ */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
 /*                                                  */
+
+/* 棋盘各位置的默认 value 值 */
 const char DefultValuesOfChessboard[ROW][COLUMN] = {
     /* 棋盘不同位置的默认 value 值 */
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -52,6 +54,58 @@ void GetChess_AI_Greedy(
     int num_legal = 0; /* 统计可行位置数量（若无禁手则代表空位个数） */
     Enum_LegalOrIllegal islegal;
     Struct_Location location = {0, 0};
+    Struct_Location p_five_locations[5]; /* 用于强制围堵检测 */
+
+    /* 检查对方是否成四, 进行强制围堵 */
+    for (char i = 0; i < ROW; i++) {
+        for (char j = 0; j < COLUMN; j++) {
+            if (chessboard[i][j] == Blank) continue;
+
+            /* - 向右方 */
+            if (j <= COLUMN - 5) {
+                for (char k = 0; k < 5; k++) {
+                    p_five_locations[k].row = i;
+                    p_five_locations[k].column = j + k;
+                }
+                if (IsFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                    return;
+                }
+            }
+
+            /* | 向下方 */
+            if (i <= ROW - 5) {
+                for (char k = 0; k < 5; k++) {
+                    p_five_locations[k].row = i + k;
+                    p_five_locations[k].column = j;
+                }
+                if (IsFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                    return;
+                }
+            }
+
+            /* \ 向右下方 */
+            if (i <= ROW - 5 && j <= COLUMN - 5) {
+                for (char k = 0; k < 5; k++) {
+                    p_five_locations[k].row = i + k;
+                    p_five_locations[k].column = j + k;
+                }
+                if (IsFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                    return;
+                }
+            }
+
+            /* / 向左下方 */
+            if (i <= ROW - 5 && j >= 4) {
+                for (char k = 0; k < 5; k++) {
+                    p_five_locations[k].row = i + k;
+                    p_five_locations[k].column = j - k;
+                }
+                if (IsFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                    return;
+                }
+            }
+        }
+    }
 
     /* 统计棋盘可行域 */
     for (char i = 0; i < ROW; i++) {
@@ -142,10 +196,11 @@ void GetChess_AI_Greedy(
         }
     }
 
-    /* 选择最终的落子位置 (一半概率选第一, 一半概率选第二) */
-    srand((unsigned)time(NULL)); /* 随机数种子 */
+    /* 选择最终的落子位置 */
+    srand((unsigned)time(NULL) + rand()); /* 随机数种子 */
     double rand_num = (double)rand() / RAND_MAX;
-    *p_best_location = p_legal_locs_with_value[(rand_num > 0.5) ? 0 : 1].location;
+    /* 一半概率选第一, 一半概率选第三 */
+    *p_best_location = p_legal_locs_with_value[(rand_num > 0.5) ? 0 : 2].location;
 
     /* 释放内存 */
     if (DEBUG) {
@@ -153,6 +208,8 @@ void GetChess_AI_Greedy(
         system("pause");
     }
     free(p_legal_locs_with_value);
+
+    return;
 }
 
 /**
@@ -293,6 +350,31 @@ int GetScoreOfFiveChess(const Enum_Color FiveChess[5], const Enum_Color me) {
             exit(1);
             break;
         }
+    }
+}
+
+bool IsFourEnemyInFive(
+    Struct_Location five_locations[5],
+    Enum_Color chessboard[ROW][COLUMN],
+    const Enum_Color me,
+    Struct_Location* p_location) {
+    Enum_Color enemy = -me;
+    char num_me = 0, num_enemy = 0;
+
+    /* 统计对手棋子数 */
+    for (char k = 0; k < 5; k++) {
+        chessboard[five_locations[k].row][five_locations[k].column] == enemy ? num_enemy++ : 0;
+    }
+    if (num_enemy == 4) { /* 剩下一个是否为 Blank */
+        for (char k = 0; k < 5; k++) {
+            if (chessboard[five_locations[k].row][five_locations[k].column] == Blank) {
+                p_location->row = five_locations[k].row;
+                p_location->column = five_locations[k].column;
+                return true;
+            }
+        }
+    } else {
+        return false;
     }
 }
 

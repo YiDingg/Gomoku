@@ -1,4 +1,5 @@
 #include "Gomoku.h"
+#include <stdbool.h> // bool 类型
 
 #if !defined(__AI_GREADY_H)
 #define __AI_GREADY_H
@@ -13,6 +14,8 @@
 /* ----------------------------------------------- */
 /* >> ---------------- 数据类型 ---------------- << */
 /*                                                 */
+
+/* score 评分函数的评分规则 */
 typedef enum {
     score_BothBM = 0,
     score_B1 = +3,
@@ -30,6 +33,7 @@ typedef enum {
     score_W4 = -score_B4,
     score_W5 = -score_B5,
 } Enum_ScoreRule;
+/* 带 value 值的棋盘位置结构体 */
 typedef struct {
     Struct_Location location;
     int value;
@@ -41,6 +45,7 @@ typedef struct {
 /* ------------------------------------------------- */
 /* >> --------------- 全局变量声明 --------------- << */
 /*                                                   */
+
 const char DefultValuesOfChessboard[ROW][COLUMN];
 /*                                                   */
 /* >> --------------- 全局变量声明 --------------- << */
@@ -50,7 +55,7 @@ const char DefultValuesOfChessboard[ROW][COLUMN];
 /* >> ----------------- 函数声明 ----------------- << */
 /*                                                   */
 void GetChess_AI_Greedy(
-    Struct_Location* p_best_location,
+    Struct_Location* p_location,
     Enum_Color chessboard[ROW][COLUMN],
     const Enum_Color me);
 int EvaluateChessboard(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me);
@@ -59,6 +64,11 @@ int GetScoreOfThisLocation(
     const Struct_Location location,
     const Enum_Color me);
 int GetScoreOfFiveChess(const Enum_Color FiveChess[5], const Enum_Color me);
+bool IsFourEnemyInFive(
+    Struct_Location five_locations[5],
+    Enum_Color chessboard[ROW][COLUMN],
+    const Enum_Color me,
+    Struct_Location* p_location);
 void ShellSort_LocationWithValue(Struct_LocationWithValue* locs_with_values, int size);
 void ExchangeTwoInt(int* a, int* b);
 /*                                                   */
