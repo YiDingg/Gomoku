@@ -6,25 +6,32 @@ CMakeFiles/main.dir/src/AI_Greedy.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_Greedy
   D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h \
+  D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/stdbool.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_mac.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_off_t.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_pop.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_push.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_timeval.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/crtdefs.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/limits.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/malloc.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/pthread_time.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_directx.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/sys/timeb_s.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdio.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdlib.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sys/timeb.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/time.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/vadefs.h
 
 CMakeFiles/main.dir/src/Gomoku.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c \
+  D:/a_RemoteRepo/GH.Gomoku/inc/AI_Greedy.h \
   D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h \
   D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h \
@@ -417,6 +424,7 @@ CMakeFiles/main.dir/src/main.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/main.c \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/pshpack2.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/pshpack4.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/pshpack8.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/pthread_time.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/realtimeapiset.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/reason.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/rpc.h \
@@ -436,6 +444,7 @@ CMakeFiles/main.dir/src/main.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/main.c \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stralign_s.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/string_s.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/sys/timeb_s.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/securityappcontainer.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/securitybaseapi.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/servprov.h \
@@ -449,10 +458,12 @@ CMakeFiles/main.dir/src/main.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/main.c \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stringapiset.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/synchapi.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sys/timeb.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sysinfoapi.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/systemtopologyapi.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/threadpoolapiset.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/threadpoollegacyapiset.h \
+  D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/time.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/timezoneapi.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/tvout.h \
   D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/unknwn.h \
@@ -507,6 +518,16 @@ D:/a_RemoteRepo/GH.Gomoku/inc/AI_Greedy.h:
 
 D:/a_RemoteRepo/GH.Gomoku/inc/Gomoku.h:
 
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512ifmaintrin.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/xsaveoptintrin.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/pthread_time.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/stdbool.h:
+
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/bmiintrin.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_off_t.h:
@@ -514,10 +535,6 @@ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_off_t.h:
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx5124fmapsintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vnniintrin.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512ifmaintrin.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_print_pop.h:
 
@@ -535,9 +552,9 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/adxintrin.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h:
 
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/limits.h:
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_timeval.h:
 
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/fmaintrin.h:
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/limits.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/malloc.h:
 
@@ -557,6 +574,10 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vbmivl
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h:
 
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/clflushoptintrin.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/sys/timeb_s.h:
+
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/winperf.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512fintrin.h:
@@ -572,6 +593,14 @@ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/stdlib.h:
 D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/swprintf.inl:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/rdseedintrin.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sys/timeb.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/immintrin.h:
+
+D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/time.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/ammintrin.h:
 
@@ -613,13 +642,13 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avxintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/bmi2intrin.h:
 
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/clflushoptintrin.h:
-
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/clwbintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/f16cintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/fma4intrin.h:
+
+D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/fmaintrin.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/namespaceapi.h:
 
@@ -632,10 +661,6 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/gfniintrin.h
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/rtmintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/ia32intrin.h:
-
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/time.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/immintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/lwpintrin.h:
 
@@ -662,10 +687,6 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/pmmintrin.h:
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/popcntintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/prfchwintrin.h:
-
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sys/timeb.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/rdseedintrin.h:
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/shaintrin.h:
 
@@ -703,10 +724,6 @@ D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/xsavecintrin
 
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/xsaveintrin.h:
 
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/pthread_time.h:
-
-D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/xsaveoptintrin.h:
-
 D:/aa_my_apps_main/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/xsavesintrin.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_bsd_types.h:
@@ -714,8 +731,6 @@ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_bsd_types.h:
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_stdarg.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_mingw_unicode.h:
-
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/_timeval.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/winerror.h:
 
@@ -878,8 +893,6 @@ D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sal.h:
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sdkddkver.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/stralign_s.h:
-
-D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/sec_api/sys/timeb_s.h:
 
 D:/aa_my_apps_main/mingw64/x86_64-w64-mingw32/include/securityappcontainer.h:
 

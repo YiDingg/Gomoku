@@ -58,3 +58,45 @@ Run time: 2024.08.30 17:53:53
 Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
 12C 5K 15E 4D 8O 6F 2M 2L 11C 13G 7J 3D 8H 7L 9F 3G 12D 10H 3E 11J 9G 4O 7B 9N 3O 8M 13E 5N 2F 6M 4B 12A 6J 11F 7G 4I 10I 10E 7F 12N 10J 3N 9M 10L 4F 5D 10A 13L 12F 15H 1J 13M 2A 12G 6C 1E 12H 6K 7E 2K 8C 6O 5I 3B 12K 1L 13F 11O 10C 9D 11G 3F 15K 4J 4E 2J 9E 1I 4N 1C 14E 15L 6G 5L 14D 15N 10O 5C 1K 14M 9A 9L 15I 5H 14H 9O 1N 2G 3J 3A 4L 8L 6I 5M 10G 2O 8K 3K 14B 15J 12O 12J 2C 11A 15D 5B 8E 14F 13B 9H 10B 
 Winner: Black
+
+Run time: 2024.09.01 22:43:41
+Game mode: BlackPlayer-Human, WhitePlayer-Computer.
+7H 
+Run time: 2024.09.01 22:45:21
+Game mode: BlackPlayer-Human, WhitePlayer-Computer.
+1A 
+Run time: 2024.09.01 23:21:39
+Game mode: BlackPlayer-Human, WhitePlayer-Computer.
+8G 8I 9H 10I 7F 9I 6E 7I 5D 
+Winner: Black
+Win Corrdinates: 5D 6E 7F 8G 9H 
+
+Run time: 2024.09.01 23:38:39
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8H 8I 9H 7H 10H 6G 11H 9J 12H 
+Winner: Black
+Win Corrdinates: 8H 9H 10H 11H 12H 
+
+Run time: 2024.09.01 23:38:50
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8H 8I 9H 7H 10H 6G 11H 9J 12H 
+Winner: Black
+Win Corrdinates: 8H 9H 10H 11H 12H 
+
+Run time: 2024.09.01 23:42:15
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8H 8I 9H 7H 10H 6G 11H 9J 12H 
+Winner: Black
+Win Corrdinates: 8H 9H 10H 11H 12H 
+
+Run time: 2024.09.01 23:42:27
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8H 8I 9H 7H 10H 6G 11H 9J 12H 
+Winner: Black
+Win Corrdinates: 8H 9H 10H 11H 12H 
+
+Run time: 2024.09.01 23:42:39
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8I 9H 7H 8G 9J 10I 10K 11J 11L 
+Winner: Black
+Win Corrdinates: 7H 8I 9J 10K 11L 

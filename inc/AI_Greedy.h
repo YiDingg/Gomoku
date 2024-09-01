@@ -30,6 +30,10 @@ typedef enum {
     score_W4 = -score_B4,
     score_W5 = -score_B5,
 } Enum_ScoreRule;
+typedef struct {
+    Struct_Location location;
+    int value;
+} Struct_LocationWithValue;
 /*                                                 */
 /* >> ---------------- 数据类型 ---------------- << */
 /* ----------------------------------------------- */
@@ -45,14 +49,18 @@ const char DefultValuesOfChessboard[ROW][COLUMN];
 /* ------------------------------------------------- */
 /* >> ----------------- 函数声明 ----------------- << */
 /*                                                   */
-
+void GetChess_AI_Greedy(
+    Struct_Location* p_best_location,
+    Enum_Color chessboard[ROW][COLUMN],
+    const Enum_Color me);
 int EvaluateChessboard(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me);
 int GetScoreOfThisLocation(
     const Enum_Color chessboard[ROW][COLUMN],
     const Struct_Location location,
     const Enum_Color me);
 int GetScoreOfFiveChess(const Enum_Color FiveChess[5], const Enum_Color me);
-void ExchangeTwoInt(int a, int b);
+void ShellSort_LocationWithValue(Struct_LocationWithValue* locs_with_values, int size);
+void ExchangeTwoInt(int* a, int* b);
 /*                                                   */
 /* >> ----------------- 函数声明 ----------------- << */
 /* ------------------------------------------------- */

@@ -3,6 +3,7 @@
 #include <time.h>    // srand(), time()
 #include <windows.h> // 获取并输出时间 (用于数据记录)
 #include "Gomoku.h"
+#include "AI_Greedy.h"
 
 #define DEBUG 0
 
@@ -322,7 +323,7 @@ void CheckThisLocation(
         || p_location->column > 14) {
         if (DEBUG) {
             printf(
-                "Error: 非法输入 '%d' 和 '%c', 请重新输入: \n",
+                "Warning: 非法输入 '%d' 和 '%c', 请重新输入: \n",
                 p_location->row + 1,
                 p_location->column + 'A');
             puts("<-- CheckThisLocation()");
@@ -335,7 +336,7 @@ void CheckThisLocation(
     if (chessboard[p_location->row][p_location->column] != Blank) {
         if (DEBUG) {
             printf(
-                "Error: 此处已有 %s棋, 请重新输入: \n",
+                "Warning: 此处已有 %s棋, 请重新输入: \n",
                 (chessboard[p_location->row][p_location->column] == Black ? "黑" : "白"));
             puts("<-- CheckThisLocation()");
         }
@@ -477,14 +478,14 @@ void GetChess(
         if (GameMode.BlackPlayer == Human) { // Human 下黑旗
             GetChess_Human(p_location, chessboard, me);
         } else { // Computer 下黑旗
-            GetChess_AI_random(p_location, chessboard, me);
+            GetChess_AI_Greedy(p_location, chessboard, me);
         }
         break;
     case White:
         if (GameMode.WhitePlayer == Human) { // Human 下白旗
             GetChess_Human(p_location, chessboard, me);
         } else { // Computer 下白旗
-            GetChess_AI_random(p_location, chessboard, me);
+            GetChess_AI_Greedy(p_location, chessboard, me);
         }
         break;
     default: break;
