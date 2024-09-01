@@ -50,10 +50,11 @@ void ShowStatu(
     const Enum_Color currentplayer,
     Struct_Location win_coordinates[5],
     Struct_Location lastlocation);
-void GetChess(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me);
 void ChessHandler(void);
 Enum_Color
 VictoryJudgment(const Enum_Color chessboard[ROW][COLUMN], Struct_Location win_coordinate[5]);
+void GetChess(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me);
+Struct_Location GetChess_Human(const Enum_Color chessboard[ROW][COLUMN], const Enum_Color me);
 void GetChess_AI_random(void);
 Enum_LegalOrIllegal CheckThisLocation(
     const Enum_Color chessboard[ROW][COLUMN],

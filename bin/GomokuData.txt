@@ -311,3 +311,15 @@ Game mode: BlackPlayer-Computer, WhitePlayer-Human.
 5G 2A 3K 3A 6D 4A 5L 5A 10O 6A 
 Winner: White
 Win Corrdinates: 2A 3A 4A 5A 6A 
+
+Run time: 2024.09.01 13:06:21
+Game mode: BlackPlayer-Computer, WhitePlayer-Human.
+2K 1A 12N 2A 9C 3A 12O 4A 13F 5A 
+Winner: White
+Win Corrdinates: 1A 2A 3A 4A 5A 
+
+Run time: 2024.09.01 16:03:49
+Game mode: BlackPlayer-Computer, WhitePlayer-Human.
+11B 1A 14L 2A 8G 3A 1O 5A 9C 4A 
+Winner: White
+Win Corrdinates: 1A 2A 3A 4A 5A 
