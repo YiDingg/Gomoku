@@ -5,7 +5,7 @@
 #include <stdbool.h> // bool 类型
 #include <time.h>    // time()
 
-#define DEBUG 1
+#define DEBUG 0
 
 /* ------------------------------------------------ */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
@@ -56,7 +56,7 @@ void GetChess_AI_Greedy(
     Struct_Location location = {0, 0};
     Struct_Location p_five_locations[5]; /* 用于强制围堵检测 */
 
-    /* 检查对方是否成三成四, 进行强制围堵 */
+    /* 检查我方和对方是否成三成四, 进行强制落子或强制围堵 */
     for (char i = 0; i < ROW; i++) {
         for (char j = 0; j < COLUMN; j++) {
             // if (chessboard[i][j] == Blank) continue; /* 要进行成三检验, 因此不能跳过空位 */
@@ -67,7 +67,7 @@ void GetChess_AI_Greedy(
                     p_five_locations[k].row = i;
                     p_five_locations[k].column = j + k;
                 }
-                if (IsThreeOrFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                if (GetForceChess_five(p_five_locations, chessboard, me, p_best_location)) {
                     return;
                 }
             }
@@ -78,7 +78,7 @@ void GetChess_AI_Greedy(
                     p_five_locations[k].row = i + k;
                     p_five_locations[k].column = j;
                 }
-                if (IsThreeOrFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                if (GetForceChess_five(p_five_locations, chessboard, me, p_best_location)) {
                     return;
                 }
             }
@@ -89,7 +89,7 @@ void GetChess_AI_Greedy(
                     p_five_locations[k].row = i + k;
                     p_five_locations[k].column = j + k;
                 }
-                if (IsThreeOrFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                if (GetForceChess_five(p_five_locations, chessboard, me, p_best_location)) {
                     return;
                 }
             }
@@ -100,7 +100,7 @@ void GetChess_AI_Greedy(
                     p_five_locations[k].row = i + k;
                     p_five_locations[k].column = j - k;
                 }
-                if (IsThreeOrFourEnemyInFive(p_five_locations, chessboard, me, p_best_location)) {
+                if (GetForceChess_five(p_five_locations, chessboard, me, p_best_location)) {
                     return;
                 }
             }
@@ -199,8 +199,8 @@ void GetChess_AI_Greedy(
     /* 选择最终的落子位置 */
     srand((unsigned)time(NULL) + rand()); /* 随机数种子 */
     double rand_num = (double)rand() / RAND_MAX;
-    /* 一半概率选第一, 一半概率选第三 */
-    *p_best_location = p_legal_locs_with_value[(rand_num > 0.5) ? 0 : 2].location;
+    /* 概率一半一半 */
+    *p_best_location = p_legal_locs_with_value[rand_num < 0.5 ? 0 : 1].location;
 
     /* 释放内存 */
     if (DEBUG) {
@@ -353,7 +353,21 @@ int GetScoreOfFiveChess(const Enum_Color FiveChess[5], const Enum_Color me) {
     }
 }
 
-bool IsThreeOrFourEnemyInFive(
+/**
+ * @brief 给点棋盘五元组, 判断我方是否可以直接胜利, 若是, 返回落子位置,
+ * 否则判断对方是否可能直接胜利, 若是, 返回落子位置
+ * @param five_locations 给定五元组
+ * @param chessboard 给定的棋局
+ * @param me 我方颜色
+ * @param p_location 落子位置
+ * @note 目前考虑了以下几种情况 (从上至下依次匹配)：
+ * 1. 我方冲四
+ * 2. 对方冲四
+ * 3. 我方活三
+ * 4. 对方活三
+ * @retval none
+ */
+bool GetForceChess_five(
     Struct_Location five_locations[5],
     Enum_Color chessboard[ROW][COLUMN],
     const Enum_Color me,
@@ -364,8 +378,126 @@ bool IsThreeOrFourEnemyInFive(
     /* 统计对手棋子数 */
     for (char k = 0; k < 5; k++) {
         chessboard[five_locations[k].row][five_locations[k].column] == enemy ? num_enemy++ : 0;
+        chessboard[five_locations[k].row][five_locations[k].column] == me ? num_me++ : 0;
     }
-    if (num_enemy == 3) {
+    if (num_me == 4) { /* 检查我方冲四 */
+        if (DEBUG) {
+            puts("num_me = 4");
+            printf(
+                "five_locations[0]= (%d, %c) \n",
+                five_locations[0].row + 1,
+                five_locations[0].column + 'A');
+            printf(
+                "chessboard[five_locations[0].row][five_locations[0].column] = %d\n",
+                chessboard[five_locations[0].row][five_locations[0].column]);
+            printf(
+                "chessboard[five_locations[4].row][five_locations[4].column] = %d\n",
+                chessboard[five_locations[4].row][five_locations[4].column]);
+        }
+        for (char k = 0; k < 5; k++) {
+            if (chessboard[five_locations[k].row][five_locations[k].column] == Blank) {
+                p_location->row = five_locations[k].row;
+                p_location->column = five_locations[k].column;
+                if (DEBUG) {
+                    printf(
+                        "five_locations[k].row = %d, five_locations[k].column = %d \n",
+                        five_locations[k].row,
+                        five_locations[k].column);
+                }
+                return true; /* 返回落子位置, 可以直接取得胜利 */
+            }
+        }
+        return false; /* 这一句不可少, 否则未作任何 return 就退出 (相当于 return true;) */
+    } else if (num_enemy == 4) { /* 检查对方冲四 */
+        if (DEBUG) {
+            puts("num_enemy = 4");
+            printf(
+                "five_locations[0]= (%d, %c) \n",
+                five_locations[0].row + 1,
+                five_locations[0].column + 'A');
+            printf(
+                "chessboard[five_locations[0].row][five_locations[0].column] = %d\n",
+                chessboard[five_locations[0].row][five_locations[0].column]);
+            printf(
+                "chessboard[five_locations[4].row][five_locations[4].column] = %d\n",
+                chessboard[five_locations[4].row][five_locations[4].column]);
+        }
+        for (char k = 0; k < 5; k++) {
+            if (chessboard[five_locations[k].row][five_locations[k].column] == Blank) {
+                p_location->row = five_locations[k].row;
+                p_location->column = five_locations[k].column;
+                if (DEBUG) {
+                    printf(
+                        "five_locations[k].row = %d, five_locations[k].column = %d \n",
+                        five_locations[k].row,
+                        five_locations[k].column);
+                }
+                return true;
+            }
+        }
+        return false; /* 这一句不可少, 否则未作任何 return 就退出 (相当于 return true;) */
+    } else if (num_me == 3) {
+        if (DEBUG) {
+            puts("num_me = 3");
+            printf(
+                "five_locations[0]= (%d, %c) \n",
+                five_locations[0].row + 1,
+                five_locations[0].column + 'A');
+            printf(
+                "chessboard[five_locations[0].row][five_locations[0].column] = %d\n",
+                chessboard[five_locations[0].row][five_locations[0].column]);
+            printf(
+                "chessboard[five_locations[4].row][five_locations[4].column] = %d\n",
+                chessboard[five_locations[4].row][five_locations[4].column]);
+        }
+        if (chessboard[five_locations[0].row][five_locations[0].column] == Blank
+            && chessboard[five_locations[4].row][five_locations[4].column] == Blank) {
+            if (DEBUG) { printf("我方活三, 直接冲四 \n"); }
+            Enum_LegalOrIllegal islegal_1, islegal_2;
+            CheckThisLocation(&islegal_1, chessboard, &five_locations[0], me);
+            CheckThisLocation(&islegal_2, chessboard, &five_locations[0], me);
+            if (islegal_1 == Illegal && islegal_2 == Illegal) {
+                return false; /* 活三但是无法ceeds, 返回 false */
+            } else {          /* 存在 legal 位置 */
+                if (DEBUG) { printf("islegal_1 = %d, islegal_2 = %d\n", islegal_1, islegal_2); }
+                if (islegal_1 == Legal && islegal_2 == Legal) {
+                    if (DEBUG) { puts("进入两种冲四方式的选择"); }
+                    int value_1, value_2;
+                    /* 计算两种冲四方式的优劣 */
+                    chessboard[five_locations[0].row][five_locations[0].column] = me;
+                    value_1 = EvaluateChessboard(chessboard, me);
+                    chessboard[five_locations[0].row][five_locations[0].column] = Blank;
+                    chessboard[five_locations[4].row][five_locations[4].column] = me;
+                    value_2 = EvaluateChessboard(chessboard, me);
+                    chessboard[five_locations[0].row][five_locations[0].column] = Blank;
+                    /* 选择最佳方式 */
+                    if (value_1 > value_2) {
+                        if (DEBUG) {
+                            printf(
+                                "five_locations[0].row = %d, five_locations[0].column = %d \n",
+                                five_locations[0].row,
+                                five_locations[0].column);
+                        }
+                        p_location->row = five_locations[0].row;
+                        p_location->column = five_locations[0].column;
+                    } else {
+                        if (DEBUG) {
+                            printf(
+                                "five_locations[4].row = %d, five_locations[4].column = %d \n",
+                                five_locations[4].row,
+                                five_locations[4].column);
+                        }
+                        p_location->row = five_locations[4].row;
+                        p_location->column = five_locations[4].column;
+                    }
+                } else { /* 我方只有一个 legal 位置, 无法从此处活三取得shengl, 返回 false */
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    } else if (num_enemy == 3) {
         if (DEBUG) {
             puts("num_enemy = 3");
             printf(
@@ -379,15 +511,18 @@ bool IsThreeOrFourEnemyInFive(
                 "chessboard[five_locations[4].row][five_locations[4].column] = %d\n",
                 chessboard[five_locations[4].row][five_locations[4].column]);
         }
-
         if (chessboard[five_locations[0].row][five_locations[0].column] == Blank
             && chessboard[five_locations[4].row][five_locations[4].column] == Blank) {
-            if (DEBUG) { printf("成三而需要围堵 \n"); }
+            if (DEBUG) { printf("对方活三, 需要围堵 \n"); }
             Enum_LegalOrIllegal islegal_1, islegal_2;
             CheckThisLocation(&islegal_1, chessboard, &five_locations[0], me);
             CheckThisLocation(&islegal_2, chessboard, &five_locations[0], me);
             if (islegal_1 == Illegal && islegal_2 == Illegal) {
-                printf("成三而无法围堵, %s 胜利! \n", (me == Black) ? "白棋" : "黑棋");
+                printf(
+                    "%s 活三而 %s 无法围堵, %s 胜利! \n",
+                    (me == Black) ? "白棋" : "黑棋",
+                    (me == White) ? "白棋" : "黑棋",
+                    (me == Black) ? "白棋" : "黑棋");
                 exit(0);
             } else {
                 if (DEBUG) { printf("islegal_1 = %d, islegal_2 = %d\n", islegal_1, islegal_2); }
@@ -431,22 +566,7 @@ bool IsThreeOrFourEnemyInFive(
             }
             return true;
         }
-
         return false;
-    } else if (num_enemy == 4) { /* 剩下一个是否为 Blank */
-        for (char k = 0; k < 5; k++) {
-            if (chessboard[five_locations[k].row][five_locations[k].column] == Blank) {
-                p_location->row = five_locations[k].row;
-                p_location->column = five_locations[k].column;
-                if (DEBUG) {
-                    printf(
-                        "five_locations[k].row = %d, five_locations[k].column = %d \n",
-                        five_locations[k].row,
-                        five_locations[k].column);
-                }
-                return true;
-            }
-        }
     } else {
         return false;
     }

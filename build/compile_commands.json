@@ -1,19 +1,19 @@
 [
 {
   "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
-  "command": "D:\\aa_my_apps_main\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\src\\AI_Greedy.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\AI_Greedy.c",
+  "command": "D:\\aa_my_apps_main\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\AI_Greedy.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\AI_Greedy.c",
   "file": "D:/a_RemoteRepo/GH.Gomoku/src/AI_Greedy.c",
   "output": "CMakeFiles/main.dir/src/AI_Greedy.c.obj"
 },
 {
   "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
-  "command": "D:\\aa_my_apps_main\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\src\\Gomoku.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\Gomoku.c",
+  "command": "D:\\aa_my_apps_main\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\Gomoku.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\Gomoku.c",
   "file": "D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c",
   "output": "CMakeFiles/main.dir/src/Gomoku.c.obj"
 },
 {
   "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
-  "command": "D:\\aa_my_apps_main\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\src\\main.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\main.c",
+  "command": "D:\\aa_my_apps_main\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\main.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\main.c",
   "file": "D:/a_RemoteRepo/GH.Gomoku/src/main.c",
   "output": "CMakeFiles/main.dir/src/main.c.obj"
 }

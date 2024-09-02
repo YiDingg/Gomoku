@@ -509,3 +509,51 @@ Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
 8H 8I 9G 9H 7I 10F 5K 6J 7G 7G 10G 10G 7J 7J 6K 6K 
 Winner: White
 Win Corrdinates: 6K 7J 8I 9H 10G 
+
+Run time: 2024.09.02 08:01:43
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8H 7H 9I 8G 6F 6I 9F 7G 9G 7F 7I 6J 9H 9E 9J 
+Winner: Black
+Win Corrdinates: 9F 9G 9H 9I 9J 
+
+Run time: 2024.09.02 08:09:04
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8H 8I 9H 7H 10H 6G 9J 5F 4E 11H 9I 9G 9K 9L 10J 7G 11K 12L 8J 7J 7K 6L 11G 
+Winner: Black
+Win Corrdinates: 7K 8J 9I 10H 11G 
+
+Run time: 2024.09.02 08:10:35
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8H 8I 9H 7H 10H 6G 9J 5F 4E 11H 9I 9G 9K 9L 10J 7G 11K 12L 8J 7J 7K 6L 11G 
+Winner: Black
+Win Corrdinates: 7K 8J 9I 10H 11G 
+
+Run time: 2024.09.02 08:11:36
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8I 9H 7H 9J 6G 9I 9G 9K 9L 5F 7G 5G 10G 8G 7I 7F 6E 10I 11J 6F 8F 3F 4F 8K 7L 11H 12G 7K 10K 12I 8M 7N 13G 11G 6K 5J 10O 9N 6H 5I 5H 4H 7E 10H 8J 6J 3G 12H 8L 10L 8H 13I 13H 10F 9E 10D 11I 2J 3I 14J 
+Winner: White
+Win Corrdinates: 10F 11G 12H 13I 14J 
+
+Run time: 2024.09.02 08:14:35
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8I 9H 8H 8G 8K 7F 10I 5D 6E 8J 9J 11H 7L 6M 9I 7I 12I 11I 10K 7H 11L 12M 7G 10J 6F 5E 9L 9K 10L 8L 7M 5G 6H 5F 5C 12H 
+Winner: White
+Win Corrdinates: 8L 9K 10J 11I 12H 
+
+Run time: 2024.09.02 08:29:20
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8I 9H 7H 8G 9J 6G 10K 11L 10I 7G 5G 10G 9G 7F 8K 11H 7L 6M 9K 11K 7K 6K 7J 7I 7M 7N 9L 6I 9M 9I 9N 
+Winner: Black
+Win Corrdinates: 9J 9K 9L 9M 9N 
+
+Run time: 2024.09.02 08:31:29
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8I 9H 7H 8G 9J 6G 11L 10K 7I 7G 5G 9G 10G 10I 11J 7F 6E 5H 4I 8E 9D 10J 10L 9I 5I 6I 11K 11I 11M 11N 9K 8J 13O 12N 9M 12J 9N 9L 7O 8N 7K 7J 8K 10H 8F 13K 
+Winner: White
+Win Corrdinates: 9G 10H 11I 12J 13K 
+
+Run time: 2024.09.02 08:31:55
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8I 8H 7H 9G 9J 6G 11L 10K 7J 7I 6J 10F 11E 7G 8J 5J 10J 
+Winner: Black
+Win Corrdinates: 6J 7J 8J 9J 10J 

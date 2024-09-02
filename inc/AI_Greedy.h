@@ -64,7 +64,7 @@ int GetScoreOfThisLocation(
     const Struct_Location location,
     const Enum_Color me);
 int GetScoreOfFiveChess(const Enum_Color FiveChess[5], const Enum_Color me);
-bool IsThreeOrFourEnemyInFive(
+bool GetForceChess_five(
     Struct_Location five_locations[5],
     Enum_Color chessboard[ROW][COLUMN],
     const Enum_Color me,
