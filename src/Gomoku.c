@@ -264,13 +264,11 @@ void ShowStatu(
     const Enum_Color currentplayer,
     Struct_Location win_coordinates[5],
     Struct_Location lastlocation) {
-    /* 游戏模式 */
-    char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
-    char* str_White = (gamemode.WhitePlayer == Human) ? "Human" : "Computer";
-    printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
-
     /* 执棋方或胜负状态 */
     if (VictoryJudgment(chessboard, win_coordinates) == Blank) {
+        char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
+        char* str_White = (gamemode.WhitePlayer == Human) ? "Human" : "Computer";
+        printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
         printf("上一步位置：%d%c\n", lastlocation.row + 1, lastlocation.column + 65);
         printf(
             "当前回合: %d, 等待 %s 落子：\n",
@@ -278,6 +276,9 @@ void ShowStatu(
             (currentplayer == Black) ? "黑方" : "白方");
     } else {
         DrawBoard(chessboard);
+        char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
+        char* str_White = (gamemode.WhitePlayer == Human) ? "Human" : "Computer";
+        printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
         switch (VictoryJudgment(chessboard, win_coordinates)) {
         case White:
             puts("------------------");
