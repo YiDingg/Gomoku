@@ -8,6 +8,8 @@
         "stdbool.h": "c",
         "ai_minimaxtree_alphabetapruning.h": "c",
         "ai_minmaxtree.h": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "ai_greedy.h": "c",
+        "time.h": "c"
     }
 }

@@ -5,7 +5,7 @@
 #include <stdbool.h> // bool 类型
 #include <time.h>    // time()
 
-#define DEBUG 1
+#define DEBUG 0
 
 /* ------------------------------------------------ */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
@@ -39,6 +39,7 @@ const char DefultValuesOfChessboard[ROW][COLUMN] = {
 /* >> ------------------ 函数 ------------------ << */
 /*                                                  */
 
+//------------------------------------------------------------------------------------------------------------
 /**
  * @brief 根据给定棋局，计算我方最佳落子位置
  * @param p_best_location 用于记录最佳位置
@@ -199,8 +200,13 @@ void GetChess_AI_Greedy(
     /* 选择最终的落子位置 */
     srand((unsigned)time(NULL) + rand()); /* 随机数种子 */
     double rand_num = (double)rand() / RAND_MAX;
-    /* 概率一半一半 */
-    *p_best_location = p_legal_locs_with_value[rand_num < 0.5 ? 0 : 1].location;
+    /* 有概率选第二个位置 */
+    if (rand_num < 0.5
+        && p_legal_locs_with_value[0].value - p_legal_locs_with_value[1].value <= 200) {
+        *p_best_location = p_legal_locs_with_value[1].location;
+    } else {
+        *p_best_location = p_legal_locs_with_value[0].location;
+    }
 
     /* 释放内存 */
     if (DEBUG) {
@@ -212,6 +218,7 @@ void GetChess_AI_Greedy(
     return;
 }
 
+//------------------------------------------------------------------------------------------------------------
 /**
  * @brief 评估给定棋局的价值 value
  * @param chessboard 给定的棋局
@@ -240,6 +247,7 @@ int EvaluateChessboard(const Enum_Color chessboard[ROW][COLUMN], const Enum_Colo
     return value;
 }
 
+//------------------------------------------------------------------------------------------------------------
 /**
  * @brief 获取给定棋盘位置的 score_sum，由四部分构成，分别对应四个方向的 score
  * @param chessboard 给定的棋局
@@ -283,6 +291,7 @@ int GetScoreOfThisLocation(
     return score_sum;
 }
 
+//------------------------------------------------------------------------------------------------------------
 /**
  * @brief 给定连续的五元组，依据 Enum_ScoreRule 计算此五元组的得分 score
  * @param FiveChess 给定的连续的五元组
@@ -353,6 +362,7 @@ int GetScoreOfFiveChess(const Enum_Color FiveChess[5], const Enum_Color me) {
     }
 }
 
+//------------------------------------------------------------------------------------------------------------
 void CheckForceChess(
     Struct_Location five_locations[5],
     Enum_Color chessboard[ROW][COLUMN],
@@ -360,6 +370,7 @@ void CheckForceChess(
     Struct_Location* p_location) {
 }
 
+//------------------------------------------------------------------------------------------------------------
 /**
  * @brief 给点棋盘五元组, 判断我方是否可以直接胜利, 若是, 返回落子位置,
  * 否则判断对方是否可能直接胜利, 若是, 返回落子位置
@@ -389,7 +400,7 @@ bool GetForceChess_five(
     }
     if (num_me == 4) { /* 检查我方冲四 */
         if (DEBUG) {
-            puts("num_me = 4");
+            printf("num_me = 4");
             printf(
                 "five_locations[0]= (%d, %c) \n",
                 five_locations[0].row + 1,
@@ -424,7 +435,7 @@ bool GetForceChess_five(
         return false; /* 这一句不可少, 否则未作任何 return 就退出 (相当于 return true;) */
     } else if (num_enemy == 4) { /* 检查对方冲四 */
         if (DEBUG) {
-            puts("num_enemy = 4");
+            printf("num_enemy = 4");
             printf(
                 "five_locations[0]= (%d, %c) \n",
                 five_locations[0].row + 1,
@@ -459,7 +470,7 @@ bool GetForceChess_five(
         return false; /* 这一句不可少, 否则未作任何 return 就退出 (相当于 return true;) */
     } else if (num_me == 3) { /* 检查我方活三 */
         if (DEBUG) {
-            puts("num_me = 3");
+            printf("num_me = 3");
             printf(
                 "five_locations[0]= (%d, %c) \n",
                 five_locations[0].row + 1,
@@ -521,7 +532,7 @@ bool GetForceChess_five(
         return false;
     } else if (num_enemy == 3) { /* 检查对方活三 */
         if (DEBUG) {
-            puts("num_enemy = 3");
+            printf("num_enemy = 3");
             printf(
                 "five_locations[0]= (%d, %c) \n",
                 five_locations[0].row + 1,
@@ -596,6 +607,7 @@ bool GetForceChess_five(
     }
 }
 
+//------------------------------------------------------------------------------------------------------------
 /**
  * @brief 对 locs_with_values 进行希尔排序 (倒序, 最大的在最前面)
  * @param locs_with_values 待排序的 Struct_LocationWithValue 数组
@@ -626,6 +638,7 @@ void ShellSort_LocationWithValue(Struct_LocationWithValue* locs_with_values, int
     }
 }
 
+//------------------------------------------------------------------------------------------------------------
 /**
  * @brief 交换 int a 和 int b 的值
  * @retval none
