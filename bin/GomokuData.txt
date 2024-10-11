@@ -665,3 +665,9 @@ Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
 8I 9H 7H 8G 6G 9J 4E 5F 7I 10I 7F 11J 12K 11H 8K 13F 12G 9I 9K 9G 9F 11I 11K 10K 7G 7E 7J 
 Winner: Black
 Win Corrdinates: 7F 7G 7H 7I 7J 
+
+Run time: 2024.10.11 22:16:14
+Game mode: BlackPlayer-Computer, WhitePlayer-Computer.
+8H 9H 8I 9I 8J 8G 8K 8L 9K 10I 11J 7F 6E 9G 9J 9E 9F 10G 11G 6G 7G 10H 10J 7J 12J 
+Winner: Black
+Win Corrdinates: 8J 9J 10J 11J 12J 

@@ -67,7 +67,7 @@ void Gomoku_Run() {
 
     while (VictoryJudgment(Chessboard, WinCoordinates) == Blank) {
         printf("\n输入 %d%c 以记录数据并退出游戏\n", 15 + 1, 15 + 65);
-        DrawBoard(Chessboard);
+        DrawBoard(Chessboard, LastLocation);
         ShowStatu(GameMode, Chessboard, CurrentTurn, CurrentPlayer, WinCoordinates, LastLocation);
         GetChess(&CurentLocation, Chessboard, CurrentPlayer); /* 获取落子坐标 */
 
@@ -135,16 +135,16 @@ void Gomoku_Run() {
  * @retval none
  */
 void ShowInfor(void) {
-    puts("------------------------------------------------");
     /* \033[31m 设置文本颜色为红色, \033[0m 重置文本颜色 */
-    puts(">> ----------- \033[31mWelcome to Gomoku !\033[0m ---------- <<");
+    puts("\033[31m------------------------------------------------");
+    puts(">> ----------- Welcome to Gomoku ! ---------- <<");
     puts("   Author: Yi Ding");
     // puts("   Version: 2.0");
     // puts("   Date: 2024.9.18");
     puts("   Email: dingyi233@mails.ucas.ac.cn");
     puts("   GitHub: https://github.com/YiDingg/Gomoku");
     puts(">> ------------------------------------------- <<");
-    puts("-------------------------------------------------\n");
+    puts("-------------------------------------------------\033[0m\n");
 }
 
 //------------------------------------------------------------------------------------------------------------
@@ -186,7 +186,7 @@ void ChooseMode(Struct_GameMode* p_gamemode) {
  * @param chessboard 棋盘数据
  * @retval none
  */
-void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]) {
+void DrawBoard(const Enum_Color chessboard[ROW][COLUMN], const Struct_Location newnode) {
     // printf("\n\n");
     printf("   ");
     for (char i = 0; i < COLUMN; i++) { // draw 列号 (ABC), \033[34m 为蓝色
@@ -195,7 +195,10 @@ void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]) {
     printf("\n");
     for (int i = ROW - 1; i > 0 - 1; i--) {
         printf("\033[34m%-2d \033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
-        for (char j = 0; j < COLUMN; j++) { DrawPoint(i, j, chessboard[i][j]); } // 作出棋子
+        for (char j = 0; j < COLUMN; j++) {
+            // printf("%d", (newnode.row == i && newnode.column == j));
+            DrawPoint(i, j, chessboard[i][j], (newnode.row == i && newnode.column == j));
+        } // 作出棋子
         printf("\033[34m%-2d\n\033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
     }
     printf("   ");
@@ -214,7 +217,7 @@ void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]) {
  * @param color 绘制的符号类型
  * @retval none
  */
-void DrawPoint(const char row, const char column, const Enum_Color color) {
+void DrawPoint(const char row, const char column, const Enum_Color color, const bool isnew) {
     if (color == Blank) {
         char* line;
         switch (row) {
@@ -242,8 +245,22 @@ void DrawPoint(const char row, const char column, const Enum_Color color) {
         }
         printf("%s", line);
     } else {
-        char* marker = (color == Black) ? "●" : "○"; /* 背景色为黄色，因此 "●" 会显示为黑棋 */
+        char* marker;
+        if (isnew) {
+            marker = (color == Black) ? "▲" : "△";
+            /* 空心实心三角形在中是合适的, 但在 中显示异常 */
+        } else {
+            marker = (color == Black) ? "●" : "○"; /* 背景色为黄色，因此 "●" 会显示为黑棋 */
+        }
         // char* marker = (type == White) ? "■" : "□";
+        // char* marker = (type == White) ? "■" : "□";
+        /*命令行  VC 终端
+        ●○: Y   Y
+        ▲△: Y   N
+        ★☆:N   N
+        ■□: Y   Y (但是区分度不好)
+        */
+        // ▲△ ★☆ ●○ ■□ ▼▽ ◆◇ ▌▐ ▉▊ ▁▂ ▃▄ ▅▆ ▇█ ▏▎ ▍▌ ▋▊ ▉█ ▇▆ ▅▄ ▃▂ ▁▀ ▔▓ ▒░
         if (column == 0) {
             printf("\033[43;30m%s \033[0m", marker);
         } else if (column == COLUMN - 1) {
@@ -277,14 +294,13 @@ void ShowStatu(
         char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
         char* str_White = (gamemode.WhitePlayer == Human) ? "Human" : "Computer";
         printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
-        printf("上一步位置：%d%c\n", lastlocation.row + 1, lastlocation.column + 65);
+        printf("上一步位置：%c%d\n", lastlocation.column + 65, lastlocation.row + 1);
         printf(
             "当前回合: %d, 等待 %s 落子：\n",
             currentturn,
             (currentplayer == Black) ? "黑方" : "白方");
-        fflush(stdin); /*清空缓冲区，也可以使用rewind(stdin);*/
     } else {
-        DrawBoard(chessboard);
+        DrawBoard(chessboard, lastlocation);
         char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
         char* str_White = (gamemode.WhitePlayer == Human) ? "Human" : "Computer";
         printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
@@ -538,14 +554,14 @@ void GetChess_Human(
     rewind(stdin);                      // 清空缓冲区，fflush(stdin); 貌似不起作用
     num = scanf("%c%d", &column, &row); // 字母在前
     rewind(stdin);                      // 清空缓冲区，fflush(stdin); 貌似不起作用
-    // while (getchar() != '\n');          // 清除缓冲区直到遇到换行符
+    // while (getchar() != '\n');          // 清除缓冲区直到遇到换行符 (不可用)
     p_location->column = column;
     p_location->row = row;
 
     /* 检查输入格式与接收参数个数 */
     if (num != 2) {
         /* scanf 返回成功获取的参数个数, != 2 时输入格式不正确，清除输入缓冲区并提示重新输入*/
-        // while (getchar() != '\n'); // 清除缓冲区直到遇到换行符
+        // while (getchar() != '\n'); // 清除缓冲区直到遇到换行符 (不可用)
         printf("scanf() 扫描到的输入有格式错误，请重新输入\n");
         GetChess_Human(p_location, chessboard, me);
     }
@@ -569,9 +585,11 @@ void GetChess_Human(
                 p_location->column + 'a');
         }
         printf(
-            "GetChess_Human() 获取到 '%d' 和 '%c'，为非法数据, 请重新输入:\n",
+            "GetChess_Human() 获取到 '%c%d', 也即 '%c' 和 '%d', 为非法数据, 请重新输入:\n",
+            p_location->column + 'a',
             p_location->row + 1,
-            p_location->column + 'a');
+            p_location->column + 'a',
+            p_location->row + 1);
         GetChess_Human(p_location, chessboard, me);
     }
 

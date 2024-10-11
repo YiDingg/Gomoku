@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #if !defined(__GOMOKU_H)
 #define __GOMOKU_H
 /* ------------------------------------------------ */
@@ -41,8 +43,8 @@ typedef struct {
 void Gomoku_Run();
 void ShowInfor(void);
 void ChooseMode(Struct_GameMode* p_game_mode);
-void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]);
-void DrawPoint(const char row, const char column, const Enum_Color color);
+void DrawBoard(const Enum_Color chessboard[ROW][COLUMN], const Struct_Location newnode);
+void DrawPoint(const char row, const char column, const Enum_Color color, const bool isnew);
 void ShowStatu(
     const Struct_GameMode gamemode,
     const Enum_Color chessboard[COLUMN][ROW],
