@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/addr2line.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/addr2line.exe"
 		},
 		{
 			"name" : "CMAKE_AR",
@@ -31,7 +31,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/ar.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/ar.exe"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -43,7 +43,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "Release"
+			"value" : "Debug"
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -159,7 +159,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/g++.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/g++.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_AR",
@@ -175,7 +175,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/gcc-ar.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_RANLIB",
@@ -191,7 +191,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/gcc-ranlib.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -303,7 +303,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/gcc.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/gcc.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_AR",
@@ -319,7 +319,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/gcc-ar.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_RANLIB",
@@ -335,7 +335,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/gcc-ranlib.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -447,7 +447,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/dlltool.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/dlltool.exe"
 		},
 		{
 			"name" : "CMAKE_EDIT_COMMAND",
@@ -671,7 +671,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Program Files (x86)/test"
+			"value" : "C:/Program Files (x86)/main"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -687,7 +687,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/ld.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/ld.exe"
 		},
 		{
 			"name" : "CMAKE_MAKE_PROGRAM",
@@ -703,7 +703,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/mingw32-make.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/mingw32-make.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -799,7 +799,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/nm.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/nm.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -827,7 +827,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/objcopy.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/objcopy.exe"
 		},
 		{
 			"name" : "CMAKE_OBJDUMP",
@@ -843,7 +843,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/objdump.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/objdump.exe"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",
@@ -891,7 +891,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "test"
+			"value" : "main"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -907,7 +907,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/ranlib.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER",
@@ -923,7 +923,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/windres.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/windres.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER_WORKS",
@@ -1031,7 +1031,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/readelf.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/readelf.exe"
 		},
 		{
 			"name" : "CMAKE_ROOT",
@@ -1251,7 +1251,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/aa_my_apps_main/mingw64/bin/strip.exe"
+			"value" : "C:/aa_MySame/mingw64/bin/strip.exe"
 		},
 		{
 			"name" : "CMAKE_TAPI",
@@ -1298,7 +1298,7 @@
 			"value" : "TRUE"
 		},
 		{
-			"name" : "test_BINARY_DIR",
+			"name" : "main_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1310,7 +1310,7 @@
 			"value" : "D:/a_RemoteRepo/GH.Gomoku/build"
 		},
 		{
-			"name" : "test_IS_TOP_LEVEL",
+			"name" : "main_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1322,7 +1322,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "test_SOURCE_DIR",
+			"name" : "main_SOURCE_DIR",
 			"properties" : 
 			[
 				{

@@ -46,8 +46,189 @@ const char DefultValuesOfChessboard[ROW][COLUMN] = {
  * @param chessboard 给定的棋局
  * @param me 我方的颜色
  * @retval none
+ * @note 该函数基于贪心算法 (深度为 0, 仅考虑当前步), 且仅考虑我方落子收益, 不考虑 harmless
  */
 void GetChess_AI_Greedy(
+    Struct_Location* p_best_location,
+    Enum_Color chessboard[ROW][COLUMN], /* EvaluateChessboard() 时会修改棋盘, 因此无 const */
+    const Enum_Color me) {
+    bool islegal_chessboard[ROW][COLUMN] = {false}; /* 用于记录棋盘上哪些位置可以落子 */
+    int num_legal = 0; /* 统计可行位置数量（若无禁手则代表空位个数） */
+    Enum_LegalOrIllegal islegal;
+    Struct_Location location = {0, 0};
+    Struct_Location p_five_locations[5]; /* 用于强制围堵检测 */
+
+    /* 检查我方和对方是否成三成四, 进行强制落子或强制围堵 */
+    for (char i = 0; i < ROW; i++) {
+        for (char j = 0; j < COLUMN; j++) {
+            // if (chessboard[i][j] == Blank) continue; /* 要进行成三检验, 因此不能跳过空位 */
+
+            /* - 向右方 */
+            if (j <= COLUMN - 5) {
+                for (char k = 0; k < 5; k++) {
+                    p_five_locations[k].row = i;
+                    p_five_locations[k].column = j + k;
+                }
+                if (GetForceChess_five(p_five_locations, chessboard, me, p_best_location)) {
+                    return;
+                }
+            }
+
+            /* | 向下方 */
+            if (i <= ROW - 5) {
+                for (char k = 0; k < 5; k++) {
+                    p_five_locations[k].row = i + k;
+                    p_five_locations[k].column = j;
+                }
+                if (GetForceChess_five(p_five_locations, chessboard, me, p_best_location)) {
+                    return;
+                }
+            }
+
+            /* \ 向右下方 */
+            if (i <= ROW - 5 && j <= COLUMN - 5) {
+                for (char k = 0; k < 5; k++) {
+                    p_five_locations[k].row = i + k;
+                    p_five_locations[k].column = j + k;
+                }
+                if (GetForceChess_five(p_five_locations, chessboard, me, p_best_location)) {
+                    return;
+                }
+            }
+
+            /* / 向左下方 */
+            if (i <= ROW - 5 && j >= 4) {
+                for (char k = 0; k < 5; k++) {
+                    p_five_locations[k].row = i + k;
+                    p_five_locations[k].column = j - k;
+                }
+                if (GetForceChess_five(p_five_locations, chessboard, me, p_best_location)) {
+                    return;
+                }
+            }
+        }
+    }
+
+    /* 统计棋盘可行域 */
+    for (char i = 0; i < ROW; i++) {
+        for (char j = 0; j < COLUMN; j++) {
+            location.row = i;
+            location.column = j;
+            CheckThisLocation(&islegal, chessboard, &location, me);
+            if (islegal == Legal) {
+                islegal_chessboard[i][j] = true;
+                num_legal++;
+            }
+        }
+    }
+    if (DEBUG) {
+        printf("统计棋盘可行域完成, num_legal = %d，开始申请内容并记录可行域信息\n", num_legal);
+    }
+
+    /* 申请内存 */
+    if (DEBUG) {
+        printf(
+            "准备申请内存, num_legal = %d, sizeof(Struct_LocationWithValue) = %d",
+            num_legal,
+            sizeof(Struct_LocationWithValue));
+        if (DEBUG == 2) { system("pause"); }
+    }
+    Struct_LocationWithValue* p_legal_locs_with_value = malloc(
+        num_legal * sizeof(Struct_LocationWithValue)); /* malloc() 不会对所分配的内存进行初始化 */
+    if (p_legal_locs_with_value == NULL) {             /* 空指针检测 */
+        puts("Error: p_legal_locs_with_value malloc failed!");
+        exit(-1);
+    }
+
+    /* 遍历可行域 */
+    if (num_legal == 0) {
+        /* 棋盘上无可行位置, 平局 */
+        puts("棋盘上无可行位置, 双方平局");
+        exit(0);
+    } else if (num_legal <= 2) { /* num_legal 较少的情形 */
+        /* num_legal = 0 时满足第 1 条后立即跳出, 因此这里是 num_legal = 1,2 */
+    } else {
+        num_legal = 0; /* 用于 p_legal_locs_with_value 索引 */
+        for (char i = 0; i < ROW; i++) {
+            for (char j = 0; j < COLUMN; j++) {
+                if (islegal_chessboard[i][j]) {
+                    p_legal_locs_with_value[num_legal].location.row = i;
+                    p_legal_locs_with_value[num_legal].location.column = j;
+                    num_legal++;
+                }
+            }
+        }
+        if (DEBUG) {
+            printf("可行域信息遍历完成, num_legal = %d, 开始计算 value\n", num_legal);
+            if (DEBUG == 2) { system("pause"); }
+        }
+
+        /* 计算所有可行域的 value */
+        for (int i = 0; i < num_legal; i++) {
+            chessboard[p_legal_locs_with_value[i].location.row]
+                      [p_legal_locs_with_value[i].location.column] = me;
+            if (DEBUG) { printf("%d.", i); }
+            if (DEBUG) {
+                printf(
+                    " (%d, %d) ",
+                    p_legal_locs_with_value[i].location.row,
+                    p_legal_locs_with_value[i].location.column);
+            }
+            p_legal_locs_with_value[i].value =
+                EvaluateChessboard(chessboard, me)
+                + DefultValuesOfChessboard[p_legal_locs_with_value[i].location.row]
+                                          [p_legal_locs_with_value[i].location.column];
+
+            chessboard[p_legal_locs_with_value[i].location.row]
+                      [p_legal_locs_with_value[i].location.column] = Blank;
+        }
+
+        if (DEBUG) { printf("value 计算完成, 开始希尔排序, num_legal = %d \n", num_legal); }
+        /* value 从大至小排序 */
+        ShellSort_LocationWithValue(p_legal_locs_with_value, num_legal);
+        if (DEBUG) {
+            for (char i = 0; i < 5; i++) {
+                printf(
+                    "best %d. (%d, %d) value: %d\n",
+                    i,
+                    p_legal_locs_with_value[i].location.row,
+                    p_legal_locs_with_value[i].location.column,
+                    p_legal_locs_with_value[i].value);
+            }
+        }
+    }
+
+    /* 选择最终的落子位置 */
+    srand((unsigned)time(NULL) + rand()); /* 随机数种子 */
+    double rand_num = (double)rand() / RAND_MAX;
+    /* 有概率选第二个位置 */
+    if (rand_num < 0.5
+        && p_legal_locs_with_value[0].value - p_legal_locs_with_value[1].value <= 200) {
+        *p_best_location = p_legal_locs_with_value[1].location;
+    } else {
+        *p_best_location = p_legal_locs_with_value[0].location;
+    }
+
+    /* 释放内存 */
+    if (DEBUG) {
+        printf("全部计算完成, 释放内存\n");
+        if (DEBUG == 2) { system("pause"); }
+    }
+    free(p_legal_locs_with_value);
+
+    return;
+}
+
+//------------------------------------------------------------------------------------------------------------
+/**
+ * @brief 根据给定棋局，计算我方最佳落子位置
+ * @param p_best_location 用于记录最佳位置
+ * @param chessboard 给定的棋局
+ * @param me 我方的颜色
+ * @retval none
+ * @note 该函数基于贪心算法 (深度为 0, 仅考虑当前步), 在 GetChess_AI_Greedy() 基础上考虑了 harmless
+ */
+void GetChess_AI_Greedy_harm(
     Struct_Location* p_best_location,
     Enum_Color chessboard[ROW][COLUMN], /* EvaluateChessboard() 时会修改棋盘, 因此无 const */
     const Enum_Color me) {

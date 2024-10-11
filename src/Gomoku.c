@@ -83,7 +83,7 @@ void Gomoku_Run() {
                 printf(
                     "'%d' '%c' = GetChess_AI_random(), which is illegal, retrying...\n",
                     CurentLocation.row + 1,
-                    CurentLocation.column + 'A');
+                    CurentLocation.column + 'a');
             }
             GetChess(
                 &CurentLocation,
@@ -139,8 +139,8 @@ void ShowInfor(void) {
     /* \033[31m 设置文本颜色为红色, \033[0m 重置文本颜色 */
     puts(">> ----------- \033[31mWelcome to Gomoku !\033[0m ---------- <<");
     puts("   Author: Yi Ding");
-    puts("   Version: 2.0");
-    puts("   Date: 2024.9.18");
+    // puts("   Version: 2.0");
+    // puts("   Date: 2024.9.18");
     puts("   Email: dingyi233@mails.ucas.ac.cn");
     puts("   GitHub: https://github.com/YiDingg/Gomoku");
     puts(">> ------------------------------------------- <<");
@@ -182,20 +182,20 @@ void ChooseMode(Struct_GameMode* p_gamemode) {
 
 //------------------------------------------------------------------------------------------------------------
 /**
- * @brief 绘制棋盘
+ * @brief 绘制棋盘：ABCD 为一横, 1234 为一竖, 左 A 下 1 (注意是下 1)
  * @param chessboard 棋盘数据
  * @retval none
  */
 void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]) {
     // printf("\n\n");
     printf("   ");
-    for (char i = 0; i < COLUMN; i++) {
+    for (char i = 0; i < COLUMN; i++) { // draw 列号 (ABC), \033[34m 为蓝色
         printf("\033[34m%-3c\033[0m", i + 65);
-    } // 列号, \033[34m 修改字体为蓝色
+    }
     printf("\n");
-    for (char i = 0; i < ROW; i++) {
+    for (int i = ROW - 1; i > 0 - 1; i--) {
         printf("\033[34m%-2d \033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
-        for (char j = 0; j < COLUMN; j++) { DrawPoint(i, j, chessboard[i][j]); }
+        for (char j = 0; j < COLUMN; j++) { DrawPoint(i, j, chessboard[i][j]); } // 作出棋子
         printf("\033[34m%-2d\n\033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
     }
     printf("   ");
@@ -208,6 +208,7 @@ void DrawBoard(const Enum_Color chessboard[ROW][COLUMN]) {
 //------------------------------------------------------------------------------------------------------------
 /**
  * @brief 根据棋盘数据绘制当前棋盘
+ * @note 注意：棋盘最左下角是 row = 1, column = A
  * @param row 横坐标
  * @param column 纵坐标
  * @param color 绘制的符号类型
@@ -217,14 +218,14 @@ void DrawPoint(const char row, const char column, const Enum_Color color) {
     if (color == Blank) {
         char* line;
         switch (row) {
-        case 0:
+        case ROW - 1:
             switch (column) {
             case 0: line = "\033[43;30m┌ \033[0m"; break;
             case COLUMN - 1: line = "\033[43;30m ┐\033[0m "; break;
             default: line = "\033[43;30m ┬ \033[0m"; break;
             }
             break;
-        case ROW - 1:
+        case 0:
             switch (column) {
             case 0: line = "\033[43;30m└ \033[0m"; break;
             case COLUMN - 1: line = "\033[43;30m ┘\033[0m "; break;
@@ -281,6 +282,7 @@ void ShowStatu(
             "当前回合: %d, 等待 %s 落子：\n",
             currentturn,
             (currentplayer == Black) ? "黑方" : "白方");
+        fflush(stdin); /*清空缓冲区，也可以使用rewind(stdin);*/
     } else {
         DrawBoard(chessboard);
         char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
@@ -334,7 +336,7 @@ void CheckThisLocation(
             printf(
                 "Warning: 非法输入 '%d' 和 '%c', 请重新输入: \n",
                 p_location->row + 1,
-                p_location->column + 'A');
+                p_location->column + 'a');
             puts("<-- CheckThisLocation()");
         }
         *p_islegal = Illegal;
@@ -517,6 +519,7 @@ void GetChess(
  * @param chessboard 棋盘数据
  * @param me 当前执棋方
  * @retval none
+ * @note 按老师要求, 输入字母在前, 数字在后
  */
 void GetChess_Human(
     Struct_Location* p_location,
@@ -525,17 +528,35 @@ void GetChess_Human(
     if (DEBUG) { puts("--> GetChess_Human()"); }
 
     /* 获取落子坐标 */
-    int num = scanf("%d%c", &p_location->row, &p_location->column);
-    p_location->row -= 1;
-    p_location->column -= 'A';
+    /* 按老师要求, 输入字母在前, 数字在后 */
+    // int num = scanf("%d%c", &p_location->row, &p_location->column); // 数字在前
+
+    // int num = scanf("%c%d", &p_location->column, &p_location->row);
+    char column;
+    int row;
+    int num;
+    rewind(stdin);                      // 清空缓冲区，fflush(stdin); 貌似不起作用
+    num = scanf("%c%d", &column, &row); // 字母在前
+    rewind(stdin);                      // 清空缓冲区，fflush(stdin); 貌似不起作用
+    // while (getchar() != '\n');          // 清除缓冲区直到遇到换行符
+    p_location->column = column;
+    p_location->row = row;
 
     /* 检查输入格式与接收参数个数 */
     if (num != 2) {
         /* scanf 返回成功获取的参数个数, != 2 时输入格式不正确，清除输入缓冲区并提示重新输入*/
-        while (getchar() != '\n'); // 清除缓冲区直到遇到换行符
+        // while (getchar() != '\n'); // 清除缓冲区直到遇到换行符
         printf("scanf() 扫描到的输入有格式错误，请重新输入\n");
         GetChess_Human(p_location, chessboard, me);
     }
+
+    /* 检查大小写 (都转为小写) */
+    if (p_location->column >= 'A' && p_location->column <= 'Z') { p_location->column += 32; }
+    // printf("转大小写后, 字母: %c, 数字: %d\n", p_location->column, p_location->row);
+
+    /* 通过输入合法检查, 将其转换为内部坐标 (0~15) */
+    p_location->column -= 'a';
+    p_location->row -= 1; // 转为由 0 开始
 
     /* 检查落子坐标合法性 */
     Enum_LegalOrIllegal islegal;
@@ -545,12 +566,12 @@ void GetChess_Human(
             printf(
                 "'%d' '%c' = GetChess_Human(), which is illegal, retrying...\n",
                 p_location->row + 1,
-                p_location->column + 'A');
+                p_location->column + 'a');
         }
         printf(
             "GetChess_Human() 获取到 '%d' 和 '%c'，为非法数据, 请重新输入:\n",
             p_location->row + 1,
-            p_location->column + 'A');
+            p_location->column + 'a');
         GetChess_Human(p_location, chessboard, me);
     }
 
@@ -570,7 +591,7 @@ void GetChess_Human(
                 printf(
                     "GetChess_Human() 获取到 '%d' 和 '%c'，为非法数据, 请重新输入: ",
                     CurentLocation.row + 1,
-                    CurentLocation.column + 'A');
+                    CurentLocation.column + 'a');
                 GetChess(Chessboard, CurrentPlayer);
             }
 #endif
@@ -607,7 +628,7 @@ void GetChess_AI_random(
             printf(
                 "'%d' '%c' = GetChess_AI_random(), which is illegal, retrying...\n",
                 p_location->row + 1,
-                p_location->column + 'A');
+                p_location->column + 'a');
         }
         GetChess_AI_random(p_location, chessboard, me);
     }

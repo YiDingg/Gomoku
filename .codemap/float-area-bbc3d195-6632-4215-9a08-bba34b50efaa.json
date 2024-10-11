@@ -1,0 +1,94 @@
+{
+  "type": "float-area",
+  "_widgets": [
+    [
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///d%3A/a_RemoteRepo/GH.Gomoku/src/Gomoku.c",
+              "floatAreaId": "bbc3d195-6632-4215-9a08-bba34b50efaa"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": false,
+                "selectionStart": {
+                  "lineNumber": 217,
+                  "column": 6
+                },
+                "position": {
+                  "lineNumber": 217,
+                  "column": 6
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 0,
+              "firstPosition": {
+                "lineNumber": 207,
+                "column": 1
+              },
+              "firstPositionDeltaTop": -16
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "lineCount": 628,
+                "provider": "syntax",
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": false
+            }
+          }
+        },
+        "width": 748.6207602362897,
+        "height": 794.6667182583332,
+        "spacing": 0
+      }
+    ]
+  ],
+  "_widths": [
+    748.6207602362897
+  ],
+  "_modelData": {
+    "connections": [
+      {
+        "startWord": {
+          "uri": "/d:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c",
+          "lineNumber": 198,
+          "startColumn": 45,
+          "endColumn": 54,
+          "word": "DrawPoint",
+          "x": 78.99162292480469,
+          "y": 60.20193290710449,
+          "hide": true,
+          "height": 1,
+          "width": 1
+        },
+        "endWord": {
+          "uri": "/d:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c",
+          "lineNumber": 216,
+          "startColumn": 6,
+          "endColumn": 15,
+          "endLineNumber": 216,
+          "word": "",
+          "x": 101.99162292480469,
+          "y": 253.2019329071045,
+          "hide": false,
+          "height": 19,
+          "width": 1
+        },
+        "id": "7eb938a8-bdca-4d69-a93d-01378b5d4386",
+        "dragC1x": -19.583186587187697,
+        "dragC1y": 31.646740879036543,
+        "dragC2x": 1.4496478970202133,
+        "dragC2y": -73.17526378574087
+      }
+    ],
+    "annotations": [],
+    "highlights": []
+  }
+}
