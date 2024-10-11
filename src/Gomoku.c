@@ -563,7 +563,9 @@ void GetChess_Human(
         /* scanf 返回成功获取的参数个数, != 2 时输入格式不正确，清除输入缓冲区并提示重新输入*/
         // while (getchar() != '\n'); // 清除缓冲区直到遇到换行符 (不可用)
         printf("scanf() 扫描到的输入有格式错误，请重新输入\n");
+        rewind(stdin); // 清空缓冲区，fflush(stdin); 貌似不起作用
         GetChess_Human(p_location, chessboard, me);
+        return; // 内部的栈已经做过转换和检查, 直接 return, 否则可能导致错误
     }
 
     /* 检查大小写 (都转为小写) */
@@ -591,6 +593,7 @@ void GetChess_Human(
             p_location->column + 'a',
             p_location->row + 1);
         GetChess_Human(p_location, chessboard, me);
+        return; // 内部的栈已经做过转换和检查, 直接 return, 否则可能导致错误
     }
 
 #if 0
