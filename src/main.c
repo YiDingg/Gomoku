@@ -11,8 +11,32 @@ int main() {
     // 设置编码为 UTF-8，解决输出乱码
     SetConsoleOutputCP(65001);
 
-    /* 运行五子棋 */
+    /* 运行五子棋主程序 */
     Gomoku_Run();
+
+#if 0 // CheckOverline_Lower 等子函数测试
+    printf("Hello, World!\n");
+    Enum_LegalOrIllegal* p_islegal;
+    *p_islegal = 0;
+    Enum_Color chessboard[ROW][COLUMN] = {0};
+    char i = 1;
+    char j = 0;
+    for (char h = 0; h < 6; h++) { chessboard[h][0] = Black; }
+    CheckOverline_Lower(p_islegal, chessboard, i, j);
+    printf("(%d, %d): %s\n", i, j, (*p_islegal == Legal) ? "Legal (无六连)" : "Illegal (有六连)");
+
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 7; j++) {
+            CheckOverline_Lower(p_islegal, chessboard, i, j);
+            printf(
+                "(%d, %d): %s\n",
+                i,
+                j,
+                (*p_islegal == Legal) ? "Legal (无六连)" : "Illegal (有六连)");
+        }
+    }
+
+#endif
 
 #if 0 
     /* 黑窗口颜色设置 */

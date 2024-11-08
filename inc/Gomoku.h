@@ -18,6 +18,7 @@
 typedef enum { White = -1, Black = 1, Blank = 0 } Enum_Color;
 typedef enum { None = 0, Human = 1, Computer = -1 } Enum_HumanOrComputer;
 typedef enum { Legal = 1, Illegal = 2 } Enum_LegalOrIllegal;
+typedef enum { Yes = 1, No = 2 } Enum_YesOrNo;
 typedef struct {
     char BlackPlayer;
     char WhitePlayer;
@@ -26,6 +27,16 @@ typedef struct {
     char row;
     char column;
 } Struct_Location;
+typedef struct {
+    bool Upper;
+    bool UpperRight;
+    bool Right;
+    bool LowerRight;
+    bool Lower;
+    bool LowerLeft;
+    bool Left;
+    bool UpperLeft;
+} Struct_Derection;
 /*                                                 */
 /* >> ---------------- 数据类型 ---------------- << */
 /* ----------------------------------------------- */
@@ -44,7 +55,7 @@ void Gomoku_Run();
 void ShowInfor(void);
 void ChooseMode(Struct_GameMode* p_game_mode);
 void DrawBoard(const Enum_Color chessboard[ROW][COLUMN], const Struct_Location newnode);
-void DrawPoint(const char row, const char column, const Enum_Color color, const bool isnew);
+void DrawPoint(const char row, const char column, const Enum_Color color, const Enum_YesOrNo isnew);
 void ShowStatu(
     const Struct_GameMode gamemode,
     const Enum_Color chessboard[COLUMN][ROW],
@@ -55,6 +66,13 @@ void ShowStatu(
 void ChessHandler(void);
 Enum_Color
 VictoryJudgment(const Enum_Color chessboard[ROW][COLUMN], Struct_Location win_coordinate[5]);
+void CheckOverline_Lower(
+    Enum_LegalOrIllegal* p_islegal,
+    const Enum_Color chessboard[ROW][COLUMN],
+    const char i,
+    const char j);
+
+/* GetChess 系列函数 */
 void GetChess(
     Struct_Location* p_location,
     const Enum_Color chessboard[ROW][COLUMN],

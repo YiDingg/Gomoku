@@ -217,7 +217,11 @@ void DrawBoard(const Enum_Color chessboard[ROW][COLUMN], const Struct_Location n
  * @param color 绘制的符号类型
  * @retval none
  */
-void DrawPoint(const char row, const char column, const Enum_Color color, const bool isnew) {
+void DrawPoint(
+    const char row,
+    const char column,
+    const Enum_Color color,
+    const Enum_YesOrNo isnew) {
     if (color == Blank) {
         char* line;
         switch (row) {
@@ -246,7 +250,7 @@ void DrawPoint(const char row, const char column, const Enum_Color color, const 
         printf("%s", line);
     } else {
         char* marker;
-        if (isnew) {
+        if (isnew == Yes) {
             marker = (color == Black) ? "▲" : "△";
             /* 空心实心三角形在中是合适的, 但在 中显示异常 */
         } else {
@@ -325,7 +329,7 @@ void ShowStatu(
  * @brief 检查（通过 Human 或 AI）获得的棋子坐标是否合法
  * @param p_islegal 用于合法性检查
  * @param chessboard 棋盘数据
- * @param p_location 用于记录落子坐标
+ * @param p_location 要检查的位置
  * @param me 当前执棋方
  * @retval none
  */
@@ -359,7 +363,7 @@ void CheckThisLocation(
         return;
     }
 
-    /* 检查此处是否被占 */
+    /* 检查此处是否已有棋子 */
     if (chessboard[p_location->row][p_location->column] != Blank) {
         if (DEBUG) {
             printf(
@@ -376,7 +380,124 @@ void CheckThisLocation(
         puts("<-- CheckThisLocation()");
     }
     *p_islegal = Legal;
+
+    /* 检查禁手情况 */
+    // CheckOverline(p_islegal, chessboard, p_location); // 检查长连禁手
     return;
+}
+
+/**
+ * @brief 检查此位置长连禁手情况，并将结果赋给 p_islegal
+ * @param p_islegal 用于合法性检查
+ * @param chessboard 棋盘数据
+ * @param p_location 要检查的位置
+ * @retval none
+ */
+void CheckOverline(
+    Enum_LegalOrIllegal* p_islegal,
+    const Enum_Color chessboard[ROW][COLUMN],
+    const Struct_Location* p_location) {
+    /* 最多有八个方向需要检查 */
+    char i = p_location->row;
+    char j = p_location->column;
+
+#if 0
+    /* 先依据给定位置，确定需要检查的方向 */
+    Struct_Derection derect = {0}; // bool 值为 1 表示需要检查
+    if (i >= 5) { derect.Upper = !0; }
+    if (j <= 9) { derect.Right = !0; }
+    if (i <= 9) { derect.Lower = !0; }
+    if (j >= 5) { derect.Left = !0; }
+    if (i <= 9 && j <= 9) { derect.LowerRight = !0; }
+    if (i >= 5 && j >= 5) { derect.UpperLeft = !0; }
+    if (i >= 5 && j <= 9) { derect.UpperRight = !0; }
+    if (i <= 9 && j >= 5) { derect.LowerLeft = !0; }
+
+    /* Right */
+    if (j <= 9) {
+        if (Black == chessboard[i][j + 1] && chessboard[i][j] == chessboard[i][j + 2]
+            && chessboard[i][j] == chessboard[i][j + 3]
+            && chessboard[i][j] == chessboard[i][j + 4]) {
+            for (char k = 0; k < 5; k++) {
+                win_coordinate[k] = (Struct_Location){.row = i, .column = j + k};
+            }
+            return chessboard[i][j];
+        }
+    }
+
+#endif
+}
+
+/**
+ * @brief 长连检查的子函数 (向下): 给定棋盘、当前位置 (i, j) 和方向, 检查是否有常连
+ * @retval none
+ */
+void CheckOverline_Lower(
+    Enum_LegalOrIllegal* p_islegal,
+    const Enum_Color chessboard[ROW][COLUMN],
+    const char i,
+    const char j) {
+    char k_min = (i <= 4) ? (5 - i) : 0;
+    char k_max = (i >= 10) ? (14 - i) : 5;
+    *p_islegal = Legal;                     // 赋默认值
+    for (char k = k_min; k <= k_max; k++) { /* 注意这里是 <= */
+        for (char h = 0; h < 6; h++) {
+            if (chessboard[i - 5 + k + h][j] != Black) {
+                /* 有异色棋子, 说明此 k 未构成六连, 检查下一个 k */
+                /* (在进入 CheckOverline_Lower 前已将当前位置赋予黑色) */
+                break;
+            }
+        }
+        /* 循环未跳出, 说明不含异色棋子, 构成六连 */
+        *p_islegal = Illegal;
+        return;
+    }
+}
+
+/**
+ * @brief 长连检查的子函数 (向右): 给定棋盘、当前位置 (i, j) 和方向, 检查是否有常连
+ * @retval none
+ */
+void CheckOverline_Right(
+    Enum_LegalOrIllegal* p_islegal,
+    const Enum_Color chessboard[ROW][COLUMN],
+    const char i,
+    const char j) {
+    char k_min = (j <= 4) ? (5 - j) : 0;
+    char k_max = (j >= 10) ? (14 - j) : 5;
+    for (char k = k_min; k <= k_max; k++) { /* 注意这里是 <= */
+        for (char h = 0; h < 6; h++) {
+            if (chessboard[i][j - 5 + k + h] != Black) {
+                /* (在进入此函数前已将当前位置赋予黑色) 有异色棋子, 说明未构成六连 */
+                *p_islegal = Illegal;
+                return;
+            }
+        }
+    }
+    *p_islegal = Legal;
+}
+
+/**
+ * @brief 长连检查的子函数 (右下): 给定棋盘、当前位置 (i, j) 和方向, 检查是否有常连
+ * @retval none
+ */
+void CheckOverline_LowerRight(
+    Enum_LegalOrIllegal* p_islegal,
+    const Enum_Color chessboard[ROW][COLUMN],
+    const char i,
+    const char j) {
+    char k_min = (j <= 4) ? (5 - j) : 0;
+    char k_max = (j >= 10) ? (14 - j) : 5;
+    for (char k = k_min; k <= k_max; k++) { /* 注意这里是 <= */
+        for (char h = 0; h < 6; h++) {
+            if (chessboard[i - 5 + k + h][j - 5 + k + h] != Black) {
+                /* (在进入此函数前已将当前位置赋予黑色) 有异色棋子, 说明未构成六连 */
+                *p_islegal = Illegal;
+                return;
+            }
+        }
+    }
+    *p_islegal = Legal;
 }
 
 #if 0
@@ -438,7 +559,7 @@ VictoryJudgment(const Enum_Color chessboard[ROW][COLUMN], Struct_Location win_co
     for (i = 0; i < ROW; i++) {
         for (j = 0; j < COLUMN; j++) {
             if (chessboard[i][j] == Blank) continue;
-            /* - 横着连成五子 */
+            /* - 向右连成五子 */
             if (j <= COLUMN - 5)
                 if (chessboard[i][j] == chessboard[i][j + 1]
                     && chessboard[i][j] == chessboard[i][j + 2]
@@ -450,7 +571,7 @@ VictoryJudgment(const Enum_Color chessboard[ROW][COLUMN], Struct_Location win_co
                     return chessboard[i][j];
                 }
 
-            /* | 竖着连成五子 */
+            /* | 向下连成五子 */
             if (i <= ROW - 5)
                 if (chessboard[i][j] == chessboard[i + 1][j]
                     && chessboard[i][j] == chessboard[i + 2][j]
@@ -657,6 +778,19 @@ void GetChess_AI_random(
     /* 返回落子位置 */
     if (DEBUG) { puts("<-- GetChess_AI_random()"); }
 }
+
+/**
+ * @brief 检查给定的多元组是否具有相同颜色
+ * @param none
+ * @retval 1: 具有相同颜色, 0: 不具有相同颜色
+ */
+Enum_YesOrNo IsEqual(const Enum_Color* array, const char length) {
+    for (char i = 0; i < length; i++) {
+        if (array[i] != array[0]) { return No; }
+    }
+    return Yes;
+}
+
 /*                                                  */
 /* >> ------------------ 函数 ------------------ << */
 /* ------------------------------------------------ */
