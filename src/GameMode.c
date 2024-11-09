@@ -29,10 +29,9 @@ void Human_VS_Human(void) {
     int result; // 记录游戏结果
 
     // system("cls"); // 清屏命令，暂时注释
-    Print_ChessBoard(); // 打印当前棋盘
-    while (!(result = GetWinner(Row, Col))
-           && !IsChessBoardFull()) { // 检查是否有赢家或棋盘满
-        Update_Human();              // 更新玩家落子
+    Print_ChessBoard();                                              // 打印当前棋盘
+    while (!(result = GetWinner(Row, Col)) && !IsChessBoardFull()) { // 检查是否有赢家或棋盘满
+        Update_Human();                                              // 更新玩家落子
         // system("cls"); // 清屏命令，暂时注释
         Print_ChessBoard();   // 打印更新后的棋盘
         Print_LastLocation(); // 打印最后落子的位置
@@ -65,8 +64,7 @@ void Human_VS_Computer(void) {
     puts("  2. 白棋 (后手)");
     player_color = getchar(); // 获取玩家颜色选择
     while (!isdigit(player_color)
-           || ((player_color -= '0') != 1
-               && player_color != 2)) {        // 检查输入是否合法
+           || ((player_color -= '0') != 1 && player_color != 2)) { // 检查输入是否合法
         printf("Illegal input, try again:\n"); // 输入非法，提示重新输入
         while (getchar() != '\n');             // 清空输入缓冲区
         player_color = getchar();              // 重新获取玩家颜色选择
@@ -88,10 +86,9 @@ void Human_VS_Computer(void) {
         Print_ChessBoard(); // 打印初始棋盘
     }
 
-    while (!(result = GetWinner(Row, Col))
-           && !IsChessBoardFull()) { // 检查是否有赢家或棋盘满
-        if (CurrentPlayer == player_color) { // 如果当前玩家是人类
-            Update_Player();                 // 人类落子
+    while (!(result = GetWinner(Row, Col)) && !IsChessBoardFull()) { // 检查是否有赢家或棋盘满
+        if (CurrentPlayer == player_color) {                         // 如果当前玩家是人类
+            Update_Player();                                         // 人类落子
             // system("cls"); // 清屏命令，暂时注释
         } else {         // 如果当前玩家是AI
             Update_AI(); // AI落子
@@ -138,14 +135,13 @@ void Computer_VS_Computer(void) {
     Print_LastLocation(); // 打印最后落子的位置
     CHANGE_PLAYER;        // 切换到下一个玩家
 
-    while (!(result = GetWinner(Row, Col))
-           && !IsChessBoardFull()) { // 检查是否有赢家或棋盘满
-        start_t = clock();           // 记录AI开始思考时间
-        Update_AI();                 // AI落子
-        end_t = clock();             // 记录AI结束思考时间
-        Print_ChessBoard();          // 打印更新后的棋盘
-        Print_LastLocation();        // 打印最后落子的位置
-        CHANGE_PLAYER;               // 切换到下一个玩家
+    while (!(result = GetWinner(Row, Col)) && !IsChessBoardFull()) { // 检查是否有赢家或棋盘满
+        start_t = clock();                                           // 记录AI开始思考时间
+        Update_AI();                                                 // AI落子
+        end_t = clock();                                             // 记录AI结束思考时间
+        Print_ChessBoard();                                          // 打印更新后的棋盘
+        Print_LastLocation();                                        // 打印最后落子的位置
+        CHANGE_PLAYER;                                               // 切换到下一个玩家
     }
     free(g_move);       // 释放走法指针内存
     g_move = NULL;      // 重置走法指针
@@ -155,68 +151,17 @@ void Computer_VS_Computer(void) {
 }
 
 /**
- * @brief 打印赢家信息
- * @param none
- * @retval none
- */
-void Print_Winner(void) {
-    if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
-        printf(
-            "白方落子在 %c%d (上方棋盘), 白方胜利 !!!\n", Col + 'A',
-            Row + 1); // 打印白棋胜利信息
-    } else {          // 打印黑棋胜利信息
-        printf(
-            "黑方落子在 %c%d (上方棋盘), 黑方胜利 !!!\n", Col + 'A', Row + 1);
-    }
-}
-
-/**
- * @brief 打印最后落子的位置
- * @param none
- * @retval none
- */
-void Print_LastLocation(void) {
-    if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
-        printf(
-            "白方落子在 %c%d (上方棋盘), 轮到黑方落子 (下方棋盘) :\n",
-            Col + 'A', Row + 1); // 打印白棋落子信息
-    } else {
-        printf(
-            "黑方落子在 %c%d (上方棋盘), 轮到白方落子 (下方棋盘) :\n",
-            Col + 'A', Row + 1); // 打印黑棋落子信息}
-    }
-}
-
-/**
- * @brief 显示游戏相关信息
- * @param none
- * @retval none
- */
-void Print_Infor(void) {
-    /* \033[31m 设置文本颜色为红色, \033[0m 重置文本颜色 */
-    puts("\n\n\033[31m------------------------------------------------");
-    puts(">> ----------- Welcome to Gomoku! ---------- <<"); // 欢迎信息
-    puts("   Author: Yi Ding");                              // 作者信息
-    // puts("   Version: 2.0"); // 版本信息，暂时注释
-    // puts("   Date: 2024.9.18");  // 日期信息，暂时注释
-    puts("   Email: dingyi233@mails.ucas.ac.cn");         // 联系邮箱
-    puts("   GitHub: https://github.com/YiDingg/Gomoku"); // GitHub链接
-    puts(">> ------------------------------------------- <<");
-    puts("-------------------------------------------------\033[0m\n");
-}
-
-/**
  * @brief 选择游戏模式
  * @param none
  * @retval none
  */
 void ChooseYourMode(void) {
     puts("----------------------------------------------------"); // 分割线
-    puts(" 共三种游戏模式："); // 显示游戏模式选项
-    puts("     0.   Human  VS  Human   \t(人人对战, 有禁手)"); // 人人对战模式
-    puts("     1.   Human  VS Computer \t(人机对战, 有禁手)"); // 人机对战模式
-    puts("     2. Computer VS Computer \t(机机对战, 有禁手)"); // 机机对战模式
-    puts(" Choose your game mode: "); // 提示用户选择模式
+    puts(" 共三种游戏模式：");                                    // 显示游戏模式选项
+    puts("     0.   Human  VS  Human   \t(人人对战, 有禁手)");    // 人人对战模式
+    puts("     1.   Human  VS Computer \t(人机对战, 有禁手)");    // 人机对战模式
+    puts("     2. Computer VS Computer \t(机机对战, 有禁手)");    // 机机对战模式
+    puts(" Choose your game mode: ");                             // 提示用户选择模式
     puts("----------------------------------------------------"); // 分割线
 }
 
