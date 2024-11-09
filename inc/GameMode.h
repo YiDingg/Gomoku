@@ -1,9 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include "BitBoard.h"
+#include "Gomoku.h"
 
-#if !defined(__MAIN_H)
-#define __MAIN_H
+#if !defined(__GAMEMODE_H)
+#define __GAMEMODE_H
 
 /* ------------------------------------------------ */
 /* >> ----------------- 宏定义 ----------------- << */
@@ -22,6 +21,7 @@
 /* ------------------------------------------------- */
 /* >> --------------- 全局变量声明 --------------- << */
 /*                                                   */
+char GameMode; // 游戏模式
 /*                                                   */
 /* >> --------------- 全局变量声明 --------------- << */
 /* ------------------------------------------------- */
@@ -32,8 +32,12 @@
 void Human_VS_Human(void);       // 人人对战
 void Human_VS_Computer(void);    // 人机对战
 void Computer_VS_Computer(void); // 机机对战
-
+void Print_Winner(void);
+void Print_LastLocation(void); // 打印当前落子位置
+void Init_Hash(void);          // 初始化哈希表
+void Print_Infor(void);        // 显示游戏相关信息
+void ChooseYourMode(void);     // 选择游戏模式
 /*                                                   */
 /* >> ----------------- 函数声明 ----------------- << */
 /* ------------------------------------------------- */
-#endif // __MAIN_H
+#endif // __GAMEMODE_H

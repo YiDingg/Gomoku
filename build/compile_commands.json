@@ -1,19 +1,43 @@
 [
 {
   "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
-  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\src\\AI_Greedy.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\AI_Greedy.c",
-  "file": "D:/a_RemoteRepo/GH.Gomoku/src/AI_Greedy.c",
-  "output": "CMakeFiles/main.dir/src/AI_Greedy.c.obj"
+  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\AI_PVS.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\AI_PVS.c",
+  "file": "D:/a_RemoteRepo/GH.Gomoku/src/AI_PVS.c",
+  "output": "CMakeFiles/main.dir/src/AI_PVS.c.obj"
 },
 {
   "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
-  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\src\\Gomoku.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\Gomoku.c",
+  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\BitBoard.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\BitBoard.c",
+  "file": "D:/a_RemoteRepo/GH.Gomoku/src/BitBoard.c",
+  "output": "CMakeFiles/main.dir/src/BitBoard.c.obj"
+},
+{
+  "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
+  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\Forbid.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\Forbid.c",
+  "file": "D:/a_RemoteRepo/GH.Gomoku/src/Forbid.c",
+  "output": "CMakeFiles/main.dir/src/Forbid.c.obj"
+},
+{
+  "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
+  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\GameMode.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\GameMode.c",
+  "file": "D:/a_RemoteRepo/GH.Gomoku/src/GameMode.c",
+  "output": "CMakeFiles/main.dir/src/GameMode.c.obj"
+},
+{
+  "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
+  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\GetValue.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\GetValue.c",
+  "file": "D:/a_RemoteRepo/GH.Gomoku/src/GetValue.c",
+  "output": "CMakeFiles/main.dir/src/GetValue.c.obj"
+},
+{
+  "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
+  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\Gomoku.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\Gomoku.c",
   "file": "D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c",
   "output": "CMakeFiles/main.dir/src/Gomoku.c.obj"
 },
 {
   "directory": "D:/a_RemoteRepo/GH.Gomoku/build",
-  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\src\\main.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\main.c",
+  "command": "C:\\aa_MySame\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -O3 -DNDEBUG -o CMakeFiles\\main.dir\\src\\main.c.obj -c D:\\a_RemoteRepo\\GH.Gomoku\\src\\main.c",
   "file": "D:/a_RemoteRepo/GH.Gomoku/src/main.c",
   "output": "CMakeFiles/main.dir/src/main.c.obj"
 }

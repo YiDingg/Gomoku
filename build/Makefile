@@ -128,29 +128,125 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-src/AI_Greedy.obj: src/AI_Greedy.c.obj
-.PHONY : src/AI_Greedy.obj
+src/AI_PVS.obj: src/AI_PVS.c.obj
+.PHONY : src/AI_PVS.obj
 
 # target to build an object file
-src/AI_Greedy.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Greedy.c.obj
-.PHONY : src/AI_Greedy.c.obj
+src/AI_PVS.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_PVS.c.obj
+.PHONY : src/AI_PVS.c.obj
 
-src/AI_Greedy.i: src/AI_Greedy.c.i
-.PHONY : src/AI_Greedy.i
+src/AI_PVS.i: src/AI_PVS.c.i
+.PHONY : src/AI_PVS.i
 
 # target to preprocess a source file
-src/AI_Greedy.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Greedy.c.i
-.PHONY : src/AI_Greedy.c.i
+src/AI_PVS.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_PVS.c.i
+.PHONY : src/AI_PVS.c.i
 
-src/AI_Greedy.s: src/AI_Greedy.c.s
-.PHONY : src/AI_Greedy.s
+src/AI_PVS.s: src/AI_PVS.c.s
+.PHONY : src/AI_PVS.s
 
 # target to generate assembly for a file
-src/AI_Greedy.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_Greedy.c.s
-.PHONY : src/AI_Greedy.c.s
+src/AI_PVS.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/AI_PVS.c.s
+.PHONY : src/AI_PVS.c.s
+
+src/BitBoard.obj: src/BitBoard.c.obj
+.PHONY : src/BitBoard.obj
+
+# target to build an object file
+src/BitBoard.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/BitBoard.c.obj
+.PHONY : src/BitBoard.c.obj
+
+src/BitBoard.i: src/BitBoard.c.i
+.PHONY : src/BitBoard.i
+
+# target to preprocess a source file
+src/BitBoard.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/BitBoard.c.i
+.PHONY : src/BitBoard.c.i
+
+src/BitBoard.s: src/BitBoard.c.s
+.PHONY : src/BitBoard.s
+
+# target to generate assembly for a file
+src/BitBoard.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/BitBoard.c.s
+.PHONY : src/BitBoard.c.s
+
+src/Forbid.obj: src/Forbid.c.obj
+.PHONY : src/Forbid.obj
+
+# target to build an object file
+src/Forbid.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/Forbid.c.obj
+.PHONY : src/Forbid.c.obj
+
+src/Forbid.i: src/Forbid.c.i
+.PHONY : src/Forbid.i
+
+# target to preprocess a source file
+src/Forbid.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/Forbid.c.i
+.PHONY : src/Forbid.c.i
+
+src/Forbid.s: src/Forbid.c.s
+.PHONY : src/Forbid.s
+
+# target to generate assembly for a file
+src/Forbid.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/Forbid.c.s
+.PHONY : src/Forbid.c.s
+
+src/GameMode.obj: src/GameMode.c.obj
+.PHONY : src/GameMode.obj
+
+# target to build an object file
+src/GameMode.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/GameMode.c.obj
+.PHONY : src/GameMode.c.obj
+
+src/GameMode.i: src/GameMode.c.i
+.PHONY : src/GameMode.i
+
+# target to preprocess a source file
+src/GameMode.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/GameMode.c.i
+.PHONY : src/GameMode.c.i
+
+src/GameMode.s: src/GameMode.c.s
+.PHONY : src/GameMode.s
+
+# target to generate assembly for a file
+src/GameMode.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/GameMode.c.s
+.PHONY : src/GameMode.c.s
+
+src/GetValue.obj: src/GetValue.c.obj
+.PHONY : src/GetValue.obj
+
+# target to build an object file
+src/GetValue.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/GetValue.c.obj
+.PHONY : src/GetValue.c.obj
+
+src/GetValue.i: src/GetValue.c.i
+.PHONY : src/GetValue.i
+
+# target to preprocess a source file
+src/GetValue.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/GetValue.c.i
+.PHONY : src/GetValue.c.i
+
+src/GetValue.s: src/GetValue.c.s
+.PHONY : src/GetValue.s
+
+# target to generate assembly for a file
+src/GetValue.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/GetValue.c.s
+.PHONY : src/GetValue.c.s
 
 src/Gomoku.obj: src/Gomoku.c.obj
 .PHONY : src/Gomoku.obj
@@ -209,9 +305,21 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... main
-	@echo ... src/AI_Greedy.obj
-	@echo ... src/AI_Greedy.i
-	@echo ... src/AI_Greedy.s
+	@echo ... src/AI_PVS.obj
+	@echo ... src/AI_PVS.i
+	@echo ... src/AI_PVS.s
+	@echo ... src/BitBoard.obj
+	@echo ... src/BitBoard.i
+	@echo ... src/BitBoard.s
+	@echo ... src/Forbid.obj
+	@echo ... src/Forbid.i
+	@echo ... src/Forbid.s
+	@echo ... src/GameMode.obj
+	@echo ... src/GameMode.i
+	@echo ... src/GameMode.s
+	@echo ... src/GetValue.obj
+	@echo ... src/GetValue.i
+	@echo ... src/GetValue.s
 	@echo ... src/Gomoku.obj
 	@echo ... src/Gomoku.i
 	@echo ... src/Gomoku.s

@@ -1,18 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>  // rand(), exit()
-#include <time.h>    // srand(), time()
-#include <windows.h> // 获取并输出时间 (用于数据记录)
 #include "Gomoku.h"
-#include "AI_Greedy.h"
-
-#define DEBUG 0
+#include "GameMode.h"
 
 /* ------------------------------------------------ */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
 /*                                                  */
-Enum_Color Chessboard[COLUMN][ROW];
-Struct_GameMode GameMode = {.BlackPlayer = Blank, .WhitePlayer = Blank}; /* 游戏模式 */
-
+int ChessBoard[LENGTH][LENGTH] = {0}; // 棋盘数组
 /*                                                  */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
 /* ------------------------------------------------ */
@@ -21,774 +14,355 @@ Struct_GameMode GameMode = {.BlackPlayer = Blank, .WhitePlayer = Blank}; /* 游�
 /* >> ------------------ 函数 ------------------ << */
 /*                                                  */
 
-//------------------------------------------------------------------------------------------------------------
 /**
- * @brief 五子棋主函数
- * @param none
- * @retval none
+ * @brief 运行五子棋游戏，根据选择的模式启动相应的对战
+ * @retval 无
  */
-void Gomoku_Run() {
-    char CurrentTurn = 1;                         /* 当前回合数 */
-    Enum_LegalOrIllegal islegal;                  /* 用于落子合法性检查 */
-    Enum_Color CurrentPlayer = Black;             /* 当前执棋方 */
-    Struct_Location WinCoordinates[5] = {0};      /* 获胜坐标 */
-    Struct_Location CurentLocation, LastLocation; /* 落子坐标记录 */
-
-    ShowInfor();
-
-    /* 数据文件初始化 */
-    FILE* f_GomokuData = fopen("GomokuData.txt", "a+");
-    if (f_GomokuData == NULL) {
-        printf("Failed to open file GomokuData.txt!\n");
-        exit(1);
+void Gomoku_Run(void) {
+    Print_Infor();        // 打印游戏信息
+    ChooseYourMode();     // 选择游戏模式
+    GameMode = getchar(); // 获取用户输入的游戏模式
+    while (!isdigit(GameMode) || (GameMode -= '0') > 2) { // 检查输入是否为1,2,3
+        printf("Illegal input! Input again: "); // 输入非法，提示重新输入
+        while (getchar() != '\n');              // 清空输入缓冲区
+        GameMode = getchar();                   // 重新获取输入
     }
-    SYSTEMTIME time;
-    GetLocalTime(&time);
-    if (DEBUG) { printf("%04d", time.wSecond); }
-    fprintf(
-        f_GomokuData,
-        "\nRun time: %04d.%02d.%02d %02d:%02d:%02d\n",
-        time.wYear,
-        time.wMonth,
-        time.wDay,
-        time.wHour,
-        time.wMinute,
-        time.wSecond);
 
-    /* 模式选择 */
-    ChooseMode(&GameMode);
-    fprintf(
-        f_GomokuData,
-        "Game mode: BlackPlayer-%s, WhitePlayer-%s.\n",
-        GameMode.BlackPlayer == Human ? "Human" : "Computer",
-        GameMode.WhitePlayer == Human ? "Human" : "Computer");
+    if (GameMode == 0) {        // 如果选择人人对战
+        Human_VS_Human();       // 启动人人对战模式
+    } else if (GameMode == 1) { // 如果选择人机对战
+        Human_VS_Computer();    // 启动人机对战模式
+    } else if (GameMode == 2) { // 如果选择机机对战
+        Computer_VS_Computer(); // 启动机机对战模式
+    } else {                    // 输入其他非法模式
+        printf("Erorr! No illegal game mode detected!\n"); // 打印错误信息
+    }
+}
 
-    /* 开始游戏 */
+/**
+ * @brief 逐行打印棋盘，显示当前棋局状态
+ * @retval 无
+ */
+void Print_ChessBoard(void) {
+    int i, j; // 定义行变量i和列变量j
+    /*自上而下打印，因此 i 从 LENGTH - 1 开始递减
+     *每行第一个符号分三种边框情况和四种棋子情况特殊处理*/
+    if (GameMode == 0)                                // 如果是人人对战
+        printf("            Human VS Human\n");       // 打印模式名称
+    else if (GameMode == 1)                           // 如果是人机对战
+        printf("            Human VS Computer\n");    // 打印模式名称
+    else                                              // 如果是机机对战
+        printf("            Computer VS Computer\n"); // 打印模式名称
 
-    while (VictoryJudgment(Chessboard, WinCoordinates) == Blank) {
-        printf("\n输入 %d%c 以记录数据并退出游戏\n", 15 + 1, 15 + 65);
-        DrawBoard(Chessboard, LastLocation);
-        ShowStatu(GameMode, Chessboard, CurrentTurn, CurrentPlayer, WinCoordinates, LastLocation);
-        GetChess(&CurentLocation, Chessboard, CurrentPlayer); /* 获取落子坐标 */
+    // draw 列号 (ABC), \033[34m 为蓝色
+    printf("  "); // 打印列号前的空格
+    for (i = 'A'; i < 'A' + LENGTH; i++)
+        printf(" \033[34m%c\033[0m ", i); // 打印列标
+    printf("\n");                         // 换行
 
-#if 0
-        /*
-        GetChess_Human() 递归获取落子坐标时出现的 bug 还未修复, 暂时将
-        GetChess_Human()的合法性检查放在这里
-        */
-        Enum_LegalOrIllegal islegal;
-        CheckThisLocation(&islegal, Chessboard, &CurentLocation, CurrentPlayer);
-        while (islegal == Illegal) {
-            if (DEBUG) {
-                printf(
-                    "'%d' '%c' = GetChess_AI_random(), which is illegal, retrying...\n",
-                    CurentLocation.row + 1,
-                    CurentLocation.column + 'a');
-            }
-            GetChess(
-                &CurentLocation,
-                Chessboard,
-                CurrentPlayer); /* 这里其实是从 GetChess_Human 获取坐标 */
-            CheckThisLocation(&islegal, Chessboard, &CurentLocation, CurrentPlayer);
+    // draw Chess Board
+    for (i = LENGTH - 1; i >= 0; i--) {       // 从上到下遍历棋盘行
+        printf("\033[34m%2d\033[0m ", i + 1); // 打印行号，蓝色字体
+        if (ChessBoard[i][0] == EMPTY) {      // 如果第一个位置为空
+            if (i == LENGTH - 1)
+                printf("\033[43;30m┌ \033[0m"); // 打印左上角边框
+            else if (i == 0)
+                printf("\033[43;30m└ \033[0m"); // 打印左下角边框
+            else
+                printf("\033[43;30m├ \033[0m"); // 打印左边中间边框
+        } else
+            Print_OneChess(i, 0); // 打印棋子
+        /*每行第二个符号到倒数第二个符号可以批量处理
+         *同样分为三种边框情况和四种棋子情况*/
+        for (j = 1; j < LENGTH - 1; j++) {   // 遍历每行中间的位置
+            if (ChessBoard[i][j] == EMPTY) { // 如果位置为空
+                if (i == LENGTH - 1)
+                    printf("\033[43;30m ┬ \033[0m"); // 打印上边框
+                else if (i == 0)
+                    printf("\033[43;30m ┴ \033[0m"); // 打印下边框
+                else
+                    printf("\033[43;30m ┼ \033[0m"); // 打印中间边框
+            } else
+                Print_OneChess(i, j); // 打印棋子
         }
-#endif
-
-        /* 落子检查通过, 执行落子操作 */
-        Chessboard[CurentLocation.row][CurentLocation.column] = CurrentPlayer;
-        fprintf(f_GomokuData, "%d%c ", CurentLocation.row + 1, CurentLocation.column + 65);
-        CurrentTurn += CurrentPlayer == White ? 1 : 0;
-        CurrentPlayer = -CurrentPlayer;
-        LastLocation = CurentLocation;
+        // 每行最后一个符号分三种边框情况和四种棋子情况
+        if (ChessBoard[i][LENGTH - 1] == EMPTY) { // 如果最后一个位置为空
+            if (i == LENGTH - 1)
+                printf("\033[43;30m ┐\033[0m"); // 打印右上角边框
+            else if (i == 0)
+                printf("\033[43;30m ┘\033[0m"); // 打印右下角边框
+            else
+                printf("\033[43;30m ┤\033[0m"); // 打印右边中间边框
+        } else
+            Print_OneChess(i, LENGTH - 1);    // 打印棋子
+        printf(" \033[34m%2d\033[0m", i + 1); // 打印行号，蓝色字体
+        printf("\n");                         // 换行
     }
 
-    /* 输出游戏结果并记录数据 */
-    ShowStatu(GameMode, Chessboard, CurrentTurn, CurrentPlayer, WinCoordinates, LastLocation);
-    fprintf(
-        f_GomokuData,
-        "\nWinner: %s\n",
-        (VictoryJudgment(Chessboard, WinCoordinates) == Black) ? "Black" : "White");
-    for (char i = 0; i < 5; i++) {
-        if (i == 0) {
-            fprintf(f_GomokuData, "Win Corrdinates: ");
-            printf("Win Corrdinates: ");
-        }
-        fprintf(f_GomokuData, "%d%c ", WinCoordinates[i].row + 1, WinCoordinates[i].column + 65);
-        printf(
-            "\033[31m%d%c\033[0m ",
-            WinCoordinates[i].row + 1,
-            WinCoordinates[i].column + 65); // \033[31m 设置字体为红色
-        if (i == 4) {
-            fprintf(f_GomokuData, "\n");
-            printf("\n");
-        }
-    }
-
-    /* 暂停以显示 */
-    system("pause");
+    // draw 列号 (ABC), \033[34m 为蓝色
+    printf("  "); // 打印列号前的空格
+    for (i = 'A'; i < 'A' + LENGTH; i++)
+        printf(" \033[34m%c\033[0m ", i); // 打印列标
+    printf("\n\n");                       // 打印换行
 }
 
-//------------------------------------------------------------------------------------------------------------
-
 /**
- * @brief 显示游戏相关信息
- * @param none
- * @retval none
+ * @brief 根据棋盘状态打印对应的棋子或边框符号
+ * @param i 棋子所在行
+ * @param j 棋子所在列
+ * @retval 无
  */
-void ShowInfor(void) {
-    /* \033[31m 设置文本颜色为红色, \033[0m 重置文本颜色 */
-    puts("\033[31m------------------------------------------------");
-    puts(">> ----------- Welcome to Gomoku ! ---------- <<");
-    puts("   Author: Yi Ding");
-    // puts("   Version: 2.0");
-    // puts("   Date: 2024.9.18");
-    puts("   Email: dingyi233@mails.ucas.ac.cn");
-    puts("   GitHub: https://github.com/YiDingg/Gomoku");
-    puts(">> ------------------------------------------- <<");
-    puts("-------------------------------------------------\033[0m\n");
-}
-
-//------------------------------------------------------------------------------------------------------------
-/**
- * @brief 选择游戏模式
- * @param p_gamemode 游戏模式结构体指针
- * @retval none
- */
-void ChooseMode(Struct_GameMode* p_gamemode) {
-    puts("------------------------------");
-    puts("选择黑棋由谁操控：");
-    printf("%d: Human\n", Human);
-    printf("%d: Computer\n", Computer);
-    puts("------------------------------");
-    scanf("%d", &p_gamemode->BlackPlayer);
-    puts("------------------------------");
-    puts("选择白棋由谁操控：");
-    printf("%d: Human\n", Human);
-    printf("%d: Computer\n", Computer);
-    puts("------------------------------");
-    scanf("%d", &p_gamemode->WhitePlayer);
-    puts("------------------------------");
-    if (DEBUG) {
-        printf("p_gamemode->BlackPlayer: %d\n", p_gamemode->BlackPlayer);
-        printf("p_gamemode->WhitePlayer: %d\n", p_gamemode->WhitePlayer);
-    }
-    int bp = p_gamemode->BlackPlayer * p_gamemode->BlackPlayer;
-    int wp = p_gamemode->WhitePlayer * p_gamemode->WhitePlayer;
-    if (bp != 1 || wp != 1) {
-        puts("模式选择错误，请重新输入！");
-        puts("------------------------------");
-        ChooseMode(p_gamemode);
-    }
-}
-
-//------------------------------------------------------------------------------------------------------------
-/**
- * @brief 绘制棋盘：ABCD 为一横, 1234 为一竖, 左 A 下 1 (注意是下 1)
- * @param chessboard 棋盘数据
- * @retval none
- */
-void DrawBoard(const Enum_Color chessboard[ROW][COLUMN], const Struct_Location newnode) {
-    // printf("\n\n");
-    printf("   ");
-    for (char i = 0; i < COLUMN; i++) { // draw 列号 (ABC), \033[34m 为蓝色
-        printf("\033[34m%-3c\033[0m", i + 65);
-    }
-    printf("\n");
-    for (int i = ROW - 1; i > 0 - 1; i--) {
-        printf("\033[34m%-2d \033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
-        for (char j = 0; j < COLUMN; j++) {
-            // printf("%d", (newnode.row == i && newnode.column == j));
-            DrawPoint(i, j, chessboard[i][j], (newnode.row == i && newnode.column == j));
-        } // 作出棋子
-        printf("\033[34m%-2d\n\033[0m", i + 1); // 行号, \033[34m 修改字体为蓝色
-    }
-    printf("   ");
-    for (char i = 0; i < COLUMN; i++) {
-        printf("\033[34m%-3c\033[0m", i + 65);
-    } // 列号, \033[34m 修改字体为蓝色
-    printf("\n\n");
-}
-
-//------------------------------------------------------------------------------------------------------------
-/**
- * @brief 根据棋盘数据绘制当前棋盘
- * @note 注意：棋盘最左下角是 row = 1, column = A
- * @param row 横坐标
- * @param column 纵坐标
- * @param color 绘制的符号类型
- * @retval none
- */
-void DrawPoint(
-    const char row,
-    const char column,
-    const Enum_Color color,
-    const Enum_YesOrNo isnew) {
-    if (color == Blank) {
-        char* line;
-        switch (row) {
-        case ROW - 1:
-            switch (column) {
-            case 0: line = "\033[43;30m┌ \033[0m"; break;
-            case COLUMN - 1: line = "\033[43;30m ┐\033[0m "; break;
-            default: line = "\033[43;30m ┬ \033[0m"; break;
-            }
+void Print_OneChess(int i, int j) {
+    if (j == 0) {                   // 如果是每行的第一个棋子
+        switch (ChessBoard[i][j]) { // 根据棋盘状态选择打印内容
+        case BLACK:
+            printf("\033[43;30m● \033[0m"); // 打印黑棋
             break;
-        case 0:
-            switch (column) {
-            case 0: line = "\033[43;30m└ \033[0m"; break;
-            case COLUMN - 1: line = "\033[43;30m ┘\033[0m "; break;
-            default: line = "\033[43;30m ┴ \033[0m"; break;
-            }
+        case WHITE:
+            printf("\033[43;30m○ \033[0m"); // 打印白棋
+            break;
+        case LASTBLACK:
+            printf("\033[43;30m▲ \033[0m"); // 打印最后一个下的黑棋
+            ChessBoard[i][j] = BLACK;       // 更新棋盘状态
             break;
         default:
-            switch (column) {
-            case 0: line = "\033[43;30m├ \033[0m"; break;
-            case COLUMN - 1: line = "\033[43;30m ┤\033[0m "; break;
-            default: line = "\033[43;30m ┼ \033[0m"; break;
-            }
+            printf("\033[43;30m△ \033[0m"); // 打印最后一个下的白棋
+            ChessBoard[i][j] = WHITE;       // 更新棋盘状态
             break;
         }
-        printf("%s", line);
-    } else {
-        char* marker;
-        if (isnew == Yes) {
-            marker = (color == Black) ? "▲" : "△";
-            /* 空心实心三角形在中是合适的, 但在 中显示异常 */
-        } else {
-            marker = (color == Black) ? "●" : "○"; /* 背景色为黄色，因此 "●" 会显示为黑棋 */
-        }
-        // char* marker = (type == White) ? "■" : "□";
-        // char* marker = (type == White) ? "■" : "□";
-        /*命令行  VC 终端
-        ●○: Y   Y
-        ▲△: Y   N
-        ★☆:N   N
-        ■□: Y   Y (但是区分度不好)
-        */
-        // ▲△ ★☆ ●○ ■□ ▼▽ ◆◇ ▌▐ ▉▊ ▁▂ ▃▄ ▅▆ ▇█ ▏▎ ▍▌ ▋▊ ▉█ ▇▆ ▅▄ ▃▂ ▁▀ ▔▓ ▒░
-        if (column == 0) {
-            printf("\033[43;30m%s \033[0m", marker);
-        } else if (column == COLUMN - 1) {
-            printf("\033[43;30m %s\033[0m ", marker);
-        } else {
-            printf("\033[43;30m %s \033[0m", marker);
-        }
-    }
-}
-
-//------------------------------------------------------------------------------------------------------------
-/**
- * @brief 显示游戏当前状态
- * @param gamemode 游戏模式
- * @param chessboard 棋盘数据
- * @param currentturn 当前回合数
- * @param currentplayer 当前执棋方
- * @param win_coordinates 获胜坐标
- * @param lastlocation 上一步落子坐标
- * @retval none
- */
-void ShowStatu(
-    const Struct_GameMode gamemode,
-    const Enum_Color chessboard[COLUMN][ROW],
-    const char currentturn,
-    const Enum_Color currentplayer,
-    Struct_Location win_coordinates[5],
-    Struct_Location lastlocation) {
-    /* 执棋方或胜负状态 */
-    if (VictoryJudgment(chessboard, win_coordinates) == Blank) {
-        char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
-        char* str_White = (gamemode.WhitePlayer == Human) ? "Human" : "Computer";
-        printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
-        printf("上一步位置：%c%d\n", lastlocation.column + 65, lastlocation.row + 1);
-        printf(
-            "当前回合: %d, 等待 %s 落子：\n",
-            currentturn,
-            (currentplayer == Black) ? "黑方" : "白方");
-    } else {
-        DrawBoard(chessboard, lastlocation);
-        char* str_Black = (gamemode.BlackPlayer == Human) ? "Human" : "Computer";
-        char* str_White = (gamemode.WhitePlayer == Human) ? "Human" : "Computer";
-        printf("黑棋由 %s 操控，白棋由 %s 操控\n", str_Black, str_White);
-        switch (VictoryJudgment(chessboard, win_coordinates)) {
-        case White:
-            puts("------------------");
-            puts("    ！白棋胜利！");
-            puts("------------------");
+    } else if (j == LENGTH - 1) {   // 如果是每行的最后一个棋子
+        switch (ChessBoard[i][j]) { // 根据棋盘状态选择打印内容
+        case BLACK:
+            printf("\033[43;30m ●\033[0m"); // 打印黑棋
             break;
-        case Black:
-            puts("------------------");
-            puts("    ！黑旗胜利！");
-            puts("------------------");
+        case WHITE:
+            printf("\033[43;30m ○\033[0m"); // 打印白棋
             break;
-        default: break;
+        case LASTBLACK:
+            printf("\033[43;30m ▲\033[0m"); // 打印最后一个下的黑棋
+            ChessBoard[i][j] = BLACK;       // 更新棋盘状态
+            break;
+        default:
+            printf("\033[43;30m △\033[0m"); // 打印最后一个下的白棋
+            ChessBoard[i][j] = WHITE;       // 更新棋盘状态
+            break;
+        }
+    } else {                        // 如果是中间的棋子
+        switch (ChessBoard[i][j]) { // 根据棋盘状态选择打印内容
+        case BLACK:
+            printf("\033[43;30m ● \033[0m"); // 打印黑棋
+            break;
+        case WHITE:
+            printf("\033[43;30m ○ \033[0m"); // 打印白棋
+            break;
+        case LASTBLACK:
+            printf("\033[43;30m ▲ \033[0m"); // 打印最后一个下的黑棋
+            ChessBoard[i][j] = BLACK;        // 更新棋盘状态
+            break;
+        default:
+            printf("\033[43;30m △ \033[0m"); // 打印最后一个下的白棋
+            ChessBoard[i][j] = WHITE;        // 更新棋盘状态
+            break;
         }
     }
 }
 
-//------------------------------------------------------------------------------------------------------------
 /**
- * @brief 检查（通过 Human 或 AI）获得的棋子坐标是否合法
- * @param p_islegal 用于合法性检查
- * @param chessboard 棋盘数据
- * @param p_location 要检查的位置
- * @param me 当前执棋方
- * @retval none
+ * @brief 更新玩家的下棋位置并刷新相关参数
+ * @retval 无
  */
-void CheckThisLocation(
-    Enum_LegalOrIllegal* p_islegal,
-    const Enum_Color chessboard[ROW][COLUMN],
-    const Struct_Location* p_location,
-    const Enum_Color me) {
-    if (DEBUG) { puts("--> CheckThisLocation()"); }
-
-    /* 退出程序 */
-    if (p_location->row == 15 && p_location->column == 15) {
-        puts("手动退出程序！");
-        exit(0);
+void Update_Player(void) {
+    Node pt;                              // 定义一个Node结构体变量pt
+    int index, num, line;                 // 定义整型变量index, num, line
+    Get_PlayerMovement();                 // 执行玩家操作
+    GetChess_Human();                     // 获取玩家输入
+    Update_ChessBoard(Row, Col);          // 设置新的行(Row)和列(Col)
+    pt.i = Row;                           // 将Row赋值给pt的i成员
+    pt.j = Col;                           // 将Col赋值给pt的j成员
+    pt.left = LEFT_I(Row, Col);           // 计算并赋值pt的left成员
+    pt.right = RIGHT_I(Row, Col);         // 计算并赋值pt的right成员
+    Get_Value(&pt);                       // 获取pt的相关值
+    for (index = 0; index < 4; index++) { // 遍历四个方向
+        if ((num = Get_Length(Row, Col, index)) < 5)
+            continue;                   // 获取长度，若小于5则继续
+        line = transX[index](Row, Col); // 转换索引并赋值给line
+        CurrentScore[0] -=
+            ScoreTable[0][num][BoardShape[index][line]]; // 更新当前分数
+        CurrentScore[0] += ScoreTable[0][num][pt.shape[index]]; // 更新当前分数
+        CurrentScore[1] -=
+            ScoreTable[1][num][BoardShape[index][line]]; // 更新当前分数
+        CurrentScore[1] += ScoreTable[1][num][pt.shape[index]]; // 更新当前分数
     }
-    if (DEBUG) {
-        printf("location.row: %d, location.column: %d\n", p_location->row, p_location->column);
-    }
-
-    /* 检查非法输入 */
-    if (p_location->row < 0 || p_location->row > 14 || p_location->column < 0
-        || p_location->column > 14) {
-        if (DEBUG) {
-            printf(
-                "Warning: 非法输入 '%d' 和 '%c', 请重新输入: \n",
-                p_location->row + 1,
-                p_location->column + 'a');
-            puts("<-- CheckThisLocation()");
-        }
-        *p_islegal = Illegal;
-        return;
-    }
-
-    /* 检查此处是否已有棋子 */
-    if (chessboard[p_location->row][p_location->column] != Blank) {
-        if (DEBUG) {
-            printf(
-                "Warning: 此处已有 %s棋, 请重新输入: \n",
-                (chessboard[p_location->row][p_location->column] == Black ? "黑" : "白"));
-            puts("<-- CheckThisLocation()");
-        }
-        *p_islegal = Illegal;
-        return;
-    }
-
-    if (DEBUG) {
-        puts("Success!");
-        puts("<-- CheckThisLocation()");
-    }
-    *p_islegal = Legal;
-
-    /* 检查禁手情况 */
-    // CheckOverline(p_islegal, chessboard, p_location); // 检查长连禁手
-    return;
+    BoardShape[0][pt.j] = pt.shape[0];     // 更新BoardShape的第0行
+    BoardShape[1][pt.i] = pt.shape[1];     // 更新BoardShape的第1行
+    BoardShape[2][pt.left] = pt.shape[2];  // 更新BoardShape的第2行
+    BoardShape[3][pt.right] = pt.shape[3]; // 更新BoardShape的第3行
 }
 
 /**
- * @brief 检查此位置长连禁手情况，并将结果赋给 p_islegal
- * @param p_islegal 用于合法性检查
- * @param chessboard 棋盘数据
- * @param p_location 要检查的位置
- * @retval none
+ * @brief AI执行下棋操作并设置新的位置
+ * @retval 无
  */
-void CheckOverline(
-    Enum_LegalOrIllegal* p_islegal,
-    const Enum_Color chessboard[ROW][COLUMN],
-    const Struct_Location* p_location) {
-    /* 最多有八个方向需要检查 */
-    char i = p_location->row;
-    char j = p_location->column;
-
-#if 0
-    /* 先依据给定位置，确定需要检查的方向 */
-    Struct_Derection derect = {0}; // bool 值为 1 表示需要检查
-    if (i >= 5) { derect.Upper = !0; }
-    if (j <= 9) { derect.Right = !0; }
-    if (i <= 9) { derect.Lower = !0; }
-    if (j >= 5) { derect.Left = !0; }
-    if (i <= 9 && j <= 9) { derect.LowerRight = !0; }
-    if (i >= 5 && j >= 5) { derect.UpperLeft = !0; }
-    if (i >= 5 && j <= 9) { derect.UpperRight = !0; }
-    if (i <= 9 && j >= 5) { derect.LowerLeft = !0; }
-
-    /* Right */
-    if (j <= 9) {
-        if (Black == chessboard[i][j + 1] && chessboard[i][j] == chessboard[i][j + 2]
-            && chessboard[i][j] == chessboard[i][j + 3]
-            && chessboard[i][j] == chessboard[i][j + 4]) {
-            for (char k = 0; k < 5; k++) {
-                win_coordinate[k] = (Struct_Location){.row = i, .column = j + k};
-            }
-            return chessboard[i][j];
-        }
-    }
-
-#endif
+void Update_AI(void) {
+    GetChess_AI();               // 执行AI操作
+    Update_ChessBoard(Row, Col); // 设置新的行(Row)和列(Col)
 }
 
 /**
- * @brief 长连检查的子函数 (向下): 给定棋盘、当前位置 (i, j) 和方向, 检查是否有常连
- * @retval none
+ * @brief 简单设置棋子位置，适用于人人对战
+ * @retval 无
  */
-void CheckOverline_Lower(
-    Enum_LegalOrIllegal* p_islegal,
-    const Enum_Color chessboard[ROW][COLUMN],
-    const char i,
-    const char j) {
-    char k_min = (i <= 4) ? (5 - i) : 0;
-    char k_max = (i >= 10) ? (14 - i) : 5;
-    *p_islegal = Legal;                     // 赋默认值
-    for (char k = k_min; k <= k_max; k++) { /* 注意这里是 <= */
-        for (char h = 0; h < 6; h++) {
-            if (chessboard[i - 5 + k + h][j] != Black) {
-                /* 有异色棋子, 说明此 k 未构成六连, 检查下一个 k */
-                /* (在进入 CheckOverline_Lower 前已将当前位置赋予黑色) */
-                break;
-            }
-        }
-        /* 循环未跳出, 说明不含异色棋子, 构成六连 */
-        *p_islegal = Illegal;
-        return;
-    }
+void Update_Human(void) {
+    GetChess_Human();                         // 获取输入
+    ChessBoard[Row][Col] = CurrentPlayer + 2; // 设置棋盘位置为当前玩家
 }
 
 /**
- * @brief 长连检查的子函数 (向右): 给定棋盘、当前位置 (i, j) 和方向, 检查是否有常连
- * @retval none
+ * @brief 返回对应方向上的最长连子数
+ * @param i 起始行
+ * @param j 起始列
+ * @param dx 行方向增量
+ * @param dy 列方向增量
+ * @retval num: 连续相同棋子的数量
  */
-void CheckOverline_Right(
-    Enum_LegalOrIllegal* p_islegal,
-    const Enum_Color chessboard[ROW][COLUMN],
-    const char i,
-    const char j) {
-    char k_min = (j <= 4) ? (5 - j) : 0;
-    char k_max = (j >= 10) ? (14 - j) : 5;
-    for (char k = k_min; k <= k_max; k++) { /* 注意这里是 <= */
-        for (char h = 0; h < 6; h++) {
-            if (chessboard[i][j - 5 + k + h] != Black) {
-                /* (在进入此函数前已将当前位置赋予黑色) 有异色棋子, 说明未构成六连 */
-                *p_islegal = Illegal;
-                return;
-            }
-        }
-    }
-    *p_islegal = Legal;
+int Get_MaxLength(int i, int j, int dx, int dy) {
+    int k, l;                           // 定义变量k和l
+    int num = 1;                        // 初始化连子数量为1
+    int last_player = ChessBoard[i][j]; // 获取最后下棋的玩家
+
+    if (!last_player) return 0; // 如果位置为空，返回0
+    for (k = i + dx, l = j + dy;
+         BothInRange_0_14(k, l) && ChessBoard[k][l] == last_player;
+         k += dx, l += dy, num++); // 向一个方向计数
+    for (k = i - dx, l = j - dy;
+         BothInRange_0_14(k, l) && ChessBoard[k][l] == last_player;
+         k -= dx, l -= dy, num++); // 向相反方向计数
+
+    return num; // 返回总连子数量
 }
 
 /**
- * @brief 长连检查的子函数 (右下): 给定棋盘、当前位置 (i, j) 和方向, 检查是否有常连
- * @retval none
+ * @brief 获取玩家输入并进行合法性检查
+ * @retval 无
  */
-void CheckOverline_LowerRight(
-    Enum_LegalOrIllegal* p_islegal,
-    const Enum_Color chessboard[ROW][COLUMN],
-    const char i,
-    const char j) {
-    char k_min = (j <= 4) ? (5 - j) : 0;
-    char k_max = (j >= 10) ? (14 - j) : 5;
-    for (char k = k_min; k <= k_max; k++) { /* 注意这里是 <= */
-        for (char h = 0; h < 6; h++) {
-            if (chessboard[i - 5 + k + h][j - 5 + k + h] != Black) {
-                /* (在进入此函数前已将当前位置赋予黑色) 有异色棋子, 说明未构成六连 */
-                *p_islegal = Illegal;
-                return;
-            }
-        }
-    }
-    *p_islegal = Legal;
-}
+void GetChess_Human(void) { // GetChess_Human, 经过修改
+    int correct_input = 0;  // 输入是否正确
+    char temp_j;            // 临时存储列坐标
+    char num;               // scanf 返回值
 
-#if 0
-/**
- * @brief 检查（通过 Human 或 AI）获得的棋子坐标是否合法
- * @param none
- * @note 此函数已弃用
- * @retval none
- */
-void ChessHandler() {
-    /* 获取输入 */
-    CurentLocation.row -= 1;     // 坐标转换为 0 起始
-    CurentLocation.column -= 65; // 坐标转换为 0 起始
-
-    if (CurentLocation.row == 15 && CurentLocation.column == 15) { exit(0); } // 退出程序
-
-    if (DEBUG) {
-        printf(
-            "CurentLocation.row: %d, CurentLocation.column: %d\n",
-            CurentLocation.row,
-            CurentLocation.column);
-    }
-
-    /* 检查非法输入 */
-    while (0 > CurentLocation.row || CurentLocation.row > 14 || 0 > CurentLocation.column
-            || CurentLocation.column > 14) {
-        printf("非法输入 (%d%c) 请重新输入: \n", CurentLocation.row, CurentLocation.column);
-        GetChess();
-        CurentLocation.row -= 1;     // 坐标转换为 0 起始
-        CurentLocation.column -= 65; // 坐标转换为 0 起始
-        if (CurentLocation.row == 15 && CurentLocation.column == 15) { exit(0); } // 退出程序
-    }
-
-    /* 检查此处是否被占 */
-    while (Chessboard[CurentLocation.row][CurentLocation.column] != Blank) {
-        printf(
-            "此处 (%d%c) 已有%s棋! 请重新输入: \n",
-            CurentLocation.row + 1,
-            CurentLocation.column + 65,
-            (Chessboard[CurentLocation.row][CurentLocation.column] == Black ? "黑" : "白"));
-        GetChess();
-        CurentLocation.row -= 1;     // 坐标转换为 0 起始
-        CurentLocation.column -= 65; // 坐标转换为 0 起始
-        if (CurentLocation.row == 15 && CurentLocation.column == 15) { exit(0); } // 退出程序
-    }
-}
-#endif
-
-//------------------------------------------------------------------------------------------------------------
-/**
- * @brief 判断胜负
- * @param chessboard 棋盘数据
- * @param win_coordinate 获胜坐标
- * @retval none
- */
-Enum_Color
-VictoryJudgment(const Enum_Color chessboard[ROW][COLUMN], Struct_Location win_coordinate[5]) {
-    char i, j;
-    for (i = 0; i < ROW; i++) {
-        for (j = 0; j < COLUMN; j++) {
-            if (chessboard[i][j] == Blank) continue;
-            /* - 向右连成五子 */
-            if (j <= COLUMN - 5)
-                if (chessboard[i][j] == chessboard[i][j + 1]
-                    && chessboard[i][j] == chessboard[i][j + 2]
-                    && chessboard[i][j] == chessboard[i][j + 3]
-                    && chessboard[i][j] == chessboard[i][j + 4]) {
-                    for (char k = 0; k < 5; k++) {
-                        win_coordinate[k] = (Struct_Location){.row = i, .column = j + k};
-                    }
-                    return chessboard[i][j];
-                }
-
-            /* | 向下连成五子 */
-            if (i <= ROW - 5)
-                if (chessboard[i][j] == chessboard[i + 1][j]
-                    && chessboard[i][j] == chessboard[i + 2][j]
-                    && chessboard[i][j] == chessboard[i + 3][j]
-                    && chessboard[i][j] == chessboard[i + 4][j]) {
-                    for (char k = 0; k < 5; k++) {
-                        win_coordinate[k] = (Struct_Location){.row = i + k, .column = j};
-                    }
-                    return chessboard[i][j];
-                }
-
-            /*  \ 向右下方连成五子 */
-            if (i <= ROW - 5 && j <= COLUMN - 5)
-                if (chessboard[i][j] == chessboard[i + 1][j + 1]
-                    && chessboard[i][j] == chessboard[i + 2][j + 2]
-                    && chessboard[i][j] == chessboard[i + 3][j + 3]
-                    && chessboard[i][j] == chessboard[i + 4][j + 4]) {
-                    for (char k = 0; k < 5; k++) {
-                        win_coordinate[k] = (Struct_Location){.row = i + k, .column = j + k};
-                    }
-                    return chessboard[i][j];
-                }
-
-            /* / 向左下方连成五子 */
-            if (i <= ROW - 5 && j >= 5)
-                if (chessboard[i][j] == chessboard[i + 1][j - 1]
-                    && chessboard[i][j] == chessboard[i + 2][j - 2]
-                    && chessboard[i][j] == chessboard[i + 3][j - 3]
-                    && chessboard[i][j] == chessboard[i + 4][j - 4]) {
-                    for (char k = 0; k < 5; k++) {
-                        win_coordinate[k] = (Struct_Location){.row = i + k, .column = j - k};
-                    }
-                    return chessboard[i][j];
-                }
-        }
-    }
-    return Blank;
-}
-
-//------------------------------------------------------------------------------------------------------------
-/**
- * @brief 获取棋子坐标
- * @param p_location 用于记录落子坐标
- * @param chessboard 棋盘数据
- * @param me 当前执棋方
- * @retval none
- */
-void GetChess(
-    Struct_Location* p_location,
-    const Enum_Color chessboard[ROW][COLUMN],
-    const Enum_Color me) {
-    Enum_Color chessboard_backup[ROW][COLUMN];
-    if (DEBUG) {
-        puts("--> memcpy()");
-        printf("sizeof(chessboard_backup): %d, ", sizeof(chessboard_backup));
-    }
-    memcpy(chessboard_backup, chessboard, sizeof(chessboard_backup));
-    if (DEBUG) { puts("<-- memcpy()"); }
-    switch (me) {
-    case Black:
-        if (GameMode.BlackPlayer == Human) { // Human 下黑旗
-            GetChess_Human(p_location, chessboard_backup, me);
-        } else { // Computer 下黑旗
-            GetChess_AI_Greedy(p_location, chessboard_backup, me);
-        }
-        break;
-    case White:
-        if (GameMode.WhitePlayer == Human) { // Human 下白旗
-            GetChess_Human(p_location, chessboard_backup, me);
-        } else { // Computer 下白旗
-            GetChess_AI_Greedy(p_location, chessboard_backup, me);
-        }
-        break;
-    default: break;
-    }
-}
-
-//------------------------------------------------------------------------------------------------------------
-/**
- * @brief 获取 Human 落子坐标
- * @param p_location 用于记录落子坐标
- * @param chessboard 棋盘数据
- * @param me 当前执棋方
- * @retval none
- * @note 按老师要求, 输入字母在前, 数字在后
- */
-void GetChess_Human(
-    Struct_Location* p_location,
-    const Enum_Color chessboard[ROW][COLUMN],
-    const Enum_Color me) {
-    if (DEBUG) { puts("--> GetChess_Human()"); }
-
-    /* 获取落子坐标 */
-    /* 按老师要求, 输入字母在前, 数字在后 */
-    // int num = scanf("%d%c", &p_location->row, &p_location->column); // 数字在前
-
-    // int num = scanf("%c%d", &p_location->column, &p_location->row);
-    char column;
-    int row;
-    int num;
-    rewind(stdin);                      // 清空缓冲区，fflush(stdin); 貌似不起作用
-    num = scanf("%c%d", &column, &row); // 字母在前
-    rewind(stdin);                      // 清空缓冲区，fflush(stdin); 貌似不起作用
-    // while (getchar() != '\n');          // 清除缓冲区直到遇到换行符 (不可用)
-    p_location->column = column;
-    p_location->row = row;
+    rewind(stdin); // 清空缓冲区，fflush(stdin); 貌似不起作用
+    num = scanf("\n%c%d", &temp_j, &Row); // 字母在前
+    rewind(stdin);                        // 清空缓冲区
 
     /* 检查输入格式与接收参数个数 */
-    if (num != 2) {
-        /* scanf 返回成功获取的参数个数, != 2 时输入格式不正确，清除输入缓冲区并提示重新输入*/
-        // while (getchar() != '\n'); // 清除缓冲区直到遇到换行符 (不可用)
-        printf("scanf() 扫描到的输入有格式错误，请重新输入\n");
-        rewind(stdin); // 清空缓冲区，fflush(stdin); 貌似不起作用
-        GetChess_Human(p_location, chessboard, me);
-        return; // 内部的栈已经做过转换和检查, 直接 return, 否则可能导致错误
+    if (num != 2) { // 如果没有正确读取两个参数
+        printf("scanf() 扫描到的输入有格式错误，请重新输入\n"); // 打印错误信息
+        rewind(stdin);    // 清空缓冲区
+        GetChess_Human(); // 递归调用获取输入
+        return;           // 返回
     }
 
-    /* 检查大小写 (都转为小写) */
-    if (p_location->column >= 'A' && p_location->column <= 'Z') { p_location->column += 32; }
-    // printf("转大小写后, 字母: %c, 数字: %d\n", p_location->column, p_location->row);
+    /* 1~15 到 0~14 转换*/
+    Row--; // 将行号转换为0基
 
-    /* 通过输入合法检查, 将其转换为内部坐标 (0~15) */
-    p_location->column -= 'a';
-    p_location->row -= 1; // 转为由 0 开始
-
-    /* 检查落子坐标合法性 */
-    Enum_LegalOrIllegal islegal;
-    CheckThisLocation(&islegal, chessboard, p_location, me);
-    if (islegal == Illegal) {
-        if (DEBUG) {
-            printf(
-                "'%d' '%c' = GetChess_Human(), which is illegal, retrying...\n",
-                p_location->row + 1,
-                p_location->column + 'a');
-        }
+    /* 坐标范围合法检查 */
+    if ((!IsInRange_0_14(temp_j - 'a') && !IsInRange_0_14(temp_j - 'A'))
+        || !IsInRange_0_14(Row)) { // 检查列和行是否在合法范围内
         printf(
-            "GetChess_Human() 获取到 '%c%d', 也即 '%c' 和 '%d', 为非法数据, 请重新输入:\n",
-            p_location->column + 'a',
-            p_location->row + 1,
-            p_location->column + 'a',
-            p_location->row + 1);
-        GetChess_Human(p_location, chessboard, me);
-        return; // 内部的栈已经做过转换和检查, 直接 return, 否则可能导致错误
+            "[Warning] GetChess_Human() 获取到 '%c%d', 也即 '%c' 和 '%d', 为非法数据, 请重新输入 :\n",
+            temp_j, Row + 1, temp_j, Row + 1); // 打印警告信息
+        GetChess_Human();                      // 递归调用获取输入
+        return;                                // 返回
     }
 
-#if 0
-    /* 检查输入是否合法 */
-        while (1) {
-            if (Legal == CheckThisLocation(chessboard, loc, me)) {
-                puts("退出 while GetChess_Human");
-                if (DEBUG) { puts("Exit : GetChess_Human()"); }
-                return loc;
-            }
-            puts("进入 while GetChess_Human");
-            loc = GetChess_Human(chessboard, me);
-        }
+    /* 大小写转换 */
+    Col = (temp_j > 'Z') ? temp_j - 'a' : temp_j - 'A'; // 转换列字母为索引
 
-    while (Illegal == CheckThisLocation(islegal, Chessboard, CurentLocation, CurrentPlayer)) {
-                printf(
-                    "GetChess_Human() 获取到 '%d' 和 '%c'，为非法数据, 请重新输入: ",
-                    CurentLocation.row + 1,
-                    CurentLocation.column + 'a');
-                GetChess(Chessboard, CurrentPlayer);
-            }
-#endif
-
-    /* 返回落子位置 */
-    if (DEBUG) { puts("<-- GetChess_Human()"); }
-}
-
-//------------------------------------------------------------------------------------------------------------
-/**
- * @brief 获取 AI_random 落子坐标
- * @param p_location 用于记录落子坐标
- * @param chessboard 棋盘数据
- * @param me 当前执棋方
- * @retval none
- */
-void GetChess_AI_random(
-    Struct_Location* p_location,
-    const Enum_Color chessboard[ROW][COLUMN],
-    const Enum_Color me) {
-    if (DEBUG) { puts("--> GetChess_AI_random()"); }
-
-    /* 生成随机落子 */
-    srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
-    p_location->row = ((rand() % ROW + 1) * 14 + rand()) % ROW;
-    srand((unsigned)(time(NULL) + rand())); /* 设置随机数种子 */
-    p_location->column = ((rand() % COLUMN + 2) * 8 + 2 * rand()) % COLUMN;
-
-    /* 检查落子坐标合法性 */
-    Enum_LegalOrIllegal islegal;
-    CheckThisLocation(&islegal, chessboard, p_location, me);
-    if (islegal == Illegal) {
-        if (DEBUG) {
-            printf(
-                "'%d' '%c' = GetChess_AI_random(), which is illegal, retrying...\n",
-                p_location->row + 1,
-                p_location->column + 'a');
-        }
-        GetChess_AI_random(p_location, chessboard, me);
+    /* 落子位置合法性检查 */
+    if (ChessBoard[Row][Col]) { // 如果位置已有棋子
+        printf("[Warning] 此处已有棋子, 请重新输入: \n"); // 打印警告
+        GetChess_Human(); // 递归调用获取输入
+        return;           // 返回
+    } else if (
+        CurrentPlayer == WHITE
+        || !forbid(Row, Col)) { // 检查是否为白棋或不违反禁手
+        correct_input = 1;      // 标记输入正确
+    } else {                    // 如果违反禁手
+        printf("该位置为禁手, 不可落子, 请重新输入: \n"); // 打印警告
+        GetChess_Human(); // 递归调用获取输入
+        return;           // 返回
     }
-
-    /* 返回落子位置 */
-    if (DEBUG) { puts("<-- GetChess_AI_random()"); }
 }
 
 /**
- * @brief 检查给定的多元组是否具有相同颜色
- * @param none
- * @retval 1: 具有相同颜色, 0: 不具有相同颜色
+ * @brief 新下一步棋后对位棋盘进行相关操作
+ * @param i 棋子所在行
+ * @param j 棋子所在列
+ * @retval 无
  */
-Enum_YesOrNo IsEqual(const Enum_Color* array, const char length) {
-    for (char i = 0; i < length; i++) {
-        if (array[i] != array[0]) { return No; }
-    }
-    return Yes;
+void Update_ChessBoard(int i, int j) {
+    ChessBoard[i][j] = CurrentPlayer + 2; // 设置棋盘位置为当前玩家
+    BitBoard[j] &= BitSet[i];             // 更新位棋盘
+    buf_move_board(LastLocation_bit);     // 缓存移动
+    set_bit_board(i, j);                  // 设置位棋盘
+}
+
+/**
+ * @brief 获取当前下棋者的胜利状态
+ * @param i 棋子所在行
+ * @param j 棋子所在列
+ * @retval int 胜利者标识，0表示无胜利
+ */
+int GetWinner(int i, int j) {
+    if (Get_MaxLength(i, j, 1, 0) >= 5 || Get_MaxLength(i, j, 1, 1) >= 5
+        || Get_MaxLength(i, j, 1, -1) >= 5
+        || Get_MaxLength(i, j, 0, 1) >= 5) { // 检查四个方向是否有五子连珠
+        if (CurrentPlayer == BLACK)          // 如果当前玩家为黑棋
+            return WHITE;                    // 返回白棋为胜者
+        else                                 // 如果当前玩家为白棋
+            return BLACK;                    // 返回黑棋为胜者
+    } else
+        return 0; // 无胜利
+}
+
+/**
+ * @brief 判断一个整数是否在0到LENGTH（不包含LENGTH）之间
+ * @param i 要判断的整数
+ * @retval int 1表示在范围内，0表示不在范围内
+ */
+int IsInRange_0_14(int i) {
+    if (i >= 0 && i < LENGTH) // 检查i是否大于等于0且小于LENGTH
+        return 1;             // 在范围内，返回1
+    else
+        return 0; // 不在范围内，返回0
+}
+
+/**
+ * @brief 判断两个整数是否都在0到LENGTH（不包含LENGTH）之间
+ * @param i 第一个要判断的整数
+ * @param j 第二个要判断的整数
+ * @retval int 1表示两个都在范围内，0表示至少一个不在范围内
+ */
+int BothInRange_0_14(int i, int j) {
+    if (IsInRange_0_14(i) && IsInRange_0_14(j)) // 调用within_range分别检查i和j
+        return 1; // 两个都在范围内，返回1
+    else
+        return 0; // 至少一个不在范围内，返回0
+}
+
+/**
+ * @brief 判断棋盘是否已满
+ * @retval int 1表示棋盘已满，0表示棋盘未满
+ */
+int IsChessBoardFull(void) {
+    int i, j; // 定义循环变量i和j
+
+    for (i = 0; i < LENGTH; i++) {               // 遍历棋盘的每一行
+        for (j = 0; j < LENGTH; j++) {           // 遍历棋盘的每一列
+            if (!ChessBoard[i][j]) { return 0; } // 如果发现有空位，返回0
+        } // 结束内层循环
+    } // 结束外层循环
+    return 1; // 所有位置都被占用，返回1
 }
 
 /*                                                  */

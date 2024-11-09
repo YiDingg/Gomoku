@@ -1,13 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include "Gomoku.h"
 
-#if !defined(__MAIN_H)
-#define __MAIN_H
+#if !defined(__FORBID_H)
+#define __FORBID_H
 
 /* ------------------------------------------------ */
 /* >> ----------------- 宏定义 ----------------- << */
 /*                                                  */
+
+// 禁手判断的核心思想是使用三进制哈希匹配，将棋形映射为三进制数索引
+/* 棋形模板 */
+#define huo_three1 117   // 011100
+#define huo_three2 39    // 001110
+#define huo_three3 111   // 011010
+#define huo_three4 93    // 010110
+#define chong_four_1 112 // 11011
+#define chong_four_2 94  // 10111
+#define chong_four_3 118 // 11101
 /*                                                  */
 /* >> ----------------- 宏定义 ----------------- << */
 /* ------------------------------------------------ */
@@ -29,11 +37,12 @@
 /* ------------------------------------------------- */
 /* >> ----------------- 函数声明 ----------------- << */
 /*                                                   */
-void Human_VS_Human(void);       // 人人对战
-void Human_VS_Computer(void);    // 人机对战
-void Computer_VS_Computer(void); // 机机对战
-
+int Get_MaxLength(int i, int j, int dx, int dy); // 返回最长连子
+int isHuoFour(int i, int j, int dx, int dy);     // 判断活四和半活四
+int isChongFour(int i, int j, int dx, int dy);   // 跳四的冲四
+int isHuoThree(int i, int j, int dx, int dy);    // 判断活三
 /*                                                   */
 /* >> ----------------- 函数声明 ----------------- << */
 /* ------------------------------------------------- */
-#endif // __MAIN_H
+
+#endif // __FORBID_H

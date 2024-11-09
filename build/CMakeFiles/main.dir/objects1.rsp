@@ -1,1 +1,1 @@
-CMakeFiles/main.dir/src/AI_Greedy.c.obj CMakeFiles/main.dir/src/Gomoku.c.obj CMakeFiles/main.dir/src/main.c.obj
+CMakeFiles/main.dir/src/AI_PVS.c.obj CMakeFiles/main.dir/src/BitBoard.c.obj CMakeFiles/main.dir/src/Forbid.c.obj CMakeFiles/main.dir/src/GameMode.c.obj CMakeFiles/main.dir/src/GetValue.c.obj CMakeFiles/main.dir/src/Gomoku.c.obj CMakeFiles/main.dir/src/main.c.obj

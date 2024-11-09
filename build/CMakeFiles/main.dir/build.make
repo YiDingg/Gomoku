@@ -68,26 +68,86 @@ include CMakeFiles/main.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/main.dir/flags.make
 
-CMakeFiles/main.dir/src/AI_Greedy.c.obj: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/src/AI_Greedy.c.obj: CMakeFiles/main.dir/includes_C.rsp
-CMakeFiles/main.dir/src/AI_Greedy.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_Greedy.c
-CMakeFiles/main.dir/src/AI_Greedy.c.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/main.dir/src/AI_Greedy.c.obj"
-	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/AI_Greedy.c.obj -MF CMakeFiles\main.dir\src\AI_Greedy.c.obj.d -o CMakeFiles\main.dir\src\AI_Greedy.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\AI_Greedy.c
+CMakeFiles/main.dir/src/AI_PVS.c.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/AI_PVS.c.obj: CMakeFiles/main.dir/includes_C.rsp
+CMakeFiles/main.dir/src/AI_PVS.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/AI_PVS.c
+CMakeFiles/main.dir/src/AI_PVS.c.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/main.dir/src/AI_PVS.c.obj"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/AI_PVS.c.obj -MF CMakeFiles\main.dir\src\AI_PVS.c.obj.d -o CMakeFiles\main.dir\src\AI_PVS.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\AI_PVS.c
 
-CMakeFiles/main.dir/src/AI_Greedy.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/AI_Greedy.c.i"
-	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\a_RemoteRepo\GH.Gomoku\src\AI_Greedy.c > CMakeFiles\main.dir\src\AI_Greedy.c.i
+CMakeFiles/main.dir/src/AI_PVS.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/AI_PVS.c.i"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\a_RemoteRepo\GH.Gomoku\src\AI_PVS.c > CMakeFiles\main.dir\src\AI_PVS.c.i
 
-CMakeFiles/main.dir/src/AI_Greedy.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/AI_Greedy.c.s"
-	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\a_RemoteRepo\GH.Gomoku\src\AI_Greedy.c -o CMakeFiles\main.dir\src\AI_Greedy.c.s
+CMakeFiles/main.dir/src/AI_PVS.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/AI_PVS.c.s"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\a_RemoteRepo\GH.Gomoku\src\AI_PVS.c -o CMakeFiles\main.dir\src\AI_PVS.c.s
+
+CMakeFiles/main.dir/src/BitBoard.c.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/BitBoard.c.obj: CMakeFiles/main.dir/includes_C.rsp
+CMakeFiles/main.dir/src/BitBoard.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/BitBoard.c
+CMakeFiles/main.dir/src/BitBoard.c.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/main.dir/src/BitBoard.c.obj"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/BitBoard.c.obj -MF CMakeFiles\main.dir\src\BitBoard.c.obj.d -o CMakeFiles\main.dir\src\BitBoard.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\BitBoard.c
+
+CMakeFiles/main.dir/src/BitBoard.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/BitBoard.c.i"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\a_RemoteRepo\GH.Gomoku\src\BitBoard.c > CMakeFiles\main.dir\src\BitBoard.c.i
+
+CMakeFiles/main.dir/src/BitBoard.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/BitBoard.c.s"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\a_RemoteRepo\GH.Gomoku\src\BitBoard.c -o CMakeFiles\main.dir\src\BitBoard.c.s
+
+CMakeFiles/main.dir/src/Forbid.c.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/Forbid.c.obj: CMakeFiles/main.dir/includes_C.rsp
+CMakeFiles/main.dir/src/Forbid.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/Forbid.c
+CMakeFiles/main.dir/src/Forbid.c.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/main.dir/src/Forbid.c.obj"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/Forbid.c.obj -MF CMakeFiles\main.dir\src\Forbid.c.obj.d -o CMakeFiles\main.dir\src\Forbid.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\Forbid.c
+
+CMakeFiles/main.dir/src/Forbid.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/Forbid.c.i"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\a_RemoteRepo\GH.Gomoku\src\Forbid.c > CMakeFiles\main.dir\src\Forbid.c.i
+
+CMakeFiles/main.dir/src/Forbid.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/Forbid.c.s"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\a_RemoteRepo\GH.Gomoku\src\Forbid.c -o CMakeFiles\main.dir\src\Forbid.c.s
+
+CMakeFiles/main.dir/src/GameMode.c.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/GameMode.c.obj: CMakeFiles/main.dir/includes_C.rsp
+CMakeFiles/main.dir/src/GameMode.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/GameMode.c
+CMakeFiles/main.dir/src/GameMode.c.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/main.dir/src/GameMode.c.obj"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/GameMode.c.obj -MF CMakeFiles\main.dir\src\GameMode.c.obj.d -o CMakeFiles\main.dir\src\GameMode.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\GameMode.c
+
+CMakeFiles/main.dir/src/GameMode.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/GameMode.c.i"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\a_RemoteRepo\GH.Gomoku\src\GameMode.c > CMakeFiles\main.dir\src\GameMode.c.i
+
+CMakeFiles/main.dir/src/GameMode.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/GameMode.c.s"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\a_RemoteRepo\GH.Gomoku\src\GameMode.c -o CMakeFiles\main.dir\src\GameMode.c.s
+
+CMakeFiles/main.dir/src/GetValue.c.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/GetValue.c.obj: CMakeFiles/main.dir/includes_C.rsp
+CMakeFiles/main.dir/src/GetValue.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/GetValue.c
+CMakeFiles/main.dir/src/GetValue.c.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/main.dir/src/GetValue.c.obj"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/GetValue.c.obj -MF CMakeFiles\main.dir\src\GetValue.c.obj.d -o CMakeFiles\main.dir\src\GetValue.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\GetValue.c
+
+CMakeFiles/main.dir/src/GetValue.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/GetValue.c.i"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\a_RemoteRepo\GH.Gomoku\src\GetValue.c > CMakeFiles\main.dir\src\GetValue.c.i
+
+CMakeFiles/main.dir/src/GetValue.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/GetValue.c.s"
+	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\a_RemoteRepo\GH.Gomoku\src\GetValue.c -o CMakeFiles\main.dir\src\GetValue.c.s
 
 CMakeFiles/main.dir/src/Gomoku.c.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/Gomoku.c.obj: CMakeFiles/main.dir/includes_C.rsp
 CMakeFiles/main.dir/src/Gomoku.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/Gomoku.c
 CMakeFiles/main.dir/src/Gomoku.c.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/main.dir/src/Gomoku.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/main.dir/src/Gomoku.c.obj"
 	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/Gomoku.c.obj -MF CMakeFiles\main.dir\src\Gomoku.c.obj.d -o CMakeFiles\main.dir\src\Gomoku.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\Gomoku.c
 
 CMakeFiles/main.dir/src/Gomoku.c.i: cmake_force
@@ -102,7 +162,7 @@ CMakeFiles/main.dir/src/main.c.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/main.c.obj: CMakeFiles/main.dir/includes_C.rsp
 CMakeFiles/main.dir/src/main.c.obj: D:/a_RemoteRepo/GH.Gomoku/src/main.c
 CMakeFiles/main.dir/src/main.c.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/main.dir/src/main.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/main.dir/src/main.c.obj"
 	C:\aa_MySame\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/main.c.obj -MF CMakeFiles\main.dir\src\main.c.obj.d -o CMakeFiles\main.dir\src\main.c.obj -c D:\a_RemoteRepo\GH.Gomoku\src\main.c
 
 CMakeFiles/main.dir/src/main.c.i: cmake_force
@@ -115,21 +175,29 @@ CMakeFiles/main.dir/src/main.c.s: cmake_force
 
 # Object files for target main
 main_OBJECTS = \
-"CMakeFiles/main.dir/src/AI_Greedy.c.obj" \
+"CMakeFiles/main.dir/src/AI_PVS.c.obj" \
+"CMakeFiles/main.dir/src/BitBoard.c.obj" \
+"CMakeFiles/main.dir/src/Forbid.c.obj" \
+"CMakeFiles/main.dir/src/GameMode.c.obj" \
+"CMakeFiles/main.dir/src/GetValue.c.obj" \
 "CMakeFiles/main.dir/src/Gomoku.c.obj" \
 "CMakeFiles/main.dir/src/main.c.obj"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
-D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/AI_Greedy.c.obj
+D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/AI_PVS.c.obj
+D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/BitBoard.c.obj
+D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/Forbid.c.obj
+D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/GameMode.c.obj
+D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/GetValue.c.obj
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/Gomoku.c.obj
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/src/main.c.obj
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/build.make
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/linkLibs.rsp
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/objects1.rsp
 D:/a_RemoteRepo/GH.Gomoku/bin/main.exe: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable D:\a_RemoteRepo\GH.Gomoku\bin\main.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\a_RemoteRepo\GH.Gomoku\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking C executable D:\a_RemoteRepo\GH.Gomoku\bin\main.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\main.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
