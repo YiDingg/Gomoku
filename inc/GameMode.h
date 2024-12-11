@@ -33,10 +33,9 @@ void Human_VS_Human(void);       // 人人对战
 void Human_VS_Computer(void);    // 人机对战
 void Computer_VS_Computer(void); // 机机对战
 void Print_Winner(void);
-void Print_LastLocation(void); // 打印当前落子位置
-void Init_Hash(void);          // 初始化哈希表
-void Print_Infor(void);        // 显示游戏相关信息
-void ChooseYourMode(void);     // 选择游戏模式
+void Init_Hash(void);      // 初始化哈希表
+void Print_Infor(void);    // 显示游戏相关信息
+void ChooseYourMode(void); // 选择游戏模式
 /*                                                   */
 /* >> ----------------- 函数声明 ----------------- << */
 /* ------------------------------------------------- */

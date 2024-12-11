@@ -6,6 +6,7 @@
 /*                                                  */
 /* 三种游戏模式入口 */
 
+char player_color = 0; // 玩家选择的颜色
 int CurrentPlayer = 1; // 当前玩家，1 为黑棋，2 为白棋
 int BoolPlayer = 0;    // 当前玩家标识，0 为黑棋，1 为白棋
 Tree g_move = NULL;    // 指向上一步走法的指针，用于更新走法
@@ -43,14 +44,34 @@ void Human_VS_Human(void) {
 }
 
 /**
+ * @brief 悔棋机制，确认是否悔棋 (Human VS Computer 专属)
+ * @param none
+ * @retval none
+ */
+void IsUndo() {
+    if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
+        printf(
+            "[白方] %s 落子在 [%c%d] (上方棋盘), 是否确认 ? (input 'y' or 'n')\n",
+            CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
+            Col + 'A',
+            Row + 1);
+    } else { // 如果当前玩家是黑旗
+        printf(
+            "[黑方] %s 落子在 [%c%d] (上方棋盘), 是否确认 ? (input 'y' or 'n')\n",
+            CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
+            Col + 'A',
+            Row + 1);
+    }
+}
+
+/**
  * @brief 人机对战模式的主循环
  * @param none
  * @retval none
  */
 void Human_VS_Computer(void) {
-    int result;        // 记录游戏结果
-    int time_AI = 0;   // AI思考时间
-    char player_color; // 玩家选择的颜色
+    int result;      // 记录游戏结果
+    int time_AI = 0; // AI思考时间
 
     /* 初始化AI相关的哈希表等 */
     // printf("Loading...\n");
@@ -59,15 +80,15 @@ void Human_VS_Computer(void) {
     Init_MoveTable(); // 初始化走法表
 
     while (getchar() != '\n'); // 清空输入缓冲区
-    puts("选择 Human 颜色");
+    puts("选择 Human (或对手 AI) 颜色");
     puts("  1. 黑棋 (先手)");
     puts("  2. 白棋 (后手)");
     player_color = getchar(); // 获取玩家颜色选择
     while (!isdigit(player_color)
            || ((player_color -= '0') != 1 && player_color != 2)) { // 检查输入是否合法
-        printf("Illegal input, try again:\n"); // 输入非法，提示重新输入
-        while (getchar() != '\n');             // 清空输入缓冲区
-        player_color = getchar();              // 重新获取玩家颜色选择
+        printf("[Warning] Illegal input, try again:\n"); // 输入非法，提示重新输入
+        while (getchar() != '\n');                       // 清空输入缓冲区
+        player_color = getchar();                        // 重新获取玩家颜色选择
     }
     // system("cls"); // 清屏命令，暂时注释
 
@@ -84,12 +105,14 @@ void Human_VS_Computer(void) {
     } else {
         MaxDepth = 3;       // 设置AI搜索深度
         Print_ChessBoard(); // 打印初始棋盘
+        printf("等待 [黑方] Human (或对手AI) 落子：\n");
     }
 
     while (!(result = GetWinner(Row, Col)) && !IsChessBoardFull()) { // 检查是否有赢家或棋盘满
         if (CurrentPlayer == player_color) {                         // 如果当前玩家是人类
             Update_Player();                                         // 人类落子
-            // system("cls"); // 清屏命令，暂时注释
+            // IsUndo();
+            //  system("cls"); // 清屏命令，暂时注释
         } else {         // 如果当前玩家是AI
             Update_AI(); // AI落子
             // system("cls"); // 清屏命令，暂时注释
@@ -159,7 +182,7 @@ void ChooseYourMode(void) {
     puts("----------------------------------------------------"); // 分割线
     puts(" 共三种游戏模式：");                                    // 显示游戏模式选项
     puts("     0.   Human  VS  Human   \t(人人对战, 有禁手)");    // 人人对战模式
-    puts("     1.   Human  VS Computer \t(人机对战, 有禁手)");    // 人机对战模式
+    puts("     1. Human VS Computer \t(人机对战, 有禁手)");       // 人机对战模式
     puts("     2. Computer VS Computer \t(机机对战, 有禁手)");    // 机机对战模式
     puts(" Choose your game mode: ");                             // 提示用户选择模式
     puts("----------------------------------------------------"); // 分割线

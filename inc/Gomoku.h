@@ -29,8 +29,8 @@
 #define RIGHT_J(i, j) (j <= i) ? j : i
 
 /* 切换玩家 */
-#define CHANGE_PLAYER                                                          \
-    CurrentPlayer ^= 0b11;                                                     \
+#define CHANGE_PLAYER                                                                              \
+    CurrentPlayer ^= 0b11;                                                                         \
     BoolPlayer = BoolPlayer ^ 1
 
 #define LASTBLACK 3 // 刚下的黑棋
@@ -49,8 +49,8 @@ typedef unsigned char Chess_point;
 typedef unsigned short Line;
 /* 记录一个走法的节点Node */
 typedef struct {
-    Chess_point i; // 节点横坐标i(映射到显示屏上的棋盘则是纵坐标)
-    Chess_point j; // 节点纵坐标j(映射到显示屏上的棋盘则是横坐标)
+    Chess_point i;     // 节点横坐标i(映射到显示屏上的棋盘则是纵坐标)
+    Chess_point j;     // 节点纵坐标j(映射到显示屏上的棋盘则是横坐标)
     Chess_point left;  // 按左上45°排序的行标
     Chess_point right; // 按右上45°排序的航标
     int point_score;   // 位置得分 用于排序
@@ -69,15 +69,15 @@ extern int CurrentScore[];      // 当前局面评分
 extern Line LastLocation_bit[]; // 缓存走法数组
 extern char GameMode;           // 游戏模式
 
-extern int Row, Col;      // 记录当前下棋位置
-extern int CurrentPlayer; // 记录当前棋局的下棋人
-extern int BoolPlayer; // 记录下棋人的布尔值，主要用于数组索引
-extern int ChessBoard[LENGTH][LENGTH];                     // 棋盘
+extern int Row, Col;                   // 记录当前下棋位置
+extern int CurrentPlayer;              // 记录当前棋局的下棋人
+extern int BoolPlayer;                 // 记录下棋人的布尔值，主要用于数组索引
+extern int ChessBoard[LENGTH][LENGTH]; // 棋盘
 extern clock_t Time_sort, Time_gene, Time_end, Time_begin; // 调试用时间管理
 extern int NodeNum;                                        // 节点总数
 extern const int base[15]; // 哈希匹配权值  三进制 改进空间为四进制结合位操作
-extern Line g_last_buf[5];   // 缓存变化前的未改变的着法部分
-extern Tree g_move;          // 缓存上一步所得的走法
+extern Line g_last_buf[5]; // 缓存变化前的未改变的着法部分
+extern Tree g_move;        // 缓存上一步所得的走法
 extern int BoardShape[][30]; // 棋形棋盘 3进制
 /*                                                   */
 /* >> --------------- 全局变量声明 --------------- << */
@@ -91,8 +91,8 @@ void Gomoku_Run(void);
 void Print_ChessBoard(void);       // 打印当前局势的棋盘
 void Print_OneChess(int i, int j); // 打印棋子
 void Update_Player(void); // 每下一步棋后根据玩家下棋对相应全局参数修改
-void Update_AI(void);                            // AI下棋
-void Update_Human(void);                         // 玩家下棋
+void Update_AI(void);     // AI下棋
+void Update_Human(void);  // 玩家下棋
 int Get_MaxLength(int i, int j, int dx, int dy); // 返回对应行连子个数
 void GetChess_Human(void);                       // 获取玩家输入
 void Update_ChessBoard(int i, int j);            // 置点
@@ -101,10 +101,10 @@ int GetWinner(int i, int j);                     // 判断是否赢
 void Get_PlayerMovement(void);                   // 玩家操作
 void GetChess_AI(void);                          // 从这开始进入AI
 int forbid(int i, int j);                        // 判断禁手
-int IsInRange_0_14(int i);          // 判断i是否在0-14闭区间内
-int BothInRange_0_14(int i, int j); // 判断i, j都在0到14内
-int GetWinner(int i, int j);        // 判断是否赢
-int IsChessBoardFull(void);         // 判断棋盘有没有下满
+int IsInRange_0_14(int i);                       // 判断i是否在0-14闭区间内
+int BothInRange_0_14(int i, int j);              // 判断i, j都在0到14内
+int GetWinner(int i, int j);                     // 判断是否赢
+int IsChessBoardFull(void);                      // 判断棋盘有没有下满
 /*                                                   */
 /* >> ----------------- 函数声明 ----------------- << */
 /* ------------------------------------------------- */

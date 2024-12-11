@@ -5,6 +5,7 @@
 /* ------------------------------------------------ */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
 /*                                                  */
+extern char player_color;             // 玩家选择的颜色
 int ChessBoard[LENGTH][LENGTH] = {0}; // 棋盘数组
 /*                                                  */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
@@ -23,19 +24,19 @@ void Gomoku_Run(void) {
     ChooseYourMode();                                     // 选择游戏模式
     GameMode = getchar();                                 // 获取用户输入的游戏模式
     while (!isdigit(GameMode) || (GameMode -= '0') > 2) { // 检查输入是否为1,2,3
-        printf("Illegal input! Input again: ");           // 输入非法，提示重新输入
+        printf("[Warning] Illegal input! Input again: "); // 输入非法，提示重新输入
         while (getchar() != '\n');                        // 清空输入缓冲区
         GameMode = getchar();                             // 重新获取输入
     }
 
-    if (GameMode == 0) {                                   // 如果选择人人对战
-        Human_VS_Human();                                  // 启动人人对战模式
-    } else if (GameMode == 1) {                            // 如果选择人机对战
-        Human_VS_Computer();                               // 启动人机对战模式
-    } else if (GameMode == 2) {                            // 如果选择机机对战
-        Computer_VS_Computer();                            // 启动机机对战模式
-    } else {                                               // 输入其他非法模式
-        printf("Erorr! No illegal game mode detected!\n"); // 打印错误信息
+    if (GameMode == 0) {                                    // 如果选择人人对战
+        Human_VS_Human();                                   // 启动人人对战模式
+    } else if (GameMode == 1) {                             // 如果选择人机对战
+        Human_VS_Computer();                                // 启动人机对战模式
+    } else if (GameMode == 2) {                             // 如果选择机机对战
+        Computer_VS_Computer();                             // 启动机机对战模式
+    } else {                                                // 输入其他非法模式
+        printf("[Erorr] No illegal game mode detected!\n"); // 打印错误信息
     }
 }
 
@@ -61,16 +62,34 @@ void Print_Winner(void) {
  * @retval none
  */
 void Print_LastLocation(void) {
-    if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
-        printf(
-            "白方落子在 %c%d (上方棋盘), 轮到黑方落子 (下方棋盘) :\n",
-            Col + 'A',
-            Row + 1); // 打印白棋落子信息
+    if (GameMode == 1) {
+        if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
+            printf(
+                "[白方] %s 落子在 [%c%d] (上方棋盘) \n等待 [黑方] %s 落子:\n",
+                CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
+                Col + 'A',
+                Row + 1,
+                CurrentPlayer == player_color ? "Computer" : "Human (或对手 AI)");
+        } else { // 打印黑棋落子信息
+            printf(
+                "[黑方] %s 落子在 [%c%d] (上方棋盘) \n等待 [白方] Human (对手 AI) 落子:\n",
+                CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
+                Col + 'A',
+                Row + 1,
+                CurrentPlayer == player_color ? "Computer" : "Human (或对手 AI)");
+        }
     } else {
-        printf(
-            "黑方落子在 %c%d (上方棋盘), 轮到白方落子 (下方棋盘) :\n",
-            Col + 'A',
-            Row + 1); // 打印黑棋落子信息}
+        if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
+            printf(
+                "[白方] 落子在 [%c%d] (上方棋盘) \n等待 [黑方] 落子:\n",
+                Col + 'A',
+                Row + 1); // 打印白棋落子信息
+        } else {
+            printf(
+                "[黑方] 落子在 [%c%d] (上方棋盘) \n等待 [白方] 落子:\n",
+                Col + 'A',
+                Row + 1); // 打印黑棋落子信息}
+        }
     }
 }
 
@@ -101,9 +120,9 @@ void Print_ChessBoard(void) {
     /*自上而下打印，因此 i 从 LENGTH - 1 开始递减
      *每行第一个符号分三种边框情况和四种棋子情况特殊处理*/
     if (GameMode == 0)                            // 如果是人人对战
-        printf("\n      Human VS Human\n");       // 打印模式名称
+        printf("\n        Human VS Human\n");     // 打印模式名称
     else if (GameMode == 1)                       // 如果是人机对战
-        printf("\n      Human VS Computer\n");    // 打印模式名称
+        printf("\n       Human VS Computer\n");   // 打印模式名称
     else                                          // 如果是机机对战
         printf("\n      Computer VS Computer\n"); // 打印模式名称
 
@@ -279,16 +298,17 @@ void GetChess_Human(void) { // GetChess_Human, 经过修改
     char temp_j;            // 临时存储列坐标
     char num;               // scanf 返回值
 
-    rewind(stdin);                        // 清空缓冲区，fflush(stdin); 貌似不起作用
+    rewind(stdin);                        // 清空缓冲区，fflush(stdin);
     num = scanf("\n%c%d", &temp_j, &Row); // 字母在前
     rewind(stdin);                        // 清空缓冲区
 
     /* 检查输入格式与接收参数个数 */
     if (num != 2) { // 如果没有正确读取两个参数
-        printf("scanf() 扫描到的输入有格式错误，请重新输入\n"); // 打印错误信息
-        rewind(stdin);                                          // 清空缓冲区
-        GetChess_Human();                                       // 递归调用获取输入
-        return;                                                 // 返回
+        printf(
+            "[Warning] The return value of function scanf() incorrect (must be 2), input again:\n"); // 打印错误信息
+        rewind(stdin);    // 清空缓冲区
+        GetChess_Human(); // 递归调用获取输入
+        return;           // 返回
     }
 
     /* 1~15 到 0~14 转换*/
