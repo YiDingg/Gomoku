@@ -195,7 +195,7 @@ void Print_OneChess(int i, int j) {
             printf("\033[47;30m▲\033[0m"); // 打印最后一个下的黑棋
             ChessBoard[i][j] = BLACK;      // 更新棋盘状态
             break;
-        default:
+        case LASTWHITE:
             printf("\033[47;30m△\033[0m"); // 打印最后一个下的白棋
             ChessBoard[i][j] = WHITE;      // 更新棋盘状态
             break;
@@ -212,7 +212,7 @@ void Print_OneChess(int i, int j) {
             printf("\033[47;30m ▲\033[0m"); // 打印最后一个下的黑棋
             ChessBoard[i][j] = BLACK;       // 更新棋盘状态
             break;
-        default:
+        case LASTWHITE:
             printf("\033[47;30m △\033[0m"); // 打印最后一个下的白棋
             ChessBoard[i][j] = WHITE;       // 更新棋盘状态
             break;
@@ -290,6 +290,56 @@ int Get_MaxLength(int i, int j, int dx, int dy) {
 }
 
 /**
+ * @brief 悔棋机制，确认是否悔棋 (Human VS Computer 专属)
+ * @param none
+ * @retval none
+ */
+void IsUndo() {
+    ChessBoard[Row][Col] = CurrentPlayer + 2; // 设置棋盘此处为当前玩家 (+2 是最近一步)
+    Print_ChessBoard();
+    if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
+        printf(
+            "[白方] %s 落子在 [%c%d] (上方棋盘) \n是否确认 (input 'y' or 'n')\n",
+            CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
+            Col + 'A',
+            Row + 1);
+    } else { // 如果当前玩家是黑旗
+        printf(
+            "[黑方] %s 落子在 [%c%d] (上方棋盘) \n是否确认 (input 'y' or 'n')\n",
+            CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
+            Col + 'A',
+            Row + 1);
+    }
+
+    char ch;
+    rewind(stdin);                // 清空缓冲区，fflush(stdin);
+    int num = scanf("\n%c", &ch); // 获取 'y' 或者 'n'
+
+    // 输入合法性检查
+    if (num != 1 || (ch != 'y' && ch != 'n')) {
+        printf("[Warning] Illegal input, try again:\n"); // 输入非法，提示重新输入
+        rewind(stdin);                                   // 清空缓冲区
+        IsUndo();                                        // 递归调用悔棋确认
+        return;                                          // 返回
+    }
+
+    if (ch == 'y') {
+        // 确认落子在此处
+        return;
+    } else if (ch == 'n') {
+        // 需要悔棋, 重新落子
+        ChessBoard[Row][Col] = 0;
+        Print_ChessBoard();
+        printf(
+            "等待 [%s] %s 重新落子：\n",
+            CurrentPlayer == BLACK ? "黑方" : "白方",
+            CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer");
+        GetChess_Human();
+        return;
+    }
+}
+
+/**
  * @brief 获取玩家输入并进行合法性检查
  * @retval 无
  */
@@ -300,7 +350,6 @@ void GetChess_Human(void) { // GetChess_Human, 经过修改
 
     rewind(stdin);                        // 清空缓冲区，fflush(stdin);
     num = scanf("\n%c%d", &temp_j, &Row); // 字母在前
-    rewind(stdin);                        // 清空缓冲区
 
     /* 检查输入格式与接收参数个数 */
     if (num != 2) { // 如果没有正确读取两个参数
@@ -342,6 +391,9 @@ void GetChess_Human(void) { // GetChess_Human, 经过修改
         GetChess_Human();                                     // 递归调用获取输入
         return;                                               // 返回
     }
+
+    /* 悔棋机制 */
+    IsUndo(); // 确认是否悔棋
 }
 
 /**

@@ -94,6 +94,7 @@ void Update_Player(void); // 每下一步棋后根据玩家下棋对相应全局
 void Update_AI(void);     // AI下棋
 void Update_Human(void);  // 玩家下棋
 int Get_MaxLength(int i, int j, int dx, int dy); // 返回对应行连子个数
+void IsUndo(void);                               // 悔棋机制
 void GetChess_Human(void);                       // 获取玩家输入
 void Update_ChessBoard(int i, int j);            // 置点
 void Print_LastLocation(void);                   // 报点

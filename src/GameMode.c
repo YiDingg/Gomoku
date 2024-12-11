@@ -44,27 +44,6 @@ void Human_VS_Human(void) {
 }
 
 /**
- * @brief 悔棋机制，确认是否悔棋 (Human VS Computer 专属)
- * @param none
- * @retval none
- */
-void IsUndo() {
-    if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
-        printf(
-            "[白方] %s 落子在 [%c%d] (上方棋盘), 是否确认 ? (input 'y' or 'n')\n",
-            CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
-            Col + 'A',
-            Row + 1);
-    } else { // 如果当前玩家是黑旗
-        printf(
-            "[黑方] %s 落子在 [%c%d] (上方棋盘), 是否确认 ? (input 'y' or 'n')\n",
-            CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
-            Col + 'A',
-            Row + 1);
-    }
-}
-
-/**
  * @brief 人机对战模式的主循环
  * @param none
  * @retval none
@@ -111,14 +90,13 @@ void Human_VS_Computer(void) {
     while (!(result = GetWinner(Row, Col)) && !IsChessBoardFull()) { // 检查是否有赢家或棋盘满
         if (CurrentPlayer == player_color) {                         // 如果当前玩家是人类
             Update_Player();                                         // 人类落子
-            // IsUndo();
             //  system("cls"); // 清屏命令，暂时注释
-        } else {         // 如果当前玩家是AI
+        } else {         // 如果当前玩家是 AI
             Update_AI(); // AI落子
             // system("cls"); // 清屏命令，暂时注释
             if (MaxDepth == 3) { MaxDepth = 9; } // 动态调整AI搜索深度
         }
-        Print_ChessBoard();   // 打印更新后的棋盘
+        Print_ChessBoard(); // todo 这里不能不打印, 否则会出现未成功落子的 bug (为什么？)
         Print_LastLocation(); // 打印最后落子的位置
         CHANGE_PLAYER;        // 切换到下一个玩家
     }
