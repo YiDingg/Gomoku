@@ -4,8 +4,8 @@
 /* ------------------------------------------------ */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
 /*                                                  */
-const int base[15] = {1,    3,     9,     27,     81,     243,     729,    2187,
-                      6561, 19683, 59049, 177147, 531441, 1594323, 4782969};
+const int base[15] =
+    {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049, 177147, 531441, 1594323, 4782969};
 /*                                                  */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
 /* ------------------------------------------------ */
@@ -15,10 +15,28 @@ const int base[15] = {1,    3,     9,     27,     81,     243,     729,    2187,
 /*                                                  */
 
 /**
+ * @brief {第一行01110, 下一行00100, 再下一行01000} 的特殊双三检测
+ * @param none
+ * @retval none
+ */
+int CheckBugHuoThree(int i, int j) {
+    int add[4][2] = {
+        {-1, 0}, {-2, 0}, {-1, -1}, {-2, -2}}; // 注意 x 是减, y 也是减 (因为左下 A1 右上 O15)
+    for (int k = 0; k < 4; k++) {
+        if (ChessBoard[i + add[k][0]][j + add[k][1]] != BLACK) {
+            return 0; // 不是双三
+        }
+    }
+    return 1; // 是双三
+}
+
+/**
  * @brief 判断在位置(i, j)是否构成禁手
  * @param i 行索引
  * @param j 列索引
  * @retval 1: 是禁手，0: 不是禁手
+ * @note v3.1 及之后版本采用的是此禁手检测， 新修复了某些双三无法检测到的 bug,
+ *       补充了 {第一行01110, 下一行00100, 再下一行01000} 的特殊检测
  */
 int forbid(int i, int j) {
     ChessBoard[i][j] = BLACK;               /* 在棋盘上放置黑棋 */
@@ -41,24 +59,77 @@ int forbid(int i, int j) {
         if (line1 == 5 || line2 == 5 || line3 == 5
             || line4 == 5) { /* 如果某个方向正好5连，不是禁手 */
             return 0;
-        }
-
-        else { /* 否则是禁手 */
+        } else { /* 否则是禁手 */
             return 1;
         }
     }
 
     /* 四个方向判断活四 */
-    if (isHuoFour(i, j, 1, 0)) num_four++; /* 检查横向是否有活四 */
-    if (isHuoFour(i, j, 0, 1)) num_four++; /* 检查纵向是否有活四 */
-    if (isHuoFour(i, j, 1, 1)) num_four++; /* 检查主对角线是否有活四 */
+    if (isHuoFour(i, j, 1, 0)) num_four++;  /* 检查横向是否有活四 */
+    if (isHuoFour(i, j, 0, 1)) num_four++;  /* 检查纵向是否有活四 */
+    if (isHuoFour(i, j, 1, 1)) num_four++;  /* 检查主对角线是否有活四 */
     if (isHuoFour(i, j, 1, -1)) num_four++; /* 检查副对角线是否有活四 */
 
-    num_four += isChongFour(i, j, 1, 0) + isChongFour(i, j, 0, 1)
-                + isChongFour(i, j, 1, 1)
+    num_four += isChongFour(i, j, 1, 0) + isChongFour(i, j, 0, 1) + isChongFour(i, j, 1, 1)
                 + isChongFour(i, j, 1, -1); /* 检查是否有冲四 */
-    num_three += isHuoThree(i, j, 1, 0) + isHuoThree(i, j, 0, 1)
-                 + isHuoThree(i, j, 1, 1)
+    num_three += isHuoThree(i, j, 1, 0) + isHuoThree(i, j, 0, 1) + isHuoThree(i, j, 1, 1)
+                 + isHuoThree(i, j, 1, -1); /* 检查是否有活三 */
+
+    if (num_four >= 2 || num_three >= 2) {    /* 如果有两个活四或两个活三 */
+        ChessBoard[i][j] = 0;                 /* 撤销落子 */
+        return 1;                             /* 是禁手 */
+    } else if (CheckBugHuoThree(i, j) == 1) { /* 如果出现 v3.0 bug 中的双三情形 */
+        ChessBoard[i][j] = 0;                 /* 撤销落子 */
+        return 1;                             /* 是禁手 */
+    } else {
+        ChessBoard[i][j] = 0; /* 撤销落子 */
+        return 0;             /* 不是禁手 */
+    }
+}
+
+/**
+ * @brief 判断在位置(i, j)是否构成禁手
+ * @param i 行索引
+ * @param j 列索引
+ * @retval 1: 是禁手，0: 不是禁手
+ * @note 此函数已弃用 (v3.0 及之前版本采用的是此禁手检测)， 新版本修复了某些双三无法检测到的 bug,
+ *       补充了 {第一行111, 下一行010, 再下一行100} 的特殊检测
+ */
+int forbid_1(int i, int j) {
+    ChessBoard[i][j] = BLACK;               /* 在棋盘上放置黑棋 */
+    int num_four = 0;                       /* 活四的数量 */
+    int num_three = 0;                      /* 活三的数量 */
+    int max_length = 1;                     /* 当前最大连珠长度 */
+    int line1 = Get_MaxLength(i, j, 1, 0);  /* 横向连珠长度 */
+    int line2 = Get_MaxLength(i, j, 0, 1);  /* 纵向连珠长度 */
+    int line3 = Get_MaxLength(i, j, 1, 1);  /* 主对角线连珠长度 */
+    int line4 = Get_MaxLength(i, j, 1, -1); /* 副对角线连珠长度 */
+
+    if (max_length < line1) max_length = line1; /* 更新最大连珠长度 */
+    if (max_length < line2) max_length = line2; /* 更新最大连珠长度 */
+    if (max_length < line3) max_length = line3; /* 更新最大连珠长度 */
+    if (max_length < line4) max_length = line4; /* 更新最大连珠长度 */
+
+    /* 先判断最简单的长连情况 */
+    if (max_length > 5) {     /* 如果有超过5连 */
+        ChessBoard[i][j] = 0; /* 撤销落子 */
+        if (line1 == 5 || line2 == 5 || line3 == 5
+            || line4 == 5) { /* 如果某个方向正好5连，不是禁手 */
+            return 0;
+        } else { /* 否则是禁手 */
+            return 1;
+        }
+    }
+
+    /* 四个方向判断活四 */
+    if (isHuoFour(i, j, 1, 0)) num_four++;  /* 检查横向是否有活四 */
+    if (isHuoFour(i, j, 0, 1)) num_four++;  /* 检查纵向是否有活四 */
+    if (isHuoFour(i, j, 1, 1)) num_four++;  /* 检查主对角线是否有活四 */
+    if (isHuoFour(i, j, 1, -1)) num_four++; /* 检查副对角线是否有活四 */
+
+    num_four += isChongFour(i, j, 1, 0) + isChongFour(i, j, 0, 1) + isChongFour(i, j, 1, 1)
+                + isChongFour(i, j, 1, -1); /* 检查是否有冲四 */
+    num_three += isHuoThree(i, j, 1, 0) + isHuoThree(i, j, 0, 1) + isHuoThree(i, j, 1, 1)
                  + isHuoThree(i, j, 1, -1); /* 检查是否有活三 */
 
     if (num_four >= 2 || num_three >= 2) { /* 如果有两个活四或两个活三 */
@@ -129,9 +200,9 @@ int isHuoFour(int i, int j, int dx, int dy) {
  */
 int isChongFour(int i, int j, int dx, int dy) {
     int value, key_i, key_j, now_i, now_j, search_i, search_j; /* 变量定义 */
-    int num = 0;        /* 冲四的数量 */
-    int index1, index2; /* 循环变量 */
-    index2 = 0;         /* 初始化循环计数 */
+    int num = 0;                                               /* 冲四的数量 */
+    int index1, index2;                                        /* 循环变量 */
+    index2 = 0;                                                /* 初始化循环计数 */
 
     for (now_i = i, now_j = j; index2 < 5 && BothInRange_0_14(now_i, now_j);
          now_i -= dx, now_j -= dy, index2++) { /* 检查五个方向 */
@@ -139,7 +210,7 @@ int isChongFour(int i, int j, int dx, int dy) {
         search_i = now_i;                      /* 搜索起始点i */
         search_j = now_j;                      /* 搜索起始点j */
         for (index1 = 0; index1 < 5 && BothInRange_0_14(search_i, search_j);
-             index1++, search_i += dx, search_j += dy) { /* 检查连续五个位置 */
+             index1++, search_i += dx, search_j += dy) {   /* 检查连续五个位置 */
             if (ChessBoard[search_i][search_j] == WHITE) { /* 遇到白棋，停止 */
                 break;
             }
@@ -176,25 +247,22 @@ int isChongFour(int i, int j, int dx, int dy) {
  * @retval 1: 是活三，0: 不是活三
  */
 int isHuoThree(int i, int j, int dx, int dy) {
-    int value, key_i, key_j, now_i, now_j, end_i, end_j, search_i,
-        search_j;   /* 变量定义 */
-    int index1;     /* 循环变量 */
+    int value, key_i, key_j, now_i, now_j, end_i, end_j, search_i, search_j; /* 变量定义 */
+    int index1;                                                              /* 循环变量 */
     int index2 = 0; /* 初始化循环计数 */
 
-    for (now_i = i - dx, now_j = j - dy;
-         index2 < 4 && BothInRange_0_14(now_i, now_j);
+    for (now_i = i - dx, now_j = j - dy; index2 < 4 && BothInRange_0_14(now_i, now_j);
          now_i -= dx, now_j -= dy, index2++) { /* 向一方向检查四个位置 */
         value = 0;                             /* 初始化值 */
         search_i = now_i - dx;                 /* 搜索位置i */
         search_j = now_j - dy;                 /* 搜索位置j */
-        if (BothInRange_0_14(search_i, search_j)
-            && ChessBoard[search_i][search_j] == BLACK)
+        if (BothInRange_0_14(search_i, search_j) && ChessBoard[search_i][search_j] == BLACK)
             continue; /* 边上有黑棋，会因长连禁手无法构成活三，跳过 */
 
         search_i = now_i; /* 更新搜索位置i */
         search_j = now_j; /* 更新搜索位置j */
         for (index1 = 0; index1 < 6 && BothInRange_0_14(search_i, search_j);
-             index1++, search_i += dx, search_j += dy) { /* 检查连续六个位置 */
+             index1++, search_i += dx, search_j += dy) {   /* 检查连续六个位置 */
             if (ChessBoard[search_i][search_j] == WHITE) { /* 遇到白棋，停止 */
                 break;
             }
@@ -211,8 +279,8 @@ int isHuoThree(int i, int j, int dx, int dy) {
             continue; /* 如果未达到六个位置，跳过 */
         else if (
             !BothInRange_0_14(end_i, end_j)
-            || ChessBoard[end_i][end_j]
-                   != BLACK) { /* 如果结束位置不在范围或不是黑棋 */
+            || ChessBoard[end_i][end_j] != BLACK) { /* 如果结束位置不在范围或不是黑棋
+                                                     */
             switch (value) {
             case huo_three1:
                 key_i = now_i + dx * 1; /* 特定活三模式1的关键位置i */
