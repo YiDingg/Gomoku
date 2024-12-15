@@ -17,7 +17,25 @@ Refer to [Yi Ding's Website](https://yidingg.github.io/YiDingg/#/Projects/Gomoku
 
 更多细节和教程请参考 [Yi Ding's Website](https://yidingg.github.io/YiDingg/#/Projects/Gomoku)。
 
-Reference:
+## Demo
+
+- 对战模式：
+    - 人人对战
+    - 人机对战
+    - 机机对战
+- 人机算法：
+    - <s>随机落棋（伪随机数）</s>
+    - <s>Human Logic +  Greedy Algorithm（全局落子收益）</s>
+    - Human Logic +  Greedy Algorithm + Min-Max Algorithm + Alpha-Beta Pruning
+- 禁手信息：有禁手
+- 其他：无
+
+游戏界面预览：
+![image](https://github.com/user-attachments/assets/6e548cee-6caf-4966-ae69-69101e914af7)
+![image](https://github.com/user-attachments/assets/f9bffb69-a104-46f5-ae88-98b3c46d3372)
+![image](https://github.com/user-attachments/assets/6995c0eb-a04c-45df-89d7-1ae166001fde)
+
+## Reference:
 - [Yixin](https://www.aiexp.info/pages/yixin.html): 世界上最强的五子棋 AI
 - [lihongxun945 > myblog > 五子棋AI教程第二版](https://github.com/lihongxun945/myblog/labels/%E4%BA%94%E5%AD%90%E6%A3%8BAI%E6%95%99%E7%A8%8B%E7%AC%AC%E4%BA%8C%E7%89%88): 五子棋 AI 教程
 - [五子棋计算器 Gomoku Calculator](https://www.gomocalc.com/#/)
