@@ -7,6 +7,7 @@
 /*                                                  */
 extern char player_color;             // 玩家选择的颜色
 int ChessBoard[LENGTH][LENGTH] = {0}; // 棋盘数组
+int Flag_ForceChess = -1;             // -1 为 no, 1 为 yes
 /*                                                  */
 /* >> ---- 全局变量 (在 .data 段, 初值默认 0) ---- << */
 /* ------------------------------------------------ */
@@ -297,19 +298,20 @@ int Get_MaxLength(int i, int j, int dx, int dy) {
 void IsUndo() {
     ChessBoard[Row][Col] = CurrentPlayer + 2; // 设置棋盘此处为当前玩家 (+2 是最近一步)
     Print_ChessBoard();
-    if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
-        printf(
-            "[白方] %s 落子在 [%c%d] (上方棋盘) \n是否确认 (input 'y' or 'n')\n",
-            CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
-            Col + 'A',
-            Row + 1);
-    } else { // 如果当前玩家是黑旗
-        printf(
-            "[黑方] %s 落子在 [%c%d] (上方棋盘) \n是否确认 (input 'y' or 'n')\n",
-            CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
-            Col + 'A',
-            Row + 1);
-    }
+    printf("[%c%d], 是否确认 (input 'y' or 'n')\n", Col + 'A', Row + 1);
+    /*     if (CurrentPlayer == WHITE) { // 如果当前玩家是白棋
+            printf(
+                "[白方] %s 落子在 [%c%d] (上方棋盘) \n是否确认 (input 'y' or 'n')\n",
+                CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
+                Col + 'A',
+                Row + 1);
+        } else { // 如果当前玩家是黑旗
+            printf(
+                "[黑方] %s 落子在 [%c%d] (上方棋盘) \n是否确认 (input 'y' or 'n')\n",
+                CurrentPlayer == player_color ? "Human (对手 AI)" : "Computer",
+                Col + 'A',
+                Row + 1);
+        } */
 
     char ch;
     rewind(stdin);                // 清空缓冲区，fflush(stdin);
@@ -359,6 +361,13 @@ void GetChess_Human(void) { // GetChess_Human, 经过修改
         GetChess_Human(); // 递归调用获取输入
         return;           // 返回
     }
+    /* 是否触发强制落子 */
+    if (CurrentPlayer == BLACK && (temp_j == 'X') && (Row == 0)) {
+        printf("进入强制输入模式, 等待黑方落子：\n"); // 打印警告
+        Flag_ForceChess = 1;
+        GetChess_Human(); // 递归调用获取输入
+        return;           // 直接 return, 否则会执行多次坐标变换处理
+    }
 
     /* 1~15 到 0~14 转换*/
     Row--; // 将行号转换为0基
@@ -386,10 +395,16 @@ void GetChess_Human(void) { // GetChess_Human, 经过修改
         return;                                               // 返回
     } else if (CurrentPlayer == WHITE || !forbid(Row, Col)) { // 检查是否为白棋或不违反禁手
         correct_input = 1;                                    // 标记输入正确
-    } else {                                                  // 如果违反禁手
-        printf("该位置为禁手, 不可落子, 请重新输入: \n");     // 打印警告
-        GetChess_Human();                                     // 递归调用获取输入
-        return;                                               // 返回
+    } else if (CurrentPlayer == BLACK && forbid(Row, Col) && Flag_ForceChess == 1) { // 触发强制落子
+        correct_input = 1;    // 标记输入正确
+        Flag_ForceChess = -1; // 重置 flag
+        printf("强制落子成功\n");
+        // return;
+    } else if (CurrentPlayer == BLACK && forbid(Row, Col) && Flag_ForceChess != 1) {
+        // 如果违反禁手
+        printf("该位置为禁手, 不可落子, 请重新输入: (输入 'X0' 以触发强制输入)\n"); // 打印警告
+        GetChess_Human(); // 递归调用获取输入
+        return;           // 返回
     }
 
     /* 悔棋机制 */

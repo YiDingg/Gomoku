@@ -7,8 +7,8 @@
 /* ------------------------------------------------ */
 /* >> ----------------- 宏定义 ----------------- << */
 /*                                                  */
-#define MAXDEPTH 10         // 普通搜索深度
-#define KILL_DEPTH 16       // 算杀搜索深度
+#define MAXDEPTH 9          // 普通搜索深度
+#define KILL_DEPTH 15       // 算杀搜索深度
 #define P_INFINITY 2000000  // 评分上界
 #define N_INFINITY -2000000 // 评分下界
 

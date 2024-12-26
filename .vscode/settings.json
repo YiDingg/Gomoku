@@ -3,6 +3,7 @@
         "*.md": "markdown",
         "stdlib.h": "c",
         "gomoku.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "ai_pvs.h": "c"
     }
 }
