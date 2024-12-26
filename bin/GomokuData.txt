@@ -1,0 +1,12 @@
+
+Run time: 2024.12.24 23:36:19
+Game mode: BlackPlayer-Human, WhitePlayer-Computer.
+8I 9H 7I 9I 6I 9G 5I 4I 9J 9F 9E 8G 7H 6G 10K 11L 7G 7F 7J 6E 7K 
+Winner: Black
+Win Corrdinates: 7G 7H 7I 7J 7K 
+
+Run time: 2024.12.24 23:39:39
+Game mode: BlackPlayer-Computer, WhitePlayer-Human.
+8I 8H 7H 9J 6G 5F 6I 9I 6H 6J 6E 6F 8G 7G 5E 10J 
+Winner: White
+Win Corrdinates: 6F 7G 8H 9I 10J 

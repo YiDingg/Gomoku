@@ -40,7 +40,7 @@ git clone ssh://git@ssh.github.com:443/YiDingg/Gomoku.git    # clone this repo
 ![image](https://github.com/user-attachments/assets/6995c0eb-a04c-45df-89d7-1ae166001fde)
 
 ## Reference:
-- [Yixin](https://www.aiexp.info/pages/yixin.html): 世界上最强的五子棋 AI
+- [Yixin](https://www.aiexp.info/pages/yixin.html): 世界上五子棋人机混合大赛冠军 (2017, 打败人类冠军)
 - [lihongxun945 > myblog > 五子棋AI教程第二版](https://github.com/lihongxun945/myblog/labels/%E4%BA%94%E5%AD%90%E6%A3%8BAI%E6%95%99%E7%A8%8B%E7%AC%AC%E4%BA%8C%E7%89%88): 五子棋 AI 教程
 - [五子棋计算器 Gomoku Calculator](https://www.gomocalc.com/#/)
 - [GitHub > lihongxun945 > gobang](https://github.com/lihongxun945/gobang) : 提供了一个五子棋在线网址
@@ -54,3 +54,5 @@ git clone ssh://git@ssh.github.com:443/YiDingg/Gomoku.git    # clone this repo
 - [MasterLaplace > GomokuAlgo](https://github.com/MasterLaplace/GomokuAlgo): uses advanced algorithms to provide a challenging opponent
 - [linwhitehat > FiveinaRow](https://github.com/linwhitehat/FiveinaRow): 五子棋的 Cpp 实现​
 - [GitHub > hijkzzz > alpha-zero-gomoku](https://github.com/hijkzzz/alpha-zero-gomoku) : 五子棋的 Python 实现
+- [RenLib 3.7 - Renju Library program (freeware)](https://www.renju.se/renlib/)
+- [五子棋禁手规则及源码参考](https://blog.csdn.net/baidu_41801770/article/details/124210441)
